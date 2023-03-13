@@ -1,4 +1,4 @@
-.PrimaryButton {
+.primary {
 	display: block;
 	width: max-content;
 	padding: 0.5em 1em;
@@ -15,24 +15,23 @@
 
 	cursor: pointer;
 
-    
 	transition: all 300ms ease-out;
 }
 
-.PrimaryButton:hover {
+.primary:hover {
 	background: var(--primary-color-hover);
 }
 
-.PrimaryButton:disabled {
+.primary:disabled {
 	cursor: not-allowed;
 	opacity: 0.5;
 }
 
-.PrimaryButton:disabled:hover {
+.primary:disabled:hover {
 	background: var(--primary-color);
 }
 
-.SecondaryButton {
+.secondary {
 	display: block;
 	background: var(--secondary-color);
 	width: max-content;
@@ -46,15 +45,15 @@
 	text-decoration: none;
 }
 
-.SecondaryButton:hover {
+.secondary:hover {
 	background: var(--secondary-color-hover);
 }
 
-.SecondaryButton:disabled {
+.secondary:disabled {
 	cursor: not-allowed;
 	opacity: 0.5;
 }
 
-.SecondaryButton:disabled:hover {
+.secondary:disabled:hover {
 	background: var(--secondary-color);
 }

@@ -1,20 +1,32 @@
+import Link from "next/link"
 import styles from "./button.module.css"
 
 interface ButtonProps {
 	/** Button label */
 	label: string
 	/** Button type */
-	type?: "primary" | "secondary"
+	type: "primary" | "secondary"
 	/** Button size */
 	size?: "small" | "medium" | "large"
 	/** Button onClick handler */
 	onClick?: () => void
+
+	/** Button href */
+	href?: string
 }
 
 export function Button(props: ButtonProps) {
-	return (
-		<button className={styles.PrimaryButton} onClick={props.onClick}>
-			{props.label}
-		</button>
-	)
+	if (props.href) {
+		return (
+			<Link href={props.href} className={styles[props.type]}>
+				{props.label}
+			</Link>
+		)
+	} else {
+		return (
+			<button className={styles[props.type]} onClick={props.onClick}>
+				{props.label}
+			</button>
+		)
+	}
 }

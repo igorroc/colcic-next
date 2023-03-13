@@ -1,11 +1,11 @@
 import "./globals.css"
 
 import { Montserrat } from "next/font/google"
+const montserrat = Montserrat({ subsets: ["latin"] })
+
 import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
-import Link from "next/link"
-import GoTop from "@/components/GoTop"
-const montserrat = Montserrat({ subsets: ["latin"] })
+import { GoTop } from "@/components/GoTop"
 
 export const metadata = {
 	title: {
