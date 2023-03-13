@@ -131,7 +131,7 @@ export function Header() {
 										<span> SINFORM </span>
 										<MdLink />
 									</Link>
-									<Link href="./licencas" data-active={pathname == "/licensas"}>
+									<Link href="./licencas" data-active={pathname == "/licencas"}>
 										Licenças acadêmicas de Software
 									</Link>
 								</ul>

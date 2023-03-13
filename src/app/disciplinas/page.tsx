@@ -1,3 +1,7 @@
+export const metadata = {
+	title: "Disciplinas",
+}
+
 export default function Disciplinas() {
 	return (
 		<main>

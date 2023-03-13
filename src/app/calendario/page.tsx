@@ -1,3 +1,7 @@
+export const metadata = {
+	title: "Calendário",
+}
+
 export default function Calendario() {
 	return (
 		<main>

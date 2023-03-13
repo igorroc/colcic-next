@@ -1,3 +1,7 @@
+export const metadata = {
+	title: "Composição do Colegiado",
+}
+
 export default function Colegiado() {
 	return (
 		<main>

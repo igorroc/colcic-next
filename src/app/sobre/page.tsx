@@ -1,3 +1,7 @@
+export const metadata = {
+	title: "Sobre",
+}
+
 export default function Sobre() {
 	return (
 		<main>

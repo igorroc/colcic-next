@@ -1,3 +1,7 @@
+export const metadata = {
+	title: "Aproveitamento de Estudos",
+}
+
 export default function Aproveitamentos() {
 	return (
 		<main>

@@ -1,3 +1,7 @@
+export const metadata = {
+	title: "Atividades Complementares",
+}
+
 export default function Complementares() {
 	return (
 		<main>
