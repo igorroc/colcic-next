@@ -9,6 +9,7 @@ import Image from "next/image"
 import styles from "./header.module.css"
 
 import ColcicLogo from "/public/logo.png"
+import Link from "next/link"
 
 export function Header() {
 	const [showNavList, setShowNavList] = useState(false)
@@ -22,36 +23,36 @@ export function Header() {
 		<header className={showNavList ? styles.showNavList : ""} id={styles.header}>
 			<div className={styles.wrapper}>
 				<div className={styles.wrapperContent}>
-					<a className={styles.logo} href="./">
+					<Link className={styles.logo} href="./">
 						<Image src={ColcicLogo} alt="Logo do COLCIC" />
-					</a>
+					</Link>
 					<div className={styles.navList}>
 						<ul>
-							<a href="./" data-active={pathname == "/"}>
+							<Link href="./" data-active={pathname == "/"}>
 								Início
-							</a>
+							</Link>
 							<li className={styles.dropdown}>
 								<span className={styles.title}>
 									<span> Sobre o curso </span>
 									<MdKeyboardArrowDown />
 								</span>
 								<ul>
-									<a href="./sobre" data-active={pathname == "/sobre"}>
+									<Link href="./sobre" data-active={pathname == "/sobre"}>
 										Ciência da Computação na UESC
-									</a>
-									<a
+									</Link>
+									<Link
 										href="./disciplinas"
 										data-active={pathname == "/disciplinas"}
 									>
 										Programa das Disciplinas
-									</a>
-									<a
+									</Link>
+									<Link
 										target="_blank"
-										href="http://nbcgib.uesc.br/colcic/document/comp_curriculares/matriz_cic_2012.pdf"
+										href="https://colcic.uesc.br/files/comp_curriculares/matriz_cic_2012.pdf"
 									>
 										<span> Fluxograma do Curso </span>
 										<MdOutlineFileDownload />
-									</a>
+									</Link>
 								</ul>
 							</li>
 							<li className={styles.dropdown}>
@@ -60,43 +61,43 @@ export function Header() {
 									<MdKeyboardArrowDown />
 								</span>
 								<ul>
-									<a
+									<Link
 										target="_blank"
 										href="http://www.prograd.uesc.br/PortalSagres/Acesso.aspx"
 									>
 										<span> Portal Acadêmico </span>
 										<MdLink />
-									</a>
-									<a
+									</Link>
+									<Link
 										target="_blank"
 										href="https://igorroc.github.io/finalcountdown/"
 									>
 										<span>Calculadora de Prova Final</span>
 										<MdLink />
-									</a>
-									<a target="_blank" href="https://uesc.ilrocha.com/emails/">
+									</Link>
+									<Link target="_blank" href="https://uesc.ilrocha.com/emails/">
 										<span> Email dos professores </span>
 										<MdLink />
-									</a>
-									<a
+									</Link>
+									<Link
 										href="./aproveitamentos"
 										data-active={pathname == "/aproveitamentos"}
 									>
 										Aproveitamento de Estudos
-									</a>
-									<a
+									</Link>
+									<Link
 										href="./complementares"
 										data-active={pathname == "/complementares"}
 									>
 										Atividades complementares (Barema)
-									</a>
-									<a
+									</Link>
+									<Link
 										target="_blank"
-										href="http://nbcgib.uesc.br/colcic/document/comp_curriculares/regulamentoestagio.pdf"
+										href="https://colcic.uesc.br/files/comp_curriculares/regulamentoestagio.pdf"
 									>
 										<span> Regulamento do Estágio </span>
 										<MdOutlineFileDownload />
-									</a>
+									</Link>
 								</ul>
 							</li>
 							<li className={styles.dropdown}>
@@ -105,16 +106,19 @@ export function Header() {
 									<MdKeyboardArrowDown />
 								</span>
 								<ul>
-									<a href="./colegiado" data-active={pathname == "/colegiado"}>
+									<Link href="./colegiado" data-active={pathname == "/colegiado"}>
 										Composição do colegiado
-									</a>
-									<a href="./calendario" data-active={pathname == "/calendario"}>
+									</Link>
+									<Link
+										href="./calendario"
+										data-active={pathname == "/calendario"}
+									>
 										Calendário de Reuniões
-									</a>
-									<a target="_blank" href="http://nbcgib.uesc.br/dcetweb/">
+									</Link>
+									<Link target="_blank" href="http://nbcgib.uesc.br/dcetweb/">
 										<span>Área para membros do COLCIC</span>
 										<MdLink />
-									</a>
+									</Link>
 								</ul>
 							</li>
 							<li className={styles.dropdown}>
@@ -123,18 +127,18 @@ export function Header() {
 									<MdKeyboardArrowDown />
 								</span>
 								<ul>
-									<a target="_blank" href="http://sinform.tecnojr.com.br/">
+									<Link target="_blank" href="http://sinform.tecnojr.com.br/">
 										<span> SINFORM </span>
 										<MdLink />
-									</a>
-									<a href="./licencas" data-active={pathname == "/licensas"}>
+									</Link>
+									<Link href="./licencas" data-active={pathname == "/licensas"}>
 										Licenças acadêmicas de Software
-									</a>
+									</Link>
 								</ul>
 							</li>
-							<a href="./contato" data-active={pathname == "/contato"}>
+							<Link href="./contato" data-active={pathname == "/contato"}>
 								Contato
-							</a>
+							</Link>
 						</ul>
 					</div>
 					<button className={styles.iconMenu} onClick={toggleNavList}>
