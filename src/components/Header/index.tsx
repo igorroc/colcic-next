@@ -151,7 +151,7 @@ export function Header() {
 				</div>
 			</div>
 
-			<div id="top"></div>
+			<div id={styles.top}></div>
 		</header>
 	)
 }

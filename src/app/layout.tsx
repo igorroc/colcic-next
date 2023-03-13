@@ -3,6 +3,8 @@ import "./globals.css"
 import { Montserrat } from "next/font/google"
 import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
+import Link from "next/link"
+import GoTop from "@/components/GoTop"
 const montserrat = Montserrat({ subsets: ["latin"] })
 
 export const metadata = {
@@ -19,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="pt-br" className={montserrat.className}>
 			<body>
 				<Header />
+				<GoTop />
 				{children}
 				<Footer />
 			</body>

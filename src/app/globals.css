@@ -39,10 +39,6 @@ body {
 	overflow-x: hidden;
 }
 
-main {
-	margin-top: 100px;
-}
-
 .MaxWidthWrapper {
 	position: relative;
 	width: 90%;
@@ -50,11 +46,11 @@ main {
 	margin: 0 auto;
 }
 
-section {
+.section {
 	padding: 50px 0;
 }
 
-section[variant] {
+.section[variant] {
 	background: linear-gradient(
 		90deg,
 		var(--variant-background-color),
