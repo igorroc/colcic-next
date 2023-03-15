@@ -137,7 +137,17 @@ const composicao = [
 	{
 		materia: "Representação Discente",
 		departamento: "Computação",
-		membro: "Sr. Isaac Nascimento Lima",
+		membro: "Sra. Brenda Castro",
+	},
+	{
+		materia: "Representação Discente",
+		departamento: "Computação",
+		membro: "Sr. Brendon Souza",
+	},
+	{
+		materia: "Representação Discente",
+		departamento: "Computação",
+		membro: "Sr. Igor Vieira",
 	},
 	{
 		materia: "Representação Discente",
@@ -147,17 +157,12 @@ const composicao = [
 	{
 		materia: "Representação Discente",
 		departamento: "Computação",
-		membro: "Sr. João Victor Oliveira Rupp",
+		membro: "Sr. Raphael Viana",
 	},
 	{
 		materia: "Representação Discente",
 		departamento: "Computação",
-		membro: "Sra. Maira Gomes Santos",
-	},
-	{
-		materia: "Representação Discente",
-		departamento: "Computação",
-		membro: "Sra. Maria Gabriella Araújo Oliveira",
+		membro: "Sra. Solana Ametista Lemos",
 	},
 ]
 
