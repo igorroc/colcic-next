@@ -1,4 +1,8 @@
+import { Button } from "@/components/Button"
+import Image from "next/image"
 import styles from "./page.module.css"
+
+import MainImage from "/public/colegiado.png"
 
 export const metadata = {
 	title: "Composição do Colegiado",
@@ -168,8 +172,8 @@ const coordenacao = [
 export default function Colegiado() {
 	return (
 		<main>
-			<section data-variant>
-				<div className={styles.MaxWidthWrapper}>
+			<section className="section" data-variant>
+				<div className="MaxWidthWrapper">
 					<div className={styles.mainWrapper}>
 						<div className={styles.mainContent}>
 							<h1>
@@ -187,17 +191,20 @@ export default function Colegiado() {
 								e dinamismo na comunicação entre ambos.
 							</p>
 
-							<a href="#coordenacao" className={styles.SecondaryButton}>
-								Conheça a coordenação
-							</a>
+							<Button
+								label="Conheça a coordenação"
+								href="#coordenacao"
+								type="secondary"
+							/>
 						</div>
 						<div className={styles.mainContentPhoto}>
-							<img src="../assets/colegiado.png" alt="" />
+							<Image src={MainImage} alt="ALTERAR" />
 						</div>
 					</div>
 				</div>
 			</section>
-			<section>
+
+			<section className="section">
 				<div className={styles.MaxWidthWrapper}>
 					<div className={styles.composicao}>
 						<h2>Composição - Biênio 2020-2022</h2>
@@ -229,7 +236,7 @@ export default function Colegiado() {
 				</div>
 			</section>
 
-			<section>
+			<section className="section">
 				<div className={styles.MaxWidthWrapper}>
 					<div className={styles.coordenação} id="coordenacao">
 						<h2>Coordenação</h2>
