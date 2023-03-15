@@ -14,6 +14,7 @@ export const metadata = {
 	},
 	description: "O Colegiado de Curso de Ciência da Computação é órgão da administração setorial de deliberação coletiva, supervisão e coordenação didático-pedagógica do curso Ciência da Computação e integra a estrutura da Universidade Estadual de Santa Cruz.",
 	keywords: "colegiado, computação, uesc, ciência, colcic, computacao, ciencia, ti, tecnologia, informacao, informação",
+
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
