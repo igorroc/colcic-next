@@ -1,10 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import {
-	MdArrowUpward,
-	MdKeyboardArrowRight,
-} from "react-icons/md"
+import { MdArrowUpward, MdKeyboardArrowRight } from "react-icons/md"
 import { BsDiscord, BsTelegram, BsInstagram } from "react-icons/bs"
 
 import styles from "./page.module.css"
@@ -75,7 +72,6 @@ const redes = [
 		link: "https://www.instagram.com/colegiado_cc/",
 	},
 ]
-
 
 export default function Home() {
 	return (
@@ -183,7 +179,7 @@ export default function Home() {
 						<div className={styles.missao}>
 							<h1>Missão do Curso</h1>
 							<p>
-								Proporcionar o<b>desenvolvimento humano, social e econômico,</b>{" "}
+								Proporcionar o <b>desenvolvimento humano, social e econômico,</b>{" "}
 								formar <b>profissionais capacitados para desenvolver</b> produtos,
 								serviços e processos da tecnologia da informação e{" "}
 								<b>realizar pesquisas</b> no campo da ciência e inovação.

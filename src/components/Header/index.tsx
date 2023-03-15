@@ -31,7 +31,10 @@ export function Header() {
 							<Link href="./" data-active={pathname == "/"}>
 								Início
 							</Link>
-							<li className={styles.dropdown}>
+							<li
+								className={styles.dropdown}
+								data-active={["/sobre", "/disciplinas"].includes(pathname)}
+							>
 								<span className={styles.title}>
 									<span> Sobre o curso </span>
 									<MdKeyboardArrowDown />
@@ -55,7 +58,12 @@ export function Header() {
 									</Link>
 								</ul>
 							</li>
-							<li className={styles.dropdown}>
+							<li
+								className={styles.dropdown}
+								data-active={["/aproveitamentos", "/complementares"].includes(
+									pathname
+								)}
+							>
 								<span className={styles.title}>
 									<span> Apoio ao estudante </span>
 									<MdKeyboardArrowDown />
@@ -100,7 +108,10 @@ export function Header() {
 									</Link>
 								</ul>
 							</li>
-							<li className={styles.dropdown}>
+							<li
+								className={styles.dropdown}
+								data-active={["/colegiado", "/calendario"].includes(pathname)}
+							>
 								<span className={styles.title}>
 									<span> Colegiado </span>
 									<MdKeyboardArrowDown />
@@ -121,7 +132,10 @@ export function Header() {
 									</Link>
 								</ul>
 							</li>
-							<li className={styles.dropdown}>
+							<li
+								className={styles.dropdown}
+								data-active={["/licencas"].includes(pathname)}
+							>
 								<span className={styles.title}>
 									<span> Diversos </span>
 									<MdKeyboardArrowDown />
