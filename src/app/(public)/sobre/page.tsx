@@ -250,7 +250,7 @@ export default function Sobre() {
 						<h2>Infraestrutura</h2>
 						<div className={styles.container}>
 							{infraestrutura.map((andar, index) => (
-								<>
+								<div key={index} className={styles.andar}>
 									<h3>{andar.title}</h3>
 									<div className={styles.list}>
 										{andar.labs.map((sala, index) => (
@@ -270,7 +270,7 @@ export default function Sobre() {
 											</div>
 										))}
 									</div>
-								</>
+								</div>
 							))}
 						</div>
 					</div>
