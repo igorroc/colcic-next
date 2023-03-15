@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import React from "react"
 
 import { MdArrowUpward } from "react-icons/md"
@@ -8,11 +7,24 @@ import { MdArrowUpward } from "react-icons/md"
 import styles from "./gotop.module.css"
 
 export function GoTop() {
-	const [show, setShow] = React.useState(true)
+	const [show, setShow] = React.useState(false)
+
+	React.useEffect(() => {
+		window.addEventListener("scroll", handleScroll)
+		return () => window.removeEventListener("scroll", handleScroll)
+	})
+
+	const handleScroll = () => {
+		if (window.pageYOffset > 200) {
+			setShow(true)
+		} else {
+			setShow(false)
+		}
+	}
 
 	return (
-		<Link id={styles.goToTop} href="#top" className={!show ? "hide" : ""}>
+		<a id={styles.goToTop} href="#top" data-hide={!show}>
 			<MdArrowUpward />
-		</Link>
+		</a>
 	)
 }
