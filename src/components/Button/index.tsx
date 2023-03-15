@@ -17,11 +17,19 @@ interface ButtonProps {
 
 export function Button(props: ButtonProps) {
 	if (props.href) {
-		return (
-			<Link href={props.href} className={styles[props.type]}>
-				{props.label}
-			</Link>
-		)
+		if (props.href.startsWith("#")) {
+			return (
+				<a href={props.href} className={styles[props.type]}>
+					{props.label}
+				</a>
+			)
+		} else {
+			return (
+				<Link href={props.href} className={styles[props.type]}>
+					{props.label}
+				</Link>
+			)
+		}
 	} else {
 		return (
 			<button className={styles[props.type]} onClick={props.onClick}>
