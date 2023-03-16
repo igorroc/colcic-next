@@ -8,7 +8,7 @@ import Books from "/public/books.png"
 import { MdOutlineFileDownload } from "react-icons/md"
 
 export const metadata = {
-	title: "Disciplinas",
+	title: "Programa das disciplinas",
 }
 
 const semestres = [

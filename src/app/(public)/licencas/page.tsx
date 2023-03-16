@@ -13,7 +13,7 @@ import Interbase from "/public/softwares/interbase.png"
 import Intel from "/public/softwares/intel.png"
 
 export const metadata = {
-	title: "Licenças",
+	title: "Licenças acadêmicas de softwares",
 }
 
 const softwares = [

@@ -4,7 +4,7 @@ import styles from "./page.module.css"
 import IconCalendar from "/public/icon_calendar.png"
 
 export const metadata = {
-	title: "Calendário",
+	title: "Calendário de reuniões",
 }
 
 const calendar = [

@@ -14,7 +14,7 @@ import PC from "/public/lab/pc.png"
 import Auditorio from "/public/lab/auditorio.png"
 
 export const metadata = {
-	title: "Sobre",
+	title: "Sobre o curso",
 }
 
 const infraestrutura = [
