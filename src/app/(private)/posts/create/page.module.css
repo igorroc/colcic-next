@@ -2,12 +2,13 @@
 	width: calc(100% - 2em);
 	height: 100%;
 	padding: 1em;
+	margin: 2em 0;
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
 	justify-content: stretch;
 	resize: vertical;
-	background: #fffa;
+	background: rgba(255, 255, 255, 0.39);
 	border-radius: 0.5em;
 }
