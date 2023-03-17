@@ -1,0 +1,13 @@
+#markdownEditor {
+	width: calc(100% - 2em);
+	height: 100%;
+	padding: 1em;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: stretch;
+	resize: vertical;
+	background: #fffa;
+	border-radius: 0.5em;
+}
