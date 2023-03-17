@@ -28,7 +28,7 @@ function TabPanel(props: TabPanelProps) {
 			{...other}
 		>
 			{value === index && (
-				<Box >
+				<Box>
 					<Typography>{children}</Typography>
 				</Box>
 			)}
@@ -55,15 +55,30 @@ export default function Editor() {
 		<div
 			style={{
 				margin: "0 auto",
-				width: "60vw",
+				maxWidth: "900px",
+				width: "90%",
 				display: "flex",
 				flexDirection: "column",
 				gap: 20,
 			}}
 		>
 			<h1>Markdown</h1>
-			<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-				<Tabs value={currentTab} onChange={handleChange} aria-label="basic tabs example">
+			<Box
+				sx={{
+					borderBottom: 1,
+					borderColor: "divider",
+					position: "sticky",
+					top: 0,
+					background: "white",
+					zIndex: 10,
+				}}
+			>
+				<Tabs
+					value={currentTab}
+					onChange={handleChange}
+					aria-label="basic tabs example"
+					variant="fullWidth"
+				>
 					<Tab label="Editor" {...a11yProps(0)} />
 					<Tab label="Preview" {...a11yProps(1)} />
 				</Tabs>

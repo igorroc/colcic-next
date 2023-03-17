@@ -6,6 +6,8 @@
 
 👈 Try writing some markdown on the left.
 
+![image](https://colcic.uesc.br/assets/banner.png)
+
 ## Overview
 
 * Follows [CommonMark](https://commonmark.org)
@@ -60,7 +62,7 @@ These features **do not work by default**.
 👆 Use the toggle above to add the plugin.
 
 | Feature    | Support              |
-| ---------: | :------------------- |
+| :---------: | :------------------- |
 | CommonMark | 100%                 |
 | GFM        | 100% w/ `remark-gfm` |
 

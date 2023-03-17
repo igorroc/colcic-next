@@ -36,6 +36,10 @@ a:hover {
 	color: var(--primary-color-hover);
 }
 
+img {
+	max-width: 100%;
+}
+
 pre {
 	overflow: auto;
 	/* padding: 1em; */
@@ -53,9 +57,10 @@ code {
 	border-radius: 3px;
 }
 
-pre > code {
+pre code {
 	background: unset;
 	border-radius: unset;
+	padding: 0;
 }
 
 hr {
@@ -94,6 +99,7 @@ table thead tr {
 
 thead th {
 	font-size: 1.2em;
+	border: 1px solid #232323;
 	color: #fff;
 	line-height: 1.2;
 	padding: 0 1em;
@@ -102,17 +108,21 @@ thead th {
 tbody tr {
 	font-size: 1em;
 	color: #232323;
-	background-color: hsl(220, 80%, 95%);
+	background-color: hsl(220, 80%, 97%);
 	line-height: 1.2;
 	font-weight: unset;
 	height: 50px;
+}
+
+tbody tr:hover {
+	background-color: hsl(220, 80%, 95%);
 }
 
 tbody tr:nth-child(even) {
 	background-color: hsl(220, 80%, 92%);
 }
 
-tbody tr:hover {
+tbody tr:hover:nth-child(even) {
 	background-color: hsl(220, 80%, 90%);
 }
 
