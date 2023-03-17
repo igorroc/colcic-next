@@ -94,7 +94,7 @@ export default function Licencas() {
 								Caso as licenças não estejam disponíveis nos Labs. entrar em contato
 								com <a href="mailto:colciclab@uesc.br">colciclab@uesc.br</a>
 							</p>
-							<Button label="Saiba mais" type="primary" href="#lista" />
+							<Button label="Ver softwares" type="primary" href="#lista" />
 						</div>
 						<div className={styles.mainContentPhoto}>
 							<Image src={Rocket} alt="Ilustração 3d de um foguete decolando" />

@@ -24,7 +24,7 @@ export default function Aproveitamentos() {
 								<b>solicitar dispensa de disciplinas</b> previstas no curso através
 								do processo de Aproveitamento de Estudos.
 							</p>
-							<Button label="Saiba mais" type="primary" href="#procedimentos" />
+							<Button label="Entenda como fazer" type="primary" href="#procedimentos" />
 						</div>
 					</div>
 				</div>

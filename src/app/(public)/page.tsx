@@ -92,7 +92,7 @@ export default function Home() {
 								curso Ciência da Computação e integra a estrutura da Universidade
 								Estadual de Santa Cruz.
 							</p>
-							<Button label="Saiba mais" href="./sobre" type="primary" />
+							<Button label="Sobre o curso" href="./sobre" type="primary" />
 						</div>
 						<div className={styles.mainContentPhoto}>
 							<Image src={MainImage} alt="Pessoas trabalhando com o computador em uma mesa de madeira" />
