@@ -17,6 +17,7 @@ export function MarkdownResult(props: MarkdownResultProps) {
 					const match = /language-(\w+)/.exec(className || "")
 					return !inline && match ? (
 						<SyntaxHighlighter
+							// @ts-ignore
 							style={styleTheme}
 							language={match[1]}
 							PreTag="div"
