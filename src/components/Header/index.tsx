@@ -11,6 +11,102 @@ import styles from "./header.module.css"
 import ColcicLogo from "/public/logo.png"
 import Link from "next/link"
 
+const navList = [
+	{
+		title: "Inicio",
+		href: "/",
+		type: "internal"
+	}, {
+		title: "Sobre o curso",
+		list: [
+			{
+				title: "Ciência da Computação na UESC",
+				href: "/sobre",
+				type: "internal"
+			},
+			{
+				title: "Programa das Disciplinas",
+				href: "/disciplinas",
+				type: "internal"
+			},
+			{
+				title: "Fluxograma do Curso",
+				href: "https://colcic.uesc.br/files/comp_curriculares/matriz_cic_2012.pdf",
+				type: "file"
+			}
+		]
+	},
+	{
+		title: "Apoio ao estudante",
+		list: [
+			{
+				title: "Portal Acadêmico",
+				href: "http://www.prograd.uesc.br/PortalSagres/Acesso.aspx",
+				type: "external"
+			},
+			{
+				title: "Calculadora de Prova Final",
+				href: "https://igorroc.github.io/finalcountdown/",
+				type: "external"
+			}, {
+				title: "Email dos professores",
+				href: "https://uesc.ilrocha.com/emails/",
+				type: "external"
+			},
+			{
+				title: "Aproveitamento de Estudos",
+				href: "/aproveitamentos",
+				type: "internal"
+			},
+			{
+				title: "Atividades complementares (Barema)",
+				href: "/complementares",
+				type: "internal"
+			},
+			{
+				title: "Regulamento do Estágio",
+				href: "https://colcic.uesc.br/files/comp_curriculares/regulamentoestagio.pdf",
+				type: "file"
+			},
+		]
+	},
+	{
+		title: "Colegiado",
+		list: [
+			{
+				title: "Composição do colegiado",
+				href: "/colegiado",
+				type: "internal"
+			},
+			{
+				title: "Calendário de Reuniões",
+				href: "/calendario",
+				type: "internal"
+			},
+		]
+	},
+	{
+		title: "Diversos",
+		list: [
+			{
+				title: "SINFORM",
+				href: "https://sinform.uesc.br/",
+				type: "external"
+			},
+			{
+				title: "Licenças acadêmicas de Software",
+				href: "/licencas",
+				type: "internal"
+			}
+		]
+	},
+	{
+		title: "Contato",
+		href: "/contato",
+		type: "internal"
+	}
+]
+
 export function Header() {
 	const [showNavList, setShowNavList] = useState(false)
 	const pathname = usePathname()
@@ -26,136 +122,37 @@ export function Header() {
 					<Link className={styles.logo} href="./">
 						<Image src={ColcicLogo} alt="Logo do Colegiado de Ciência da Computação da UESC" />
 					</Link>
-					<div className={styles.navList}>
+					<nav className={styles.navList}>
 						<ul>
-							<Link href="./" data-active={pathname == "/"}>
-								Início
-							</Link>
-							<li
-								className={styles.dropdown}
-								data-active={["/sobre", "/disciplinas"].includes(pathname)}
-							>
-								<span className={styles.title}>
-									<span> Sobre o curso </span>
-									<MdKeyboardArrowDown />
-								</span>
-								<ul>
-									<Link href="./sobre" data-active={pathname == "/sobre"}>
-										Ciência da Computação na UESC
-									</Link>
-									<Link
-										href="./disciplinas"
-										data-active={pathname == "/disciplinas"}
-									>
-										Programa das Disciplinas
-									</Link>
-									<Link
-										target="_blank"
-										href="https://colcic.uesc.br/files/comp_curriculares/matriz_cic_2012.pdf"
-									>
-										<span> Fluxograma do Curso </span>
-										<MdOutlineFileDownload />
-									</Link>
-								</ul>
-							</li>
-							<li
-								className={styles.dropdown}
-								data-active={["/aproveitamentos", "/complementares"].includes(
-									pathname
-								)}
-							>
-								<span className={styles.title}>
-									<span> Apoio ao estudante </span>
-									<MdKeyboardArrowDown />
-								</span>
-								<ul>
-									<Link
-										target="_blank"
-										href="http://www.prograd.uesc.br/PortalSagres/Acesso.aspx"
-									>
-										<span> Portal Acadêmico </span>
-										<MdLink />
-									</Link>
-									<Link
-										target="_blank"
-										href="https://igorroc.github.io/finalcountdown/"
-									>
-										<span>Calculadora de Prova Final</span>
-										<MdLink />
-									</Link>
-									<Link target="_blank" href="https://uesc.ilrocha.com/emails/">
-										<span> Email dos professores </span>
-										<MdLink />
-									</Link>
-									<Link
-										href="./aproveitamentos"
-										data-active={pathname == "/aproveitamentos"}
-									>
-										Aproveitamento de Estudos
-									</Link>
-									<Link
-										href="./complementares"
-										data-active={pathname == "/complementares"}
-									>
-										Atividades complementares (Barema)
-									</Link>
-									<Link
-										target="_blank"
-										href="https://colcic.uesc.br/files/comp_curriculares/regulamentoestagio.pdf"
-									>
-										<span> Regulamento do Estágio </span>
-										<MdOutlineFileDownload />
-									</Link>
-								</ul>
-							</li>
-							<li
-								className={styles.dropdown}
-								data-active={["/colegiado", "/calendario"].includes(pathname)}
-							>
-								<span className={styles.title}>
-									<span> Colegiado </span>
-									<MdKeyboardArrowDown />
-								</span>
-								<ul>
-									<Link href="./colegiado" data-active={pathname == "/colegiado"}>
-										Composição do colegiado
-									</Link>
-									<Link
-										href="./calendario"
-										data-active={pathname == "/calendario"}
-									>
-										Calendário de Reuniões
-									</Link>
-									<Link target="_blank" href="http://nbcgib.uesc.br/dcetweb/">
-										<span>Área para membros do COLCIC</span>
-										<MdLink />
-									</Link>
-								</ul>
-							</li>
-							<li
-								className={styles.dropdown}
-								data-active={["/licencas"].includes(pathname)}
-							>
-								<span className={styles.title}>
-									<span> Diversos </span>
-									<MdKeyboardArrowDown />
-								</span>
-								<ul>
-									<Link target="_blank" href="http://sinform.tecnojr.com.br/">
-										<span> SINFORM </span>
-										<MdLink />
-									</Link>
-									<Link href="./licencas" data-active={pathname == "/licencas"}>
-										Licenças acadêmicas de Software
-									</Link>
-								</ul>
-							</li>
-							<Link href="./contato" data-active={pathname == "/contato"}>
-								Contato
-							</Link>
+							{navList.map((item, index) => (
+								<>
+									{item.list ?
+										(<li className={styles.dropdown} data-active={
+											item.list.some((link) => pathname == link.href)
+										} key={index}>
+											<span className={styles.title}>
+												<span> {item.title} </span>
+												<MdKeyboardArrowDown />
+											</span>
+											<ul>
+												{item.list.map((link, index) => (
+													<Link href={link.href} key={index} data-active={pathname == link.href}>
+														{link.title}
+														{link.type == "external" && <MdLink />}
+														{link.type == "file" && <MdOutlineFileDownload />}
+													</Link>
+												))}
+											</ul>
+										</li>) :
+										(<Link href={item.href} data-active={pathname == item.href} key={index}>
+											{item.title}
+										</Link>)}
+								</>
+							))}
 						</ul>
-					</div>
-					<button className={styles.iconMenu} onClick={toggleNavList}>
+					</nav>
+					<button
+						className={styles.iconMenu} onClick={toggleNavList} aria-label="Ativar menu lateral">
 						<div>
 							<span></span>
 							<span></span>
@@ -166,6 +163,6 @@ export function Header() {
 			</div>
 
 			<div id={styles.top}></div>
-		</header>
+		</header >
 	)
 }
