@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7 {
+	margin: 0.6em 0;
+}
+
+ul {
+	padding-left: 40px;
+	margin: 1em 0;
+	list-style: outside;
+}
+
+ol {
+	padding-left: 40px;
+	margin: 1em 0;
+}
+
+li + li {
+	margin-top: 0.25em;
+}
+
+p {
+	margin: 1em 0;
+}
+
+a {
+	color: var(--primary-color);
+}
+
+a:hover {
+	color: var(--primary-color-hover);
+}
+
+pre {
+	overflow: auto;
+	/* padding: 1em; */
+	/* background: #f5f5f5; */
+	border-radius: 5px;
+	font-family: "Roboto Mono", monospace;
+}
+
+code {
+	font-family: "Roboto Mono", monospace;
+	padding: 0.2em 0.4em;
+	margin: 0;
+	font-size: 85%;
+	background-color: rgba(27, 31, 35, 0.05);
+	border-radius: 3px;
+}
+
+pre > code {
+	background: unset;
+	border-radius: unset;
+}
+
+hr {
+	height: 0.25em;
+	padding: 0;
+	margin: 24px 0;
+	background-color: #b7bfcb;
+	border: 0;
+}
+
+table {
+	border-spacing: 1;
+	border-collapse: collapse;
+	background: #fff;
+	border-radius: 10px;
+	overflow: hidden;
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+table * {
+	position: relative;
+}
+
+thead {
+	display: table-header-group;
+	vertical-align: middle;
+	border-color: inherit;
+}
+
+table thead tr {
+	height: 60px;
+	background: var(--primary-color);
+}
+
+thead th {
+	font-size: 1.2em;
+	color: #fff;
+	line-height: 1.2;
+	padding: 0 1em;
+}
+
+tbody tr {
+	font-size: 1em;
+	color: #232323;
+	background-color: hsl(220, 80%, 95%);
+	line-height: 1.2;
+	font-weight: unset;
+	height: 50px;
+}
+
+tbody tr:nth-child(even) {
+	background-color: hsl(220, 80%, 92%);
+}
+
+tbody tr:hover {
+	background-color: hsl(220, 80%, 90%);
+}
+
+tbody tr td {
+	padding: 0 1em;
+	border: 1px solid #232323;
+}
+
+tbody tr:last-child {
+	border-radius: 0px 0px 10px 10px;
+}
