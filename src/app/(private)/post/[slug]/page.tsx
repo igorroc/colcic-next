@@ -1,11 +1,16 @@
 import React from 'react'
 
 interface PostType {
-    slug: string
+    params: {
+
+        slug: string
+    }
 }
 
-export default function Post(params: PostType) {
+export default function Post({ params }: PostType) {
     return (
-        <div>Post {params.slug}</div>
+        <div>
+            <h1>Post {params.slug}</h1>
+        </div>
     )
 }
