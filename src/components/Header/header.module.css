@@ -76,6 +76,10 @@
 	transition: all 300ms ease-out;
 }
 
+#header .navList ul a svg {
+	transition: all 300ms ease-out;
+}
+
 #header .navList ul li:hover:not(.dropdown),
 #header .navList ul a:hover:not(.dropdown) {
 	background: var(--primary-color-hover);
