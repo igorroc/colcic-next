@@ -13,26 +13,32 @@ interface ButtonProps {
 
 	/** Button href */
 	href?: string
+
+	/** Button className */
+	className?: string
 }
 
 export function Button(props: ButtonProps) {
 	if (props.href) {
 		if (props.href.startsWith("#")) {
 			return (
-				<a href={props.href} className={styles[props.type]}>
+				<a href={props.href} className={[styles[props.type], props.className].join(" ")}>
 					{props.label}
 				</a>
 			)
 		} else {
 			return (
-				<Link href={props.href} className={styles[props.type]}>
+				<Link href={props.href} className={[styles[props.type], props.className].join(" ")}>
 					{props.label}
 				</Link>
 			)
 		}
 	} else {
 		return (
-			<button className={styles[props.type]} onClick={props.onClick}>
+			<button
+				className={[styles[props.type], props.className].join(" ")}
+				onClick={props.onClick}
+			>
 				{props.label}
 			</button>
 		)
