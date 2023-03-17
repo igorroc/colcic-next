@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { MdArrowUpward, MdKeyboardArrowRight } from "react-icons/md"
+import { MdArrowDownward, MdKeyboardArrowRight } from "react-icons/md"
 import { BsDiscord, BsTelegram, BsInstagram } from "react-icons/bs"
 
 import styles from "./page.module.css"
@@ -106,7 +106,7 @@ export default function Home() {
 						<div className={styles.title}>
 							<p>Estamos nas redes!</p>
 							<span>
-								<MdArrowUpward />
+								<MdArrowDownward />
 							</span>
 						</div>
 						<div className={styles.list}>
