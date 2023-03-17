@@ -10,6 +10,9 @@ import { MarkdownResult } from "@/components/MarkdownResult"
 
 import styles from "./page.module.css"
 
+import { defaultPost } from "./default"
+import { Button } from "@/components/Button"
+
 interface TabPanelProps {
 	children?: React.ReactNode
 	index: number
@@ -51,6 +54,10 @@ export default function Editor() {
 		}
 	}
 
+	function setDefaultPost() {
+		setText(defaultPost)
+	}
+
 	return (
 		<div
 			style={{
@@ -84,6 +91,7 @@ export default function Editor() {
 				</Tabs>
 			</Box>
 			<TabPanel value={currentTab} index={0}>
+				<Button onClick={setDefaultPost} label="Markdown de teste" type="primary" />
 				<textarea
 					name="markdown"
 					id={styles.markdownEditor}
