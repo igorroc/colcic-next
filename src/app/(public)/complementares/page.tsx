@@ -108,13 +108,10 @@ export default function Complementares() {
 						<h2>Instruções</h2>
 						<div className={styles.text}>
 							<p className={styles.scrollAnimation}>
-								Leia o procedimento abaixo. Preencha e imprima o Barema clicando{" "}
-								<a
+								Leia o procedimento abaixo. Preencha e imprima o <a
 									target="_blank"
 									href="http://nbcgib.uesc.br/colcic/baremacompl.html"
-								>
-									aqui
-								</a>
+								>Barema</a>
 							</p>
 							<ol>
 								<li
