@@ -89,7 +89,7 @@ section.pointedSection {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
-	align-items: start;
+	align-items: flex-start;
 	justify-content: center;
 	width: 100%;
 	max-width: 400px;

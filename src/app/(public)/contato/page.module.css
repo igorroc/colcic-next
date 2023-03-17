@@ -27,34 +27,6 @@
 	font-size: 2em;
 }
 
-.mainContent form {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-}
-
-.mainContent form input,
-.mainContent form textarea {
-	background: none;
-	border: 1px solid #232323;
-	border-radius: 10px;
-	padding: 10px;
-}
-
-.mainContent form textarea {
-	resize: vertical;
-	min-height: 3em;
-}
-
-.mainContent form button {
-	border: none;
-	width: 100%;
-}
-
-.mainContent form button:hover ~ .tooltipMouse {
-	opacity: 1;
-	visibility: visible;
-}
 
 .contact {
 	display: flex;
@@ -84,8 +56,8 @@
 	justify-content: center;
 }
 
-.contact .contactWrapper .contactItem .contactIcon iconify-icon {
-	font-size: 2em;
+.contact .contactWrapper .contactItem .contactIcon svg {
+	font-size: 1.5em;
 	color: #fff;
 }
 

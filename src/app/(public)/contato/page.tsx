@@ -1,11 +1,12 @@
 import { Button } from "@/components/Button"
 import styles from "./page.module.css"
 
-import { MdLocationPin, MdEmail, MdPhone, MdFacebook } from "react-icons/md"
+import { MdLocationPin, MdEmail, MdPhone } from "react-icons/md"
 
 import World from "/public/world.png"
 import Contact from "/public/contact.png"
 import Image from "next/image"
+import ContactForm from "@/components/ContactForm"
 
 export const metadata = {
 	title: "Contato",
@@ -22,19 +23,7 @@ export default function Contato() {
 						</div>
 						<div className={styles.mainContent}>
 							<h1>Fale com o COLCIC</h1>
-							<form action="">
-								<input type="text" placeholder="Nome *" required />
-								<input type="email" placeholder="Email *" required />
-								<input type="text" placeholder="Assunto" />
-								<textarea
-									name="mensagem"
-									id="mensagem"
-									cols={30}
-									rows={10}
-									placeholder="Digite sua mensagem"
-								></textarea>
-								<Button label="Enviar" type="primary" />
-							</form>
+							<ContactForm />
 						</div>
 					</div>
 				</div>
