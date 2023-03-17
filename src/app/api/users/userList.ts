@@ -2,7 +2,7 @@ export const userList = [
 	{
 		name: "Igor Rocha",
 		username: "igorroc",
-		email: "igor_roc@hotmail.com.br",
+		email: "ilrocha.cic@uesc.br",
 		photo: "https://github.com/igorroc.png",
 	},
 ]
