@@ -39,7 +39,7 @@ export default function Calendario() {
 							</h1>
 						</div>
 						<div className={styles.mainContentPhoto}>
-							<Image src={IconCalendar} alt="" />
+							<Image src={IconCalendar} alt="Ilustração de um calendário em 3d" />
 						</div>
 					</div>
 				</div>

@@ -24,7 +24,7 @@ export function Header() {
 			<div className={styles.wrapper}>
 				<div className={styles.wrapperContent}>
 					<Link className={styles.logo} href="./">
-						<Image src={ColcicLogo} alt="Logo do COLCIC" />
+						<Image src={ColcicLogo} alt="Logo do Colegiado de Ciência da Computação da UESC" />
 					</Link>
 					<div className={styles.navList}>
 						<ul>

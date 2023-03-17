@@ -95,7 +95,7 @@ export default function Home() {
 							<Button label="Saiba mais" href="./sobre" type="primary" />
 						</div>
 						<div className={styles.mainContentPhoto}>
-							<Image src={MainImage} alt="a" />
+							<Image src={MainImage} alt="Pessoas trabalhando com o computador em uma mesa de madeira" />
 						</div>
 					</div>
 				</div>
@@ -174,7 +174,7 @@ export default function Home() {
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.mainWrapper}>
 						<div className={styles.mainContentPhoto}>
-							<Image src={ImageMissao} alt="as" />
+							<Image src={ImageMissao} alt="Mão segurando uma lâmpada, como se estivesse segurando uma ideia" />
 						</div>
 						<div className={styles.missao}>
 							<h1>Missão do Curso</h1>

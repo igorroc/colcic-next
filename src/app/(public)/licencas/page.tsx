@@ -97,7 +97,7 @@ export default function Licencas() {
 							<Button label="Saiba mais" type="primary" href="#lista" />
 						</div>
 						<div className={styles.mainContentPhoto}>
-							<Image src={Rocket} alt="" />
+							<Image src={Rocket} alt="Ilustração 3d de um foguete decolando" />
 						</div>
 					</div>
 				</div>
@@ -109,7 +109,7 @@ export default function Licencas() {
 						<div id={styles.listaSoftwares}>
 							{softwares.map((software, index) => (
 								<div key={index} className={styles.card}>
-									<Image src={software.img} alt={`Logo ${software.nome}`} height={100}/>
+									<Image src={software.img} alt={`Logo ${software.nome}`} height={100} />
 									<h2>{software.nome}</h2>
 									<p>{software.descricao}</p>
 								</div>

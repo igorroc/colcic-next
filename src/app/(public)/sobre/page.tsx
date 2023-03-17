@@ -23,20 +23,20 @@ const infraestrutura = [
 		labs: [
 			{
 				title: "Lab 4A",
-				photo: Tower,
+				photo: Tower, alt: "Ilustração 2d de uma torre de energia",
 				description:
 					"Laboratório de eletrônica, lógica digital e arquitetura de computadores",
 				delay: 100,
 			},
 			{
 				title: "Lab 6A",
-				photo: PC,
+				photo: PC, alt: "Ilustração 2d de uma tela de computador com códigos",
 				description: "Laboratório de redes de computadores",
 				delay: 200,
 			},
 			{
 				title: "Auditório",
-				photo: Auditorio,
+				photo: Auditorio, alt: "Ilustração 2d de um professor palestrando, apontando para o quadro",
 				description: "Pav. de Ciências Exatas e Tecnológicas, capacidade 160 pessoas",
 				delay: 300,
 			},
@@ -47,49 +47,49 @@ const infraestrutura = [
 		labs: [
 			{
 				title: "Lab 4B",
-				photo: Software,
+				photo: Software, alt: "Ilustração 2d de um gabinete de computador e uma tela de computador com códigos",
 				description: "Laboratório de desenvolvimento de software",
 				delay: 400,
 			},
 			{
 				title: "Lab 6B",
-				photo: Software,
+				photo: Software, alt: "Ilustração 2d de um gabinete de computador e uma tela d",
 				description: "Laboratório de desenvolvimento de software",
 				delay: 500,
 			},
 			{
 				title: "Lab 7B",
-				photo: Design,
+				photo: Design, alt: "Ilustração 2d de uma pessoa em frente a um laptop, pensando em um projeto",
 				description: "Laboratório de desenho auxiliado por computadores (CAD/CAM)",
 				delay: 600,
 			},
 			{
 				title: "Lab 16B",
-				photo: Software,
+				photo: Software, alt: "Ilustração 2d de um gabinete de computador e uma tela d",
 				description: "Laboratório de banco de dados e aplicações com dados",
 				delay: 700,
 			},
 			{
 				title: "Lab 17B",
-				photo: Software,
+				photo: Software, alt: "Ilustração 2d de um gabinete de computador e uma tela d",
 				description: "Laboratório de engenharia de software e sistemas de informação",
 				delay: 800,
 			},
 			{
 				title: "Lab 18B",
-				photo: Software,
+				photo: Software, alt: "Ilustração 2d de um gabinete de computador e uma tela d",
 				description: "Laboratório de computação aplicada",
 				delay: 900,
 			},
 			{
 				title: "Lab 19B",
-				photo: Software,
+				photo: Software, alt: "Ilustração 2d de um gabinete de computador e uma tela d",
 				description: "Laboratório computacional para aplicação geral",
 				delay: 1000,
 			},
 			{
 				title: "Lab 20B",
-				photo: Software,
+				photo: Software, alt: "Ilustração 2d de um gabinete de computador e uma tela d",
 				description: "Laboratório para algoritmos e programação",
 				delay: 1100,
 			},
@@ -100,7 +100,7 @@ const infraestrutura = [
 		labs: [
 			{
 				title: "Lab 19C",
-				photo: Software,
+				photo: Software, alt: "Ilustração 2d de um gabinete de computador e uma tela d",
 				description: "Laboratório computacional para aplicação geral",
 				delay: 1200,
 			},
@@ -128,7 +128,7 @@ export default function Sobre() {
 							<Button label="Entre em contato" href="/contato" type="secondary" />
 						</div>
 						<div className={styles.mainContentPhoto}>
-							<Image src={AboutPics} alt="ALTERAR" />
+							<Image src={AboutPics} alt="Conjunto de 4 fotos, com estudantes felizes, utilizando o computador e lendo livros" />
 						</div>
 					</div>
 				</div>
@@ -238,7 +238,7 @@ export default function Sobre() {
 							</div>
 
 							<div className={styles.image}>
-								<Image src={Studying} alt="" />
+								<Image src={Studying} alt="Pessoas trabalhando com o computador em uma mesa de madeira" />
 							</div>
 						</div>
 					</div>
@@ -264,7 +264,7 @@ export default function Sobre() {
 												}}
 												key={index}
 											>
-												<Image src={sala.photo} alt="" />
+												<Image src={sala.photo} alt={sala.alt} />
 												<h4>{sala.title}</h4>
 												<p>{sala.description}</p>
 											</div>

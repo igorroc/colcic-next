@@ -332,7 +332,7 @@ export default function Disciplinas() {
 							<Button label="Saiba mais" type="secondary" href="#listaSemestres" />
 						</div>
 						<div className={styles.mainContentPhoto}>
-							<Image src={Books} alt="" />
+							<Image src={Books} alt="Foto de uma mesa com livros diversos em cima" />
 						</div>
 					</div>
 				</div>
