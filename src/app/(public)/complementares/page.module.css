@@ -143,8 +143,7 @@
 	}
 }
 
-/* media para verifica se backdrop-filter é aceito no navegador */
-@media not (backdrop-filter: blur(10px)) {
+@supports not (backdrop-filter: blur(10px)) {
 	#listaAtividades .card .description {
 		background: var(--background-color);
 	}
