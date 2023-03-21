@@ -6,12 +6,16 @@ import Tab from "@mui/material/Tab"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-import { MarkdownResult } from "@/components/MarkdownResult"
+import dynamic from "next/dynamic"
 
 import styles from "./page.module.css"
 
 import { defaultPost } from "./default"
 import { Button } from "@/components/Button"
+
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false })
+
+const MarkdownPreview = dynamic(() => import("@uiw/react-markdown-preview"), { ssr: false })
 
 interface TabPanelProps {
 	children?: React.ReactNode
@@ -92,20 +96,19 @@ export default function Editor() {
 			</Box>
 			<TabPanel value={currentTab} index={0}>
 				<Button onClick={setDefaultPost} label="Markdown de teste" type="primary" />
-				<textarea
-					name="markdown"
-					id={styles.markdownEditor}
-					cols={20}
-					rows={20}
-					value={text}
-					onChange={(e) => {
-						setText(e.target.value)
-					}}
-				></textarea>
+				<div className={styles.markdownEditor}>
+					<MDEditor
+						height={200}
+						value={text}
+						// @ts-expect-error
+						onChange={(evText) => setText(evText)}
+						preview="edit"
+					/>
+				</div>
 			</TabPanel>
 			<TabPanel value={currentTab} index={1}>
-				<div id="markdownResult">
-					<MarkdownResult text={text} />
+				<div className={styles.markdownEditor}>
+					<MarkdownPreview source={text} />
 				</div>
 			</TabPanel>
 		</div>
