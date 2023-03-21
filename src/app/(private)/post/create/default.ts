@@ -6,6 +6,8 @@ export const defaultPost = `# A demo of \`react-markdown\`
 
 👈 Try writing some markdown on the left.
 
+<img src="a" onerror="alert('oi')"/>
+
 ![image](https://colcic.uesc.br/assets/banner.png)
 
 ## Overview

@@ -1,4 +1,4 @@
-#markdownEditor {
+.markdownEditor {
 	width: calc(100% - 2em);
 	height: 100%;
 	padding: 1em;
@@ -11,4 +11,15 @@
 	resize: vertical;
 	background: rgba(255, 255, 255, 0.39);
 	border-radius: 0.5em;
+}
+
+/* .markdownEditor * {
+	background: none;
+	color: var(--text-color);
+} */
+
+.editorToolbar {
+	position: sticky;
+	top: 80px;
+	z-index: 99;
 }
