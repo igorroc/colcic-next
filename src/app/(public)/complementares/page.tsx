@@ -97,7 +97,10 @@ export default function Complementares() {
 							<Button label="Ver atividades" href="#atividades" type="secondary" />
 						</div>
 						<div className={styles.mainContentPhoto}>
-							<Image src={MainDisciplinas} alt="Foto do auditório Paulo Solto na UESC, Katia Vaskys está palestrando para o evento da SINFORM, pessoas sentadas nas cadeiras" />
+							<Image
+								src={MainDisciplinas}
+								alt="Foto do auditório Paulo Solto na UESC, Katia Vaskys está palestrando para o evento da SINFORM, pessoas sentadas nas cadeiras"
+							/>
 						</div>
 					</div>
 				</div>
@@ -108,10 +111,13 @@ export default function Complementares() {
 						<h2>Instruções</h2>
 						<div className={styles.text}>
 							<p className={styles.scrollAnimation}>
-								Leia o procedimento abaixo. Preencha e imprima o <a
+								Leia o procedimento abaixo. Preencha e imprima o{" "}
+								<a
 									target="_blank"
 									href="http://nbcgib.uesc.br/colcic/baremacompl.html"
-								>Barema</a>
+								>
+									Barema
+								</a>
 							</p>
 							<ol>
 								<li
@@ -182,7 +188,10 @@ export default function Complementares() {
 						<div className={styles.listaAtividades} id={styles.listaAtividades}>
 							{atividades.map((atividade, index) => (
 								<div key={index} className={styles.card}>
-									<Image src={PC} alt="Ilustração 2d de um computador com códigos na tela" />
+									<Image
+										src={PC}
+										alt="Ilustração 2d de um computador com códigos na tela"
+									/>
 									<h2>{atividade.type}</h2>
 									<p dangerouslySetInnerHTML={{ __html: atividade.title }}></p>
 									<div

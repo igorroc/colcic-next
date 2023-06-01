@@ -109,7 +109,11 @@ export default function Licencas() {
 						<div id={styles.listaSoftwares}>
 							{softwares.map((software, index) => (
 								<div key={index} className={styles.card}>
-									<Image src={software.img} alt={`Logo ${software.nome}`} height={100} />
+									<Image
+										src={software.img}
+										alt={`Logo ${software.nome}`}
+										height={100}
+									/>
 									<h2>{software.nome}</h2>
 									<p>{software.descricao}</p>
 								</div>
