@@ -97,7 +97,12 @@ const navList = [
 				title: "Licenças acadêmicas de Software",
 				href: "/licencas",
 				type: "internal"
-			}
+			},
+			{
+				title: "Notícias",
+				href: "/noticias",
+				type: "internal"
+			},
 		]
 	},
 	{
