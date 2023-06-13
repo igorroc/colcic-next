@@ -1,0 +1,29 @@
+.mainContainer {
+  display: flex;
+  padding: 1rem 20rem;
+  width: 1100px;
+  margin: 0 auto;
+}
+
+.postHeader {
+  width: 1025px;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--primary-color);
+  padding: 40px;
+  border-radius: 37px;
+  color: var(--background-color);
+}
+
+.postHeaderTitle {
+  max-width: 485px;
+}
+
+.categoriesTag {
+  background-color: var(--secondary-color);
+  color: black;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 8px 10px;
+  border-radius: 99px;
+}
