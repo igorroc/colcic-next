@@ -19,7 +19,10 @@ export default function Contato() {
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.mainWrapper}>
 						<div className={styles.mainContentPhoto}>
-							<Image src={Contact} alt="Ilustração 3d de um estudante com mochila nas costas, segurando o seu celular e enviando uma mensagem" />
+							<Image
+								src={Contact}
+								alt="Ilustração 3d de um estudante com mochila nas costas, segurando o seu celular e enviando uma mensagem"
+							/>
 						</div>
 						<div className={styles.mainContent}>
 							<h1>Fale com o COLCIC</h1>
@@ -92,7 +95,10 @@ export default function Contato() {
 							</div>
 						</div>
 						<div className={[styles.mainContentPhoto, styles.contactPhoto].join(" ")}>
-							<Image src={World} alt="Ilustração 3d do globo terrestre, com algumas marcações em continentes diversos" />
+							<Image
+								src={World}
+								alt="Ilustração 3d do globo terrestre, com algumas marcações em continentes diversos"
+							/>
 						</div>
 					</div>
 				</div>

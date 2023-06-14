@@ -329,7 +329,11 @@ export default function Disciplinas() {
 								O curso é organizado em <b>disciplinas regulares e optativas</b> que
 								garantem a formação <b>básica e tecnológica</b> para o aluno.
 							</p>
-							<Button label="Ver disciplinas" type="secondary" href="#listaSemestres" />
+							<Button
+								label="Ver disciplinas"
+								type="secondary"
+								href="#listaSemestres"
+							/>
 						</div>
 						<div className={styles.mainContentPhoto}>
 							<Image src={Books} alt="Foto de uma mesa com livros diversos em cima" />
@@ -352,7 +356,10 @@ export default function Disciplinas() {
 							mobile="Aperte em uma disciplina para ter acesso a sua ementa."
 						/>
 					</div>
-					<div className={[styles.list, styles.listaSemestres].join(" ")} id="listaSemestres" >
+					<div
+						className={[styles.list, styles.listaSemestres].join(" ")}
+						id="listaSemestres"
+					>
 						{semestres.map((semestre, index) => (
 							<>
 								{semestre.title === "Optativas" && (

@@ -24,7 +24,11 @@ export default function Aproveitamentos() {
 								<b>solicitar dispensa de disciplinas</b> previstas no curso através
 								do processo de Aproveitamento de Estudos.
 							</p>
-							<Button label="Entenda como fazer" type="primary" href="#procedimentos" />
+							<Button
+								label="Entenda como fazer"
+								type="primary"
+								href="#procedimentos"
+							/>
 						</div>
 					</div>
 				</div>
@@ -46,13 +50,14 @@ export default function Aproveitamentos() {
 									className={styles.scrollAnimation}
 									style={{ transitionDelay: "100ms !important" }}
 								>
-									<b>Verificar</b> se seu aproveitamento <b>enquadra-se</b> no {" "}
+									<b>Verificar</b> se seu aproveitamento <b>enquadra-se</b> no{" "}
 									<a
 										target="_blank"
 										href="http://www.uesc.br/a_uesc/regimento.pdf"
 									>
 										regimento da UESC
-									</a>, Capítulo VI.
+									</a>
+									, Capítulo VI.
 								</li>
 								<li
 									className={styles.scrollAnimation}
@@ -116,7 +121,11 @@ export default function Aproveitamentos() {
 								</li>
 							</ol>
 							<div className={styles.imageWrapper}>
-								<Image src={MainImage} alt="Ilustração em 3d de um robô com cabeça de computador correndo" width={300} />
+								<Image
+									src={MainImage}
+									alt="Ilustração em 3d de um robô com cabeça de computador correndo"
+									width={300}
+								/>
 							</div>
 						</div>
 					</div>

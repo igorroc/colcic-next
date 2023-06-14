@@ -15,26 +15,27 @@ const navList = [
 	{
 		title: "Inicio",
 		href: "/",
-		type: "internal"
-	}, {
+		type: "internal",
+	},
+	{
 		title: "Sobre o curso",
 		list: [
 			{
 				title: "Ciência da Computação na UESC",
 				href: "/sobre",
-				type: "internal"
+				type: "internal",
 			},
 			{
 				title: "Programa das Disciplinas",
 				href: "/disciplinas",
-				type: "internal"
+				type: "internal",
 			},
 			{
 				title: "Fluxograma do Curso",
 				href: "https://colcic.uesc.br/files/comp_curriculares/matriz_cic_2012.pdf",
-				type: "file"
-			}
-		]
+				type: "file",
+			},
+		],
 	},
 	{
 		title: "Apoio ao estudante",
@@ -42,33 +43,34 @@ const navList = [
 			{
 				title: "Portal Acadêmico",
 				href: "http://www.prograd.uesc.br/PortalSagres/Acesso.aspx",
-				type: "external"
+				type: "external",
 			},
 			{
 				title: "Calculadora de Prova Final",
 				href: "https://igorroc.github.io/finalcountdown/",
-				type: "external"
-			}, {
+				type: "external",
+			},
+			{
 				title: "Email dos professores",
 				href: "https://uesc.ilrocha.com/emails/",
-				type: "external"
+				type: "external",
 			},
 			{
 				title: "Aproveitamento de Estudos",
 				href: "/aproveitamentos",
-				type: "internal"
+				type: "internal",
 			},
 			{
 				title: "Atividades complementares (Barema)",
 				href: "/complementares",
-				type: "internal"
+				type: "internal",
 			},
 			{
 				title: "Regulamento do Estágio",
 				href: "https://colcic.uesc.br/files/comp_curriculares/regulamentoestagio.pdf",
-				type: "file"
+				type: "file",
 			},
-		]
+		],
 	},
 	{
 		title: "Colegiado",
@@ -76,14 +78,14 @@ const navList = [
 			{
 				title: "Composição do colegiado",
 				href: "/colegiado",
-				type: "internal"
+				type: "internal",
 			},
 			{
 				title: "Calendário de Reuniões",
 				href: "/calendario",
-				type: "internal"
+				type: "internal",
 			},
-		]
+		],
 	},
 	{
 		title: "Diversos",
@@ -91,20 +93,20 @@ const navList = [
 			{
 				title: "SINFORM",
 				href: "https://sinform.uesc.br/",
-				type: "external"
+				type: "external",
 			},
 			{
 				title: "Licenças acadêmicas de Software",
 				href: "/licencas",
-				type: "internal"
-			}
-		]
+				type: "internal",
+			},
+		],
 	},
 	{
 		title: "Contato",
 		href: "/contato",
-		type: "internal"
-	}
+		type: "internal",
+	},
 ]
 
 export function Header() {
@@ -124,7 +126,10 @@ export function Header() {
 				</a>
 				<div className={styles.wrapperContent}>
 					<Link className={styles.logo} href="./">
-						<Image src={ColcicLogo} alt="Logo do Colegiado de Ciência da Computação da UESC" />
+						<Image
+							src={ColcicLogo}
+							alt="Logo do Colegiado de Ciência da Computação da UESC"
+						/>
 					</Link>
 
 					<button
@@ -154,14 +159,17 @@ export function Header() {
 													<Link href={link.href} key={j} data-active={pathname == link.href}>
 														{link.title}
 														{link.type == "external" && <MdLink />}
-														{link.type == "file" && <MdOutlineFileDownload />}
+														{link.type == "file" && (
+															<MdOutlineFileDownload />
+														)}
 													</Link>
 												))}
 											</ul>
 										</li>) :
 										(<Link href={item.href} data-active={pathname == item.href} key={i + "link"}>
 											{item.title}
-										</Link>)}
+										</Link>
+									)}
 								</>
 							))}
 						</ul>
@@ -170,6 +178,6 @@ export function Header() {
 			</div>
 
 			<div id={styles.top}></div>
-		</header >
+		</header>
 	)
 }

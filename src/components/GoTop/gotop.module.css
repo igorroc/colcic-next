@@ -33,7 +33,7 @@
 	color: #232323;
 }
 
-#goToTop[data-hide=true] {
+#goToTop[data-hide="true"] {
 	opacity: 0;
 	transform: scale(0);
 }

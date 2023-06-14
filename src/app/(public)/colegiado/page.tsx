@@ -203,7 +203,10 @@ export default function Colegiado() {
 							/>
 						</div>
 						<div className={styles.mainContentPhoto}>
-							<Image src={MainImage} alt="Foto do corredor onde fica a sala do colegiado de Ciência da Computação na UESC" />
+							<Image
+								src={MainImage}
+								alt="Foto do corredor onde fica a sala do colegiado de Ciência da Computação na UESC"
+							/>
 						</div>
 					</div>
 				</div>
