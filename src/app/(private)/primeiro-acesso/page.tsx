@@ -1,12 +1,12 @@
-import styles from "./loginPage.module.css";
+import styles from "./primeiroAcessoPage.module.css";
 
 import Image from "next/image"
-import LoginForm from "@/components/LoginForm";
-import LoginJpg from "/public/login.jpg"; // Caminho corrigido para 'login.jpg'
+import PrimeiroAcessoJpg from "/public/primeiroacesso.jpg"; // Caminho corrigido para 'login.jpg'
 import LogoColcic from "/public/logo.png"; // Caminho corrigido para 'login.jpg'
+import PrimeiroAcessoForm from "@/components/PrimeiroAcessoForm";
 
 export const metadata = {
-  title: "Login",
+  title: "Primeiro Acesso",
 };
 
 export default function Login() {
@@ -18,7 +18,7 @@ export default function Login() {
         <div className={styles.container}>
           <div className={styles.tela}>
 
-            <Image className={styles.image} src={LoginJpg} alt={"Login"} />
+            <Image className={styles.image} src={PrimeiroAcessoJpg} alt={"Primeiro Acesso"} />
 
             <div className={styles.mainContent}>
               
@@ -26,9 +26,9 @@ export default function Login() {
                   src={LogoColcic}
                   alt="Logo do Colegiado de Ciência da Computação da UESC"
                 />
-              <h1>Login</h1>
+              <h1>Primeiro Acesso</h1>
               
-              <LoginForm />
+              <PrimeiroAcessoForm />
 
             </div>
 
