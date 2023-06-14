@@ -33,8 +33,12 @@ export default function Post({ params }: PostType) {
 	}, [])
 
 	return (
-		<div>
-			<Header />
+		<>
+			{!post && <div className={styles.loadingContainer}>
+				<div className={styles.loading}>
+					Carregando
+				</div>
+			</div>}
 			{!!post && <div className={styles.mainContainer}>
 				<div className={styles.postHeader}>
 					<div>
@@ -97,7 +101,6 @@ export default function Post({ params }: PostType) {
 					/>
 				</div>
 			</div>}
-			<Footer />
-		</div>
+		</>
 	)
 }
