@@ -1,0 +1,56 @@
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 110px;
+	align-items: flex-start; /* Alinhar à esquerda */
+	padding-left: 5500; /* Remover o valor negativo */
+	margin-left: 350px; /* Mover o formulário para a esquerda */
+	width: 440%; /* Aumentar o tamanho do formulário */
+  }
+  
+  .submit {
+	flex: 1;
+	width: 40%;
+  }
+  
+  #form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
+	flex: 1;
+	
+}
+.userName{
+	/* username */
+
+
+box-sizing: border-box;
+
+/* Auto layout */
+
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 10px 40px 10px 10px;
+gap: 10px;
+
+width: 308px;
+height: 37px;
+
+/* TextColor */
+
+border: 1px solid #232323;
+border-radius: 10px;
+
+/* Inside auto layout */
+
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+}
+.submit {
+	flex: 1;
+	width: 100%;
+}
