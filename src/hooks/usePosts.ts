@@ -2,10 +2,10 @@ import defaultBody from "@/utils/defaultPostBody"
 import banner from "/public/banner.png"
 import avatar from "/public/people.png"
 
-export const post = {
+export const posts = [{
 	id: 1,
-	slug: "hello-world",
-	title: "Hello, world!",
+	slug: "metaverso-post",
+	title: "Metaverso: a nova fronteira da internet!",
 	body: defaultBody,
 	description: "This is a description",
 	author: {
@@ -25,16 +25,18 @@ export const post = {
 		},
 	],
 	banner: banner,
-}
+}]
+
+export type PostT = typeof posts[0];
 
 export async function getPosts() {
 	await new Promise((resolve) => setTimeout(resolve, 1000))
 
-	return [post]
+	return posts
 }
 
-export async function getPostByID(id: number) {
+export async function getPostBySlug(slug: string) {
 	await new Promise((resolve) => setTimeout(resolve, 1000))
-
+	const post = posts.find(post => post.slug === slug);
 	return post
 }
