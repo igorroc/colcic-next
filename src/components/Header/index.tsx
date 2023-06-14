@@ -115,28 +115,43 @@ export function Header() {
 		setShowNavList(!showNavList)
 	}
 
+
 	return (
 		<header className={showNavList ? styles.showNavList : ""} id={styles.header}>
 			<div className={styles.wrapper}>
+				<a className={styles.skipLink} href="#main-content">
+					Pular para o conteúdo principal
+				</a>
 				<div className={styles.wrapperContent}>
 					<Link className={styles.logo} href="./">
 						<Image src={ColcicLogo} alt="Logo do Colegiado de Ciência da Computação da UESC" />
 					</Link>
+
+					<button
+						className={styles.iconMenu} onClick={toggleNavList} aria-label="Ativar menu lateral"
+					>
+						<div>
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+					</button>
+
 					<nav className={styles.navList}>
 						<ul>
-							{navList.map((item, index) => (
+							{navList.map((item, i) => (
 								<>
 									{item.list ?
 										(<li className={styles.dropdown} data-active={
 											item.list.some((link) => pathname == link.href)
-										} key={index}>
+										} key={i}>
 											<span className={styles.title}>
 												<span> {item.title} </span>
 												<MdKeyboardArrowDown />
 											</span>
 											<ul>
-												{item.list.map((link, index) => (
-													<Link href={link.href} key={index} data-active={pathname == link.href}>
+												{item.list.map((link, j) => (
+													<Link href={link.href} key={j} data-active={pathname == link.href}>
 														{link.title}
 														{link.type == "external" && <MdLink />}
 														{link.type == "file" && <MdOutlineFileDownload />}
@@ -144,21 +159,13 @@ export function Header() {
 												))}
 											</ul>
 										</li>) :
-										(<Link href={item.href} data-active={pathname == item.href} key={index}>
+										(<Link href={item.href} data-active={pathname == item.href} key={i + "link"}>
 											{item.title}
 										</Link>)}
 								</>
 							))}
 						</ul>
 					</nav>
-					<button
-						className={styles.iconMenu} onClick={toggleNavList} aria-label="Ativar menu lateral">
-						<div>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</button>
 				</div>
 			</div>
 
