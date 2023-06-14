@@ -110,7 +110,7 @@ const infraestrutura = [
 
 export default function Sobre() {
 	return (
-		<main>
+		<>
 			<section data-variant className="section">
 				<div className="MaxWidthWrapper">
 					<div className={styles.mainWrapper}>
@@ -276,6 +276,6 @@ export default function Sobre() {
 					</div>
 				</div>
 			</section>
-		</main>
+		</>
 	)
 }

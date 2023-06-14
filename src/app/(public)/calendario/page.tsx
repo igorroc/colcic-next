@@ -28,7 +28,7 @@ const calendar = [
 
 export default function Calendario() {
 	return (
-		<main>
+		<>
 			<section data-variant className="section">
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.mainWrapper}>
@@ -71,6 +71,6 @@ export default function Calendario() {
 					</div>
 				</div>
 			</section>
-		</main>
+		</>
 	)
 }

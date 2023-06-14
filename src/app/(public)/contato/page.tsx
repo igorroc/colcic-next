@@ -14,7 +14,7 @@ export const metadata = {
 
 export default function Contato() {
 	return (
-		<main>
+		<>
 			<section className="section">
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.mainWrapper}>
@@ -97,6 +97,6 @@ export default function Contato() {
 					</div>
 				</div>
 			</section>
-		</main>
+		</>
 	)
 }

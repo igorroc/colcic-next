@@ -316,7 +316,7 @@ const semestres = [
 
 export default function Disciplinas() {
 	return (
-		<main>
+		<>
 			<section data-variant className="section">
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.mainWrapper}>
@@ -378,6 +378,6 @@ export default function Disciplinas() {
 					</div>
 				</div>
 			</section>
-		</main>
+		</>
 	)
 }

@@ -69,7 +69,7 @@ const softwares = [
 
 export default function Licencas() {
 	return (
-		<main>
+		<>
 			<section className="section">
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.mainWrapper}>
@@ -118,6 +118,6 @@ export default function Licencas() {
 					</div>
 				</div>
 			</section>
-		</main>
+		</>
 	)
 }

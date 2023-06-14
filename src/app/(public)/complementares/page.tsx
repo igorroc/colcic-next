@@ -77,7 +77,7 @@ const atividades = [
 
 export default function Complementares() {
 	return (
-		<main>
+		<>
 			<section data-variant className="section">
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.mainWrapper}>
@@ -212,6 +212,6 @@ export default function Complementares() {
 					</p>
 				</div>
 			</section>
-		</main>
+		</>
 	)
 }

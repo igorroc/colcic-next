@@ -176,7 +176,7 @@ const coordenacao = [
 
 export default function Colegiado() {
 	return (
-		<main>
+		<>
 			<section className="section" data-variant>
 				<div className="MaxWidthWrapper">
 					<div className={styles.mainWrapper}>
@@ -270,6 +270,6 @@ export default function Colegiado() {
 					</div>
 				</div>
 			</section>
-		</main>
+		</>
 	)
 }

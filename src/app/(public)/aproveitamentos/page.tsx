@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function Aproveitamentos() {
 	return (
-		<main>
+		<>
 			<section className="section">
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.mainWrapper}>
@@ -122,6 +122,6 @@ export default function Aproveitamentos() {
 					</div>
 				</div>
 			</section>
-		</main>
+		</>
 	)
 }
