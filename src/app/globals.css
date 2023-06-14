@@ -54,9 +54,11 @@ body {
 }
 
 .section[data-variant] {
-	background: linear-gradient(90deg,
-			var(--variant-background-color),
-			var(--variant-background-color-2));
+	background: linear-gradient(
+		90deg,
+		var(--variant-background-color),
+		var(--variant-background-color-2)
+	);
 }
 
 ::-moz-selection {

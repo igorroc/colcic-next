@@ -40,9 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="pt-br" className={montserrat.className}>
 			<body>
 				<Header />
-				<main id="main-content">
-					{children}
-				</main>
+				<main id="main-content">{children}</main>
 				<GoTop />
 				<Footer />
 			</body>

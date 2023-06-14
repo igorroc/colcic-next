@@ -104,7 +104,7 @@ const navList = [
 				title: "Área do Professor",
 				href: "/login",
 				type: "internal",
-			}
+			},
 		],
 	},
 	{
@@ -127,7 +127,6 @@ export function Header() {
 		setShowNavList(!showNavList)
 	}
 
-
 	return (
 		<header className={showNavList ? styles.showNavList : ""} id={styles.header}>
 			<div className={styles.wrapper}>
@@ -143,7 +142,9 @@ export function Header() {
 					</Link>
 
 					<button
-						className={styles.iconMenu} onClick={toggleNavList} aria-label="Ativar menu lateral"
+						className={styles.iconMenu}
+						onClick={toggleNavList}
+						aria-label="Ativar menu lateral"
 					>
 						<div>
 							<span></span>
@@ -156,17 +157,25 @@ export function Header() {
 						<ul>
 							{navList.map((item, i) => (
 								<>
-									{item.list ?
-										(<li className={styles.dropdown} data-active={
-											item.list.some((link) => pathname == link.href)
-										} key={i}>
+									{item.list ? (
+										<li
+											className={styles.dropdown}
+											data-active={item.list.some(
+												(link) => pathname == link.href
+											)}
+											key={i}
+										>
 											<span className={styles.title}>
 												<span> {item.title} </span>
 												<MdKeyboardArrowDown />
 											</span>
 											<ul>
 												{item.list.map((link, j) => (
-													<Link href={link.href} key={j} data-active={pathname == link.href}>
+													<Link
+														href={link.href}
+														key={j}
+														data-active={pathname == link.href}
+													>
 														{link.title}
 														{link.type == "external" && <MdLink />}
 														{link.type == "file" && (
@@ -175,11 +184,16 @@ export function Header() {
 													</Link>
 												))}
 											</ul>
-										</li>) :
-										(<Link href={item.href} data-active={pathname == item.href} key={i + "link"}>
+										</li>
+									) : (
+										<Link
+											href={item.href}
+											data-active={pathname == item.href}
+											key={i + "link"}
+										>
 											{item.title}
 										</Link>
-										)}
+									)}
 								</>
 							))}
 						</ul>
