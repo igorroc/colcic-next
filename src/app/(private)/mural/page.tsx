@@ -1,18 +1,27 @@
 "use client"
-
-import MuralTimeLine from "@/components/MuralTimeLine"
-import Image from "next/image"
 import React, { useEffect, useState } from "react"
-import styles from "./mural.module.css"
-import Logo from "/public/logo_large.svg"
-import MuralPostList from "@/components/MuralPostList"
-import MuralTimer from "@/components/MuralTimer"
+import { useSearchParams } from "next/navigation"
+import Image from "next/image"
+
 import { getMuralPosts } from "@/hooks/useMuralPosts"
 
+import MuralTimeLine from "@/components/MuralTimeLine"
+import MuralPostList from "@/components/MuralPostList"
+import MuralTimer from "@/components/MuralTimer"
+
+import styles from "./mural.module.css"
+import Logo from "/public/logo_large.svg"
+
 export default function Mural() {
-	const delay = 6000
+	const searchParams = useSearchParams()
+
 	const [activeItem, setActiveItem] = useState(0)
+
 	const posts = getMuralPosts()
+
+	const delay = Number(searchParams.get("delay")) || 10000
+
+	console.log(delay)
 
 	useEffect(() => {
 		const interval = setInterval(() => {

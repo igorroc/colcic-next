@@ -21,7 +21,7 @@ export default function MuralTimer(props: MuralTimerProps) {
 
 				return prevWidth + passo
 			})
-		}, 100)
+		}, fps)
 
 		return () => clearTimeout(interval)
 
