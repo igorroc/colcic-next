@@ -130,9 +130,9 @@ export function Header() {
 	return (
 		<header className={showNavList ? styles.showNavList : ""} id={styles.header}>
 			<div className={styles.wrapper}>
-				{/* <a className={styles.skipLink} href="#main-content">
+				<a className={styles.skipLink} href="#main-content">
 					Pular para o conteúdo principal
-				</a> */}
+				</a>
 
 				<div className={styles.wrapperContent}>
 					<Link className={styles.logo} href="./">
