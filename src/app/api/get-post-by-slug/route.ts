@@ -41,5 +41,9 @@ export async function GET(request: Request) {
 
 	const post = posts.find((post) => post.slug === slug)
 
-	return NextResponse.json(post)
+	if (post) {
+		return NextResponse.json(post)
+	} else {
+		return NextResponse.next()
+	}
 }
