@@ -43,6 +43,6 @@ export async function GET(request: Request) {
 	if (post) {
 		return NextResponse.json(post)
 	} else {
-		return NextResponse.next()
+		return NextResponse.json({ error: "Post not found" }, { status: 404 })
 	}
 }

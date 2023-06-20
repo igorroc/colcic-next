@@ -56,8 +56,6 @@ export default async function Post({ params }: PostPageType) {
 
 	const post = await response.json()
 
-	console.log(post)
-
 	return (
 		<div className={styles.mainContainer}>
 			{!post && (
