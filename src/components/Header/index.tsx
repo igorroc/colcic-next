@@ -133,6 +133,7 @@ export function Header() {
 				{/* <a className={styles.skipLink} href="#main-content">
 					Pular para o conteúdo principal
 				</a> */}
+
 				<div className={styles.wrapperContent}>
 					<Link className={styles.logo} href="./">
 						<Image
@@ -155,9 +156,9 @@ export function Header() {
 
 					<nav className={styles.navList}>
 						<ul>
-							{navList.map((item, i) => (
-								<>
-									{item.list ? (
+							{navList.map((item, i) => {
+								if (item.list) {
+									return (
 										<li
 											className={styles.dropdown}
 											data-active={item.list.some(
@@ -173,7 +174,7 @@ export function Header() {
 												{item.list.map((link, j) => (
 													<Link
 														href={link.href}
-														key={j}
+														key={`${i}${j}`}
 														data-active={pathname == link.href}
 													>
 														{link.title}
@@ -185,7 +186,9 @@ export function Header() {
 												))}
 											</ul>
 										</li>
-									) : (
+									)
+								} else {
+									return (
 										<Link
 											href={item.href}
 											data-active={pathname == item.href}
@@ -193,9 +196,9 @@ export function Header() {
 										>
 											{item.title}
 										</Link>
-									)}
-								</>
-							))}
+									)
+								}
+							})}
 						</ul>
 					</nav>
 				</div>
