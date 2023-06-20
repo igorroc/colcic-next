@@ -1,0 +1,151 @@
+.post {
+	position: absolute;
+	width: calc(100vw - 2 * var(--padding-w));
+	max-width: var(--max-width-post);
+	height: 100%;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 3em;
+	transition: all 0.5s ease-in-out;
+}
+
+.postBanner {
+	height: 100%;
+	flex: 1;
+	overflow: hidden;
+	border-radius: 2em;
+}
+
+.postBanner img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.postContent {
+	flex: 2;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.postHead {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.postCategoryList {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5em;
+}
+
+.postCategory {
+	padding: 0.5em 1em;
+	border-radius: 1em;
+	background-color: var(--primary-color);
+	color: #fff;
+	font-size: 0.8em;
+}
+
+.postAuthor {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1em;
+}
+
+.authorPicture {
+	--size: 5em;
+	width: var(--size);
+	height: var(--size);
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.authorPicture img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.authorInfo {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	gap: 0.5em;
+}
+
+.authorName {
+	font-weight: bold;
+}
+
+.authorDate {
+	font-size: 0.8em;
+	opacity: 0.8;
+	font-style: italic;
+}
+
+.postTitle {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: var(--primary-color);
+	text-decoration: underline;
+	line-height: 2.5em;
+}
+
+.postTitle h1 {
+	max-width: 80%;
+	margin: 0;
+}
+
+.postDescription {
+	font-size: 1.5em;
+}
+
+.postDescription p {
+	--lines: 5;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: var(--lines); /* number of lines to show */
+	line-clamp: var(--lines);
+	-webkit-box-orient: vertical;
+}
+
+.bottomInfo {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1em;
+}
+
+.continue {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	gap: 0.5em;
+}
+
+.qrCode {
+	--size: 15em;
+	width: var(--size);
+	height: var(--size);
+	border-radius: 1em;
+	overflow: hidden;
+}
+
+.qrCode canvas {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
