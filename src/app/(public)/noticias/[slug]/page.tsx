@@ -13,7 +13,7 @@ import MarkdownPrint from "@/components/MarkdownPrint"
 import SharableLinks from "@/components/SharableLinks"
 import { Button } from "@/components/Button"
 
-import { TPostCategory } from "@/app/api/get-post-by-slug/route"
+import { TCategory } from "@/types/post"
 
 interface PostPageType {
 	params: {
@@ -134,7 +134,7 @@ export default async function Post({ params }: PostPageType) {
 							].join(" ")}
 						>
 							<div className={styles.categories}>
-								{post?.categories.map((category: TPostCategory, index: number) => (
+								{post?.categories.map((category: TCategory, index: number) => (
 									<span className={styles.categoriesTag} key={index}>
 										{category.name}
 									</span>

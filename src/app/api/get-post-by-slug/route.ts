@@ -1,9 +1,13 @@
-import defaultBody from "@/utils/defaultPostBody"
+import { StaticImageData } from "next/image"
 import { NextResponse } from "next/server"
+
+import defaultBody from "@/utils/defaultPostBody"
+
 import banner from "/public/banner.png"
 import avatar from "/public/people.png"
+import { TPost } from "@/types/post"
 
-export const posts = [
+const postList: TPost[] = [
 	{
 		id: 1,
 		slug: "metaverso-post",
@@ -30,16 +34,11 @@ export const posts = [
 	},
 ]
 
-export type TPost = (typeof posts)[0]
-export type TPostCategory = TPost["categories"][0]
-
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url)
 	const slug = searchParams.get("slug")
 
-	await new Promise((resolve) => setTimeout(resolve, 1000))
-
-	const post = posts.find((post) => post.slug === slug)
+	const post = postList.find((post) => post.slug === slug)
 
 	if (post) {
 		return NextResponse.json(post)
