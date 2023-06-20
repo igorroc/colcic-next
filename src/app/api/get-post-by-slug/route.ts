@@ -1,4 +1,5 @@
 import defaultBody from "@/utils/defaultPostBody"
+import { NextResponse } from "next/server"
 import banner from "/public/banner.png"
 import avatar from "/public/people.png"
 
@@ -29,16 +30,16 @@ export const posts = [
 	},
 ]
 
-export type PostT = (typeof posts)[0]
+export type TPost = (typeof posts)[0]
+export type TPostCategory = TPost["categories"][0]
 
-export async function getPosts() {
+export async function GET(request: Request) {
+	const { searchParams } = new URL(request.url)
+	const slug = searchParams.get("slug")
+
 	await new Promise((resolve) => setTimeout(resolve, 1000))
 
-	return posts
-}
-
-export async function getPostBySlug(slug: string) {
-	await new Promise((resolve) => setTimeout(resolve, 1000))
 	const post = posts.find((post) => post.slug === slug)
-	return post
+
+	return NextResponse.json(post)
 }

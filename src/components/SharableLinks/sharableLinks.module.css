@@ -1,0 +1,22 @@
+.socialMediaIconsContainer {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
+}
+
+.iconContainer {
+	background-color: rgba(255, 255, 255, 0.3);
+	color: var(--primary-color);
+	width: 40px;
+	height: 40px;
+	border-radius: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+.iconContainer:hover {
+	background-color: rgba(255, 255, 255, 0.5);
+}
