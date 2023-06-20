@@ -25,7 +25,8 @@ export const revalidate = 30
 
 export default async function Post({ params }: PostPageType) {
 	// const post = await getPostBySlug(params.slug)
-	const url = `${process.env.NEXT_PUBLIC_API_URL}/get-post-by-slug?slug=${params.slug}`
+	const api_url = process.env.NEXT_PUBLIC_API_URL
+	const url = `${api_url}/post/${params.slug}`
 
 	const response = await fetch(url)
 
