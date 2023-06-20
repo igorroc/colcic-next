@@ -1,14 +1,29 @@
-import React from "react"
-import QR from "/public/qr.png"
-import styles from "./mural_post_list.module.css"
+import React, { useEffect, useState } from "react"
 import Image from "next/image"
-import { getMuralPosts } from "@/hooks/useMuralPosts"
+
+import { TCategory, TPost } from "@/types/post"
+
+import styles from "./mural_post_list.module.css"
+
+import QR from "/public/qr.png"
+import { formatToDate } from "@/utils/formatToDate"
 
 type MuralPostsListProps = {
-	posts: ReturnType<typeof getMuralPosts>
-	activePost: number
+	delay: number
+	posts: TPost[]
 }
 export default function MuralPostList(props: MuralPostsListProps) {
+	const [activeItem, setActiveItem] = useState(0)
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setActiveItem((prevCount) => (prevCount + 1) % props.posts.length)
+		}, props.delay)
+		return () => clearInterval(interval)
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.postList}>
@@ -17,18 +32,18 @@ export default function MuralPostList(props: MuralPostsListProps) {
 						className={styles.post}
 						key={index}
 						style={{
-							transform: `translateX(${-props.activePost * 100 + index * 100}vw)`,
+							transform: `translateX(${-activeItem * 100 + index * 100}vw)`,
 						}}
 					>
 						<div className={styles.postBanner}>
-							<Image src={post.image} alt="Banner do post" />
+							<Image src={post.banner} alt="Banner do post" />
 						</div>
 						<div className={styles.postContent}>
 							<div className={styles.postCategoryList}>
-								{post.categories.map((category, index_c) => {
+								{post.categories.map((category: TCategory, index_c) => {
 									return (
 										<div className={styles.postCategory} key={index_c}>
-											<span>{category}</span>
+											<span>{category.name}</span>
 										</div>
 									)
 								})}
@@ -52,7 +67,9 @@ export default function MuralPostList(props: MuralPostsListProps) {
 										<span className={styles.authorName}>
 											{post.author.name}
 										</span>
-										<span className={styles.authorDate}>{post.created_at}</span>
+										<span className={styles.authorDate}>
+											{formatToDate(post.created_at)}
+										</span>
 									</div>
 								</div>
 								<div className={styles.continue}>

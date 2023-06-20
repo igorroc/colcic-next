@@ -24,7 +24,6 @@ interface PostPageType {
 export const revalidate = 30
 
 export default async function Post({ params }: PostPageType) {
-	// const post = await getPostBySlug(params.slug)
 	const api_url = process.env.NEXT_PUBLIC_API_URL
 	const url = `${api_url}/post/${params.slug}`
 
