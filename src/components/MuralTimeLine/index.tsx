@@ -1,3 +1,5 @@
+"use client"
+
 import { TPost } from "@/types/post"
 import React, { useEffect, useState } from "react"
 import styles from "./mural_timeline.module.css"
