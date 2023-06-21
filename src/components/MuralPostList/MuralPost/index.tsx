@@ -19,7 +19,6 @@ type MuralPostProps = {
 export default function MuralPost(props: MuralPostProps) {
 	const { Canvas } = useQRCode()
 
-	const linkUrl = "http://localhost:3000/noticias/"
 
 	return (
 		<div
@@ -68,8 +67,13 @@ export default function MuralPost(props: MuralPostProps) {
 						<span>Continue no QR Code</span>
 						<div className={styles.qrCode}>
 							<Canvas
-								text={linkUrl + props.post.slug}
-								logo={Logo}
+								text={process.env.NEXT_PUBLIC_URL + props.post.slug}
+								logo={{
+									src: Logo.src,
+									options: {
+										width: 40,
+									}
+								}}
 								options={{
 									level: "M",
 									margin: 3,

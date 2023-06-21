@@ -3,8 +3,9 @@
 	--padding-w: 3em;
 	--padding-h: 1em;
 	padding: var(--padding-h) var(--padding-w);
+	padding-top: calc(var(--padding-h) + 3em);
 	width: calc(100vw - 2 * var(--padding-w));
-	height: calc(100vh - 2 * var(--padding-h));
+	height: calc(100vh - 2 * var(--padding-h) - 3em);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
