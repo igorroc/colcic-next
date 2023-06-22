@@ -3,6 +3,7 @@
 :root {
 	--text-color: #232323;
 	--primary-color: #4561bd;
+	--primary-color-30: hsla(226, 48%, 51%, 0.3);
 	--primary-color-hover: #314ca5;
 	--secondary-color: #f0e63a;
 	--secondary-color-hover: #f0d400;
@@ -16,6 +17,7 @@
 	--box-shadow: 0 10px 10px 5px #23232310;
 
 	--max-width: 1100px;
+	--transition: all 0.2s ease-in-out;
 }
 
 * {
