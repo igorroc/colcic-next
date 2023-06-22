@@ -60,16 +60,19 @@ const entidades = [
 
 const redes = [
 	{
-		icon: BsDiscord,
+		icon: <BsDiscord />,
 		link: "https://discord.gg/7F2Q2tW",
+		label: "Discord",
 	},
 	{
-		icon: BsTelegram,
+		icon: <BsTelegram />,
 		link: "https://t.me/joinchat/AAAAAFJxjzY8Y0Y8Xy0X9Q",
+		label: "Telegram",
 	},
 	{
-		icon: BsInstagram,
+		icon: <BsInstagram />,
 		link: "https://www.instagram.com/colegiado_cc/",
+		label: "Instagram",
 	},
 ]
 
@@ -113,30 +116,17 @@ export default function Home() {
 							</span>
 						</div>
 						<div className={styles.list}>
-							<Link
-								className={styles.item}
-								href="https://discord.gg/Hk8a3UGaEm"
-								target="_blank"
-							>
-								<BsDiscord />
-								<p>Discord</p>
-							</Link>
-							<Link
-								className={styles.item}
-								href="https://t.me/+eXbZLjiXlyA0NDcx"
-								target="_blank"
-							>
-								<BsTelegram />
-								<p>Telegram</p>
-							</Link>
-							<Link
-								className={styles.item}
-								href="https://www.instagram.com/colcic_uesc/"
-								target="_blank"
-							>
-								<BsInstagram />
-								<p>Instagram</p>
-							</Link>
+							{redes.map((rede, index) => (
+								<Link
+									className={styles.item}
+									href={rede.link}
+									target="_blank"
+									key={index}
+								>
+									{rede.icon}
+									<p>{rede.label}</p>
+								</Link>
+							))}
 						</div>
 					</div>
 				</div>
