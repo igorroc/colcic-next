@@ -10,8 +10,8 @@ import dynamic from "next/dynamic"
 
 import styles from "./page.module.css"
 
-import { defaultPost } from "./default"
 import { Button } from "@/components/Button"
+import defaultBody from "@/utils/defaultPostBody"
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false })
 
@@ -59,7 +59,7 @@ export default function Editor() {
 	}
 
 	function setDefaultPost() {
-		setText(defaultPost)
+		setText(defaultBody)
 	}
 
 	return (
