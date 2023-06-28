@@ -84,4 +84,79 @@ export const postList: TPost[] = [
 		],
 		banner: PostBanner5G,
 	},
+	{
+		id: 4,
+		slug: "as-tendencias-em-inteligencia-artificial",
+		title: "As tendências em Inteligência Artificial",
+		body: defaultBody,
+		description:
+			"Nesta postagem, exploramos as principais tendências em Inteligência Artificial (IA). Discutimos como a IA está transformando diversas áreas, como saúde, finanças e transporte. Abordamos tópicos como aprendizado de máquina, redes neurais e algoritmos avançados. Além disso, destacamos o papel da ética na IA e as preocupações relacionadas à privacidade e segurança. Prepare-se para descobrir as últimas inovações e como a IA está moldando o futuro.",
+		author: {
+			id: 2,
+			name: "Laura Santos",
+			avatar: PostAuthorPicture1,
+		},
+		created_at: "2023-06-15T10:30:00.000Z",
+		categories: [
+			{
+				id: 3,
+				name: "Inteligência Artificial",
+			},
+			{
+				id: 4,
+				name: "Tendências",
+			},
+		],
+		banner: PostBanner5G,
+	},
+	{
+		id: 5,
+		slug: "realidade-aumentada-transformando-o-mundo",
+		body: defaultBody,
+		banner: PostBanner5G,
+		title: "Realidade Aumentada: Transformando o Mundo",
+		description:
+			"Nesta postagem, exploramos o impacto da Realidade Aumentada (RA) na sociedade. Apresentamos exemplos de como a RA está sendo usada em diferentes setores, como educação, entretenimento e comércio. Discutimos as tecnologias subjacentes, como rastreamento de movimento e reconhecimento de objetos, que tornam possível a experiência imersiva da RA. Além disso, refletimos sobre o potencial futuro da RA e como ela pode mudar nossa forma de interagir com o mundo.",
+		author: {
+			id: 3,
+			name: "Gabriel Silva",
+			avatar: PostAuthorPicture1,
+		},
+		created_at: "2023-06-20T14:45:00.000Z",
+		categories: [
+			{
+				id: 5,
+				name: "Realidade Aumentada",
+			},
+			{
+				id: 6,
+				name: "Transformação",
+			},
+		],
+	},
+	{
+		id: 6,
+		slug: "o-potencial-da-internet-das-coisas-iot",
+		title: "O Potencial da Internet das Coisas (IoT)",
+		body: defaultBody,
+		banner: PostBanner5G,
+		description:
+			"Nesta postagem, exploramos o potencial da Internet das Coisas (IoT) e como ela está transformando nossas vidas. Discutimos como os dispositivos conectados podem interagir entre si, coletar dados e fornecer insights úteis. Apresentamos exemplos práticos de aplicativos da IoT em áreas como casa inteligente, saúde e cidades inteligentes. Também abordamos as preocupações de segurança e privacidade associadas à IoT e como esses desafios podem ser enfrentados. Prepare-se para descobrir um mundo cada vez mais conectado e inteligente.",
+		author: {
+			id: 3,
+			name: "Gabriel Silva",
+			avatar: PostAuthorPicture2,
+		},
+		created_at: "2023-06-20T14:45:00.000Z",
+		categories: [
+			{
+				id: 7,
+				name: "Internet das Coisas",
+			},
+			{
+				id: 8,
+				name: "Transformação",
+			},
+		],
+	},
 ]
