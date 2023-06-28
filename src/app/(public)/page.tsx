@@ -15,20 +15,10 @@ import { redes, entidades } from "@/changeable/inicio"
 import { TPost } from "@/types/post"
 import { formatToDate } from "@/utils/formatToDate"
 import { FiArrowUpRight } from "react-icons/fi"
-
-async function getNewsData() {
-	const api_url = process.env.NEXT_PUBLIC_API_URL
-	const url = `${api_url}/posts/home`
-
-	const response = await fetch(url)
-
-	if (!response.ok) throw new Error(response.statusText)
-
-	return response.json()
-}
+import { getHomePosts } from "@/hooks/posts"
 
 export default async function Home() {
-	const posts = await getNewsData()
+	const posts = getHomePosts()
 
 	return (
 		<main>

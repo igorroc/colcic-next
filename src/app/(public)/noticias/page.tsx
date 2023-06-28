@@ -8,14 +8,10 @@ import { TPost } from "@/types/post"
 import { formatToDate } from "@/utils/formatToDate"
 
 import styles from "./noticias.module.css"
+import { getPosts } from "@/hooks/posts"
 
 export default async function Noticias() {
-	const api_url = process.env.NEXT_PUBLIC_API_URL
-	const url = `${api_url}/posts`
-
-	const response = await fetch(url)
-	const posts = await response.json()
-
+	const posts = getPosts()
 	const mainPost: TPost = posts[0]
 
 	return (

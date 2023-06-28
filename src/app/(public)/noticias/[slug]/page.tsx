@@ -14,6 +14,7 @@ import SharableLinks from "@/components/SharableLinks"
 import { Button } from "@/components/Button"
 
 import { TCategory } from "@/types/post"
+import { getPostBySlug } from "@/hooks/posts"
 
 interface PostPageType {
 	params: {
@@ -24,10 +25,7 @@ interface PostPageType {
 export const revalidate = 30
 
 export default async function Post({ params }: PostPageType) {
-	const api_url = process.env.NEXT_PUBLIC_API_URL
-	const url = `${api_url}/post/${params.slug}`
-
-	const response = await fetch(url)
+	const response = getPostBySlug(params.slug)
 
 	if (response.status != 200) {
 		return (
@@ -54,7 +52,7 @@ export default async function Post({ params }: PostPageType) {
 		)
 	}
 
-	const post = await response.json()
+	const post = response.post
 
 	return (
 		<div className={styles.mainContainer}>
