@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { MdArrowDownward, MdKeyboardArrowRight } from "react-icons/md"
-import { BsDiscord, BsTelegram, BsInstagram } from "react-icons/bs"
 
 import styles from "./page.module.css"
 import { Button } from "@/components/Button"
@@ -10,71 +9,9 @@ import { Button } from "@/components/Button"
 import MainImage from "/public/main_home.png"
 import ImageMissao from "/public/lamp.png"
 
-import Tecno from "/public/entidades/tecno.png"
-import CACIC from "/public/entidades/cacic.png"
-import NIT from "/public/entidades/nit.png"
-import CCAM from "/public/entidades/ccam.png"
-import PPGMC from "/public/entidades/ppgmc.png"
-import SBC from "/public/entidades/sbc.png"
-
 import SlideShowAcademicos from "@/components/SlideShowAcademicos"
 
-const entidades = [
-	{
-		image: CCAM,
-		title: "CCAM",
-		description: "Núcleo de Inovação Tecnológica",
-		link: "https://nit.uesc.br",
-	},
-	{
-		image: Tecno,
-		title: "TecnoJr",
-		description: "Associação Empresa Júnior de Computação",
-		link: "https://tecnojr.com.br",
-	},
-	{
-		image: PPGMC,
-		title: "PPGMC",
-		description: "Programa de Pós-Graduação em Modelagem Computacional",
-		link: "http://nbcgib.uesc.br/ppgmc/",
-	},
-	{
-		image: CACIC,
-		title: "CACIC",
-		description: "Centro Acadêmico de Ciência da Computação",
-		link: "https://www.instagram.com/cacicuesc/",
-	},
-	{
-		image: NIT,
-		title: "NIT",
-		description: "Núcleo de Inovação e Tecnologia",
-		link: "http://www.uesc.br/nucleos/nit/",
-	},
-	{
-		image: SBC,
-		title: "SBC",
-		description: "Sociedade Brasileira de Computação",
-		link: "https://sbc.org.br",
-	},
-]
-
-const redes = [
-	{
-		icon: <BsDiscord />,
-		link: "https://discord.gg/7F2Q2tW",
-		label: "Discord",
-	},
-	{
-		icon: <BsTelegram />,
-		link: "https://t.me/joinchat/AAAAAFJxjzY8Y0Y8Xy0X9Q",
-		label: "Telegram",
-	},
-	{
-		icon: <BsInstagram />,
-		link: "https://www.instagram.com/colegiado_cc/",
-		label: "Instagram",
-	},
-]
+import { redes, entidades } from "@/changeable/inicio"
 
 export default function Home() {
 	return (
