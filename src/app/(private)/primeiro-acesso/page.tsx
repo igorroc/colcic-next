@@ -1,9 +1,10 @@
 import styles from "./primeiroAcessoPage.module.css"
 
 import Image from "next/image"
-import PrimeiroAcessoJpg from "/public/primeiroacesso.jpg" // Caminho corrigido para 'login.jpg'
-import LogoColcic from "/public/logo.png" // Caminho corrigido para 'login.jpg'
+import PrimeiroAcessoJpg from "/public/primeiroacesso.jpg"
+import LogoColcic from "/public/logo.png"
 import PrimeiroAcessoForm from "@/components/PrimeiroAcessoForm"
+import Link from "next/link"
 
 export const metadata = {
 	title: "Primeiro Acesso",
@@ -22,11 +23,13 @@ export default function Login() {
 						/>
 
 						<div className={styles.mainContent}>
-							<Image
-								className={styles.logo}
-								src={LogoColcic}
-								alt="Logo do Colegiado de Ciência da Computação da UESC"
-							/>
+							<Link href={"/"}>
+								<Image
+									className={styles.logo}
+									src={LogoColcic}
+									alt="Logo do Colegiado de Ciência da Computação da UESC"
+								/>
+							</Link>
 							<h1>Primeiro Acesso</h1>
 
 							<PrimeiroAcessoForm />

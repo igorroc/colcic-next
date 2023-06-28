@@ -1,9 +1,12 @@
-import styles from "./loginPage.module.css"
-
 import Image from "next/image"
+import Link from "next/link"
+
 import LoginForm from "@/components/LoginForm"
-import LoginJpg from "/public/login.jpg" // Caminho corrigido para 'login.jpg'
-import LogoColcic from "/public/logo.png" // Caminho corrigido para 'login.jpg'
+
+import LoginJpg from "/public/login.jpg"
+import LogoColcic from "/public/logo.png"
+
+import styles from "./loginPage.module.css"
 
 export const metadata = {
 	title: "Login",
@@ -18,11 +21,13 @@ export default function Login() {
 						<Image className={styles.image} src={LoginJpg} alt={"Login"} />
 
 						<div className={styles.mainContent}>
-							<Image
-								className={styles.logo}
-								src={LogoColcic}
-								alt="Logo do Colegiado de Ciência da Computação da UESC"
-							/>
+							<Link href={"/"}>
+								<Image
+									className={styles.logo}
+									src={LogoColcic}
+									alt="Logo do Colegiado de Ciência da Computação da UESC"
+								/>
+							</Link>
 							<h1>Login</h1>
 
 							<LoginForm />
