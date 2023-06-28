@@ -1,4 +1,7 @@
-import { BsDiscord, BsInstagram, BsTelegram } from "react-icons/bs"
+import { BsDiscord, BsTelegram } from "react-icons/bs"
+import { AiFillInstagram } from "react-icons/ai"
+import { MdCalendarMonth, MdLibraryBooks } from "react-icons/md"
+import { TbLetterS } from "react-icons/tb"
 
 import Tecno from "/public/entidades/tecno.png"
 import CACIC from "/public/entidades/cacic.png"
@@ -6,8 +9,7 @@ import NIT from "/public/entidades/nit.png"
 import CCAM from "/public/entidades/ccam.png"
 import PPGMC from "/public/entidades/ppgmc.png"
 import SBC from "/public/entidades/sbc.png"
-import { MdCalendarMonth, MdLibraryBooks } from "react-icons/md"
-import { TbLetterS } from "react-icons/tb"
+
 
 export const entidades = [
 	{
@@ -60,7 +62,7 @@ export const redes = [
 		label: "Telegram",
 	},
 	{
-		icon: <BsInstagram />,
+		icon: <AiFillInstagram />,
 		link: "https://www.instagram.com/colegiado_cc/",
 		label: "Instagram",
 	},
