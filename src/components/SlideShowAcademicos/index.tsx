@@ -17,7 +17,19 @@ export default function SlideShowAcademicos() {
 						key={index}
 					>
 						<span className={styles.icon}>{item.icon ? item.icon : "📚"}</span>
-						<p>{item.title ? item.title : "Título"}</p>
+						{item.title ? (
+							<p>
+								{item.title}
+								<br />
+								{item.description ? (
+									<span className={styles.comment}>{item.description}</span>
+								) : (
+									""
+								)}
+							</p>
+						) : (
+							""
+						)}
 					</Link>
 				))}
 			</div>
