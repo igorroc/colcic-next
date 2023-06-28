@@ -8,17 +8,13 @@ import MuralTimer from "@/components/MuralTimer"
 
 import styles from "./mural.module.css"
 import Logo from "/public/logo_large.svg"
-import { TPost } from "@/types/post"
+import { getPosts } from "@/hooks/posts"
 
-export default async function Mural() {
-	const api_url = process.env.NEXT_PUBLIC_API_URL
-	const url = `${api_url}/posts`
-
-	const response = await fetch(url)
-	const posts = await response.json()
+export default function Mural() {
+	const posts = getPosts()
 
 	// const delay = Number(searchParams.get("delay")) || 10000
-	const delay = 10000
+	const delay = 5000
 
 	return (
 		<main className={styles.main}>
@@ -26,7 +22,7 @@ export default async function Mural() {
 				<Image src={Logo} alt="Logo do colegiado" />
 			</div>
 			{(!posts || posts.length === 0) && <p>Carregando...</p>}
-			
+
 			{posts && posts.length > 0 && (
 				<>
 					<MuralPostList posts={posts} delay={delay} />
