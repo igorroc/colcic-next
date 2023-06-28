@@ -4,7 +4,10 @@ import { Montserrat } from "next/font/google"
 const montserrat = Montserrat({ subsets: ["latin"] })
 
 export const metadata = {
-	title: "Colegiado de Computação",
+	title: {
+		default: "Colegiado de Computação",
+		template: "%s | COLCIC",
+	},
 	description:
 		"O Colegiado de Curso de Ciência da Computação é órgão da administração setorial de deliberação coletiva, supervisão e coordenação didático-pedagógica do curso Ciência da Computação e integra a estrutura da Universidade Estadual de Santa Cruz.",
 	keywords:
