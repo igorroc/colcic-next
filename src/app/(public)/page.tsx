@@ -12,8 +12,24 @@ import ImageMissao from "/public/lamp.png"
 import SlideShowAcademicos from "@/components/SlideShowAcademicos"
 
 import { redes, entidades } from "@/changeable/inicio"
+import { TPost } from "@/types/post"
+import { formatToDate } from "@/utils/formatToDate"
+import { FiArrowUpRight } from "react-icons/fi"
 
-export default function Home() {
+async function getNewsData() {
+	const api_url = process.env.NEXT_PUBLIC_API_URL
+	const url = `${api_url}/posts/home`
+
+	const response = await fetch(url)
+
+	if (!response.ok) throw new Error(response.statusText)
+
+	return response.json()
+}
+
+export default async function Home() {
+	const posts = await getNewsData()
+
 	return (
 		<main>
 			<section className="section">
@@ -68,7 +84,59 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
-			<section data-variant className="section">
+			<section data-variant className={"section"}>
+				<div className={"MaxWidthWrapper"}>
+					<h1>Notícias importantes</h1>
+					{posts && (
+						<div className={styles.noticias}>
+							{posts.map((post: TPost, index: number) => (
+								<div key={index} className={styles.card}>
+									<div className={styles.postInfo}>
+										<div className={styles.postAuthorImage}>
+											<Image
+												src={post.author.avatar}
+												alt={post.author.name}
+											/>
+										</div>
+										<div className={styles.postAuthorInfo}>
+											<span className={styles.postAuthorName}>
+												{post.author.name}
+											</span>
+											<span className={styles.postDate}>
+												{formatToDate(post.created_at)}
+											</span>
+										</div>
+									</div>
+									<Link
+										href={`/noticias/${post.slug}`}
+										className={styles.postImage}
+									>
+										<Image src={post.banner} alt={post.title} />
+										<div className={styles.arrowLink}>
+											<FiArrowUpRight size={28} />
+										</div>
+									</Link>
+									<div className={styles.postContent}>
+										<Link
+											className={styles.postTitle}
+											href={`/noticias/${post.slug}`}
+										>
+											{post.title}
+										</Link>
+										<p className={styles.postDescription}>{post.description}</p>
+										<Button
+											label="Ler mais"
+											type="secondary"
+											href={`/noticias/${post.slug}`}
+										/>
+									</div>
+								</div>
+							))}
+						</div>
+					)}
+				</div>
+			</section>
+			<section className="section">
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.entidades}>
 						<h1>Instituições e unidades parceiras</h1>
@@ -91,7 +159,7 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
-			<section className="section">
+			<section data-variant className="section">
 				<div className={"MaxWidthWrapper"}>
 					<div className={styles.academicos}>
 						<h1>Acadêmicos</h1>
