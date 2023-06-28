@@ -12,29 +12,24 @@ export const metadata = {
 
 export default function Login() {
 	return (
-		<main>
-			<div className={styles.background}>
-				<div className={styles.container}>
-					<div className={styles.tela}>
+		<main className={styles.main}>
+			<div className={styles.tela}>
+				<div className={styles.mainImage}>
+					<Image
+						src={PrimeiroAcessoJpg}
+						alt={"Primeiro Acesso"}
+					/>
+				</div>
+				<div className={styles.mainContent}>
+					<Link href={"/"} className={styles.logo}>
 						<Image
-							className={styles.image}
-							src={PrimeiroAcessoJpg}
-							alt={"Primeiro Acesso"}
+							src={LogoColcic}
+							alt="Logo do Colegiado de Ciência da Computação da UESC"
 						/>
+					</Link>
+					<h1>Primeiro Acesso</h1>
 
-						<div className={styles.mainContent}>
-							<Link href={"/"}>
-								<Image
-									className={styles.logo}
-									src={LogoColcic}
-									alt="Logo do Colegiado de Ciência da Computação da UESC"
-								/>
-							</Link>
-							<h1>Primeiro Acesso</h1>
-
-							<PrimeiroAcessoForm />
-						</div>
-					</div>
+					<PrimeiroAcessoForm />
 				</div>
 			</div>
 		</main>

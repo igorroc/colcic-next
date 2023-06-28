@@ -14,25 +14,22 @@ export const metadata = {
 
 export default function Login() {
 	return (
-		<main>
-			<div className={styles.background}>
-				<div className={styles.container}>
-					<div className={styles.tela}>
-						<Image className={styles.image} src={LoginJpg} alt={"Login"} />
+		<main className={styles.main}>
+			<div className={styles.tela}>
+				<div className={styles.mainImage}>
+					<Image src={LoginJpg} alt={"Login"} />
+				</div>
 
-						<div className={styles.mainContent}>
-							<Link href={"/"}>
-								<Image
-									className={styles.logo}
-									src={LogoColcic}
-									alt="Logo do Colegiado de Ciência da Computação da UESC"
-								/>
-							</Link>
-							<h1>Login</h1>
+				<div className={styles.mainContent}>
+					<Link href={"/"} className={styles.logo}>
+						<Image
+							src={LogoColcic}
+							alt="Logo do Colegiado de Ciência da Computação da UESC"
+						/>
+					</Link>
+					<h1>Login</h1>
 
-							<LoginForm />
-						</div>
-					</div>
+					<LoginForm />
 				</div>
 			</div>
 		</main>
