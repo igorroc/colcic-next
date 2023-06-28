@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<div className={styles.customBody}>
 			<SideBar />
-			<main>{children}</main>
+			<main className={styles.main}>{children}</main>
 		</div>
 	)
 }

@@ -48,22 +48,22 @@ export default function SideBar() {
 
 	const user = getUser()
 
-	console.log(pathname)
-    
 	return (
 		<aside className={styles.side}>
 			<div className={styles.actions}>
-				{sideNavList.map((item, index) => (
-					<Link
-						href={item.href}
-						className={styles.button}
-						title={item.title}
-						key={index}
-						data-active={pathname == item.href}
-					>
-						{item.icon}
-					</Link>
-				))}
+				{sideNavList.map((item, index) =>
+					item.isAdmin && !user.isAdmin ? null : (
+						<Link
+							href={item.href}
+							className={styles.button}
+							title={item.title}
+							key={index}
+							data-active={pathname == item.href}
+						>
+							{item.icon}
+						</Link>
+					)
+				)}
 			</div>
 			<div className={styles.actions}>
 				<div className={styles.userPhoto} title={user.name}>
