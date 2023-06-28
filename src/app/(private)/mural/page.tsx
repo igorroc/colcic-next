@@ -14,7 +14,7 @@ export default function Mural() {
 	const posts = getPosts()
 
 	// const delay = Number(searchParams.get("delay")) || 10000
-	const delay = 5000
+	const delay = 20000
 
 	return (
 		<main className={styles.main}>
@@ -28,7 +28,7 @@ export default function Mural() {
 					<MuralPostList posts={posts} delay={delay} />
 					<div className={styles.options}>
 						<MuralTimeLine posts={posts} delay={delay} />
-						<MuralTimer delay={delay} />
+						{/* <MuralTimer delay={delay} /> */}
 					</div>
 				</>
 			)}

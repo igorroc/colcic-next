@@ -16,8 +16,8 @@ export default function MuralTimeLine(props: MuralTimeLineProps) {
 		const interval = setInterval(() => {
 			setActiveItem((prevCount) => (prevCount + 1) % props.posts.length)
 		}, props.delay)
-		return () => clearInterval(interval)
 
+		return () => clearInterval(interval)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
@@ -31,6 +31,7 @@ export default function MuralTimeLine(props: MuralTimeLineProps) {
 							activeItem == index ? styles.active : "",
 						].join(" ")}
 						key={index}
+						style={{ "--delay": `${props.delay}ms` } as React.CSSProperties}
 					>
 						<p>{item.title}</p>
 					</div>
