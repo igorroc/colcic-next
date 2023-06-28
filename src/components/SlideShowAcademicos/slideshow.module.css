@@ -57,7 +57,11 @@
 	transition: all 200ms ease-out;
 }
 
-.slideShow .slide:hover {
+.slideShow .slide > *{
+	transition: all 200ms ease-out;
+}
+
+.slideShow .slide:hover > *{
 	transform: scale(1.1);
 }
 
