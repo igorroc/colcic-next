@@ -62,6 +62,7 @@ body {
 		var(--variant-background-color),
 		var(--variant-background-color-2)
 	);
+	color: #fff;
 }
 
 ::-moz-selection {

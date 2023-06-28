@@ -52,6 +52,7 @@
 	justify-content: center;
 	margin: 0 auto;
 	filter: drop-shadow(0 0 0.75rem #0003);
+	color: #000;
 }
 
 .redesSociais .title {
@@ -127,7 +128,7 @@
 
 .entidades h1,
 .entidades p {
-	color: #fff;
+	color: #000;
 }
 
 .entidades .cardList {
