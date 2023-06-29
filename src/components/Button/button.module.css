@@ -35,7 +35,7 @@
 	display: block;
 	background: var(--secondary-color);
 	width: max-content;
-	color: #000;
+	color: var(--text-color);
 	font-size: 1.2em;
 	font-weight: bold;
 	padding: 0.5em 1em;
@@ -47,6 +47,7 @@
 
 .secondary:hover {
 	background: var(--secondary-color-hover);
+	color: var(--text-color);
 }
 
 .secondary:disabled {
