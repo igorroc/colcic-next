@@ -1,4 +1,4 @@
-import { setUserToken } from "@/utils/handleUserToken"
+import { useUserToken } from "@/utils/handleUserToken"
 import { users } from "./userList"
 
 export function getCurrentUser(userToken: string) {
@@ -13,7 +13,6 @@ export function handleUserLogin(username: string, password: string) {
 	const user = users.filter((user) => user.username === username && user.password === password)[0]
 
 	if (user) {
-		setUserToken(user.token)
 		return user
 	}
 

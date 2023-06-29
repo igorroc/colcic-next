@@ -3,16 +3,12 @@
 import { getCurrentUser } from "@/hooks/users"
 import React from "react"
 import { redirect } from "next/navigation"
-import { getUserToken } from "@/utils/handleUserToken"
+import { useUserToken } from "@/utils/handleUserToken"
 
 export default function Users() {
-	const userToken = getUserToken()
+	const { token } = useUserToken()
 
-	if (!userToken) {
-		redirect("/login")
-	}
-
-	const user = getCurrentUser(userToken)
+	const user = getCurrentUser(token)
 
 	if (!user.isAdmin) {
 		redirect("/dashboard")

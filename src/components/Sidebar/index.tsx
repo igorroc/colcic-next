@@ -1,13 +1,14 @@
 "use client"
 
-import { getUserToken } from "@/utils/handleUserToken"
-import { getCurrentUser } from "@/hooks/users"
+import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { redirect, usePathname } from "next/navigation"
-import React from "react"
-import { AiFillClockCircle } from "react-icons/ai"
 
+import { useUserToken } from "@/utils/handleUserToken"
+import { getCurrentUser } from "@/hooks/users"
+
+import { AiFillClockCircle } from "react-icons/ai"
 import { FaCog, FaNewspaper, FaUserFriends } from "react-icons/fa"
 import { MdDashboard, MdLogout } from "react-icons/md"
 
@@ -54,13 +55,13 @@ const sideNavListSecondary = [
 export default function SideBar() {
 	const pathname = usePathname()
 
-	const userToken = getUserToken()
+	const { token } = useUserToken()
 
-	if (!userToken) {
+	if (!token) {
 		redirect("/login")
 	}
 
-	const user = getCurrentUser(userToken)
+	const user = getCurrentUser(token)
 
 	return (
 		<aside className={styles.side}>

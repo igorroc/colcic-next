@@ -10,17 +10,24 @@ import { handleUserLogin } from "@/hooks/users"
 import styles from "./login-form.module.css"
 
 import { Button } from "../Button"
+import { useUserToken } from "@/utils/handleUserToken"
 
 export default function LoginForm() {
 	const [userName, setUserName] = React.useState("")
 	const [password, setPassword] = React.useState("")
 	const router = useRouter()
+	const { setUserToken, token } = useUserToken()
+
+	if (token) {
+		router.push("/dashboard")
+	}
 
 	function handleLogin(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const userIsLogged = handleUserLogin(userName, password)
 
 		if (userIsLogged) {
+			setUserToken(userIsLogged.token)
 			router.push("/dashboard")
 		} else {
 			alert("Usuário ou senha incorretos")

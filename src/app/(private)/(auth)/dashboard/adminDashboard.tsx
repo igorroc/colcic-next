@@ -1,18 +1,14 @@
 import { getPostsWaitingForApproval } from "@/hooks/posts"
 import { getCurrentUser } from "@/hooks/users"
-import { getUserToken } from "@/utils/handleUserToken"
+import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import React from "react"
 
 export default function AdminDashboard() {
-	const userToken = getUserToken()
+	const { token } = useUserToken()
 
-	if (!userToken) {
-		redirect("/login")
-	}
-
-	const user = getCurrentUser(userToken)
+	const user = getCurrentUser(token)
 	const postsWaitingForApproval = getPostsWaitingForApproval()
 
 	return (

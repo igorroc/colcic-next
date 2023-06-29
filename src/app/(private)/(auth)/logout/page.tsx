@@ -1,11 +1,12 @@
 "use client"
 
-import { getCurrentUser } from "@/hooks/users"
-import { getUserToken, removeUserToken } from "@/utils/handleUserToken"
+import { useUserToken } from "@/utils/handleUserToken"
 import { redirect } from "next/navigation"
 import React from "react"
 
 export default function Logout() {
+	const { removeUserToken } = useUserToken()
+
 	removeUserToken()
 
 	redirect("/login")
