@@ -8,7 +8,7 @@ import { redirect, usePathname } from "next/navigation"
 import { useUserToken } from "@/utils/handleUserToken"
 import { getCurrentUser } from "@/hooks/users"
 
-import { AiFillClockCircle } from "react-icons/ai"
+import { AiFillClockCircle, AiFillHome } from "react-icons/ai"
 import { FaCog, FaNewspaper, FaUserFriends } from "react-icons/fa"
 import { MdDashboard, MdLogout } from "react-icons/md"
 
@@ -44,6 +44,11 @@ const sideNavListSecondary = [
 		title: "Configurações",
 		href: "/settings",
 		icon: <FaCog />,
+	},
+	{
+		title: "Página inicial",
+		href: "/",
+		icon: <AiFillHome />,
 	},
 	{
 		title: "Sair",
