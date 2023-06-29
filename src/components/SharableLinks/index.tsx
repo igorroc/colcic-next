@@ -9,7 +9,6 @@ import styles from "./sharableLinks.module.css"
 
 export default function SharableLinks() {
 	function copy(type: string) {
-		console.log(type)
 		const url = window.location.href
 		switch (type) {
 			case "link":

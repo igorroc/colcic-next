@@ -16,7 +16,6 @@ export default function LikeButton(props: LikeButtonProps) {
 
 	async function handleLike() {
 		likeCurrentPost(props.post.slug)
-		console.log(likedPosts)
 	}
 
 	return (
