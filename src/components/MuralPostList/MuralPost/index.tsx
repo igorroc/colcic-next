@@ -3,12 +3,11 @@ import React from "react"
 
 import styles from "./muralPost.module.css"
 
-import { TCategory, TPost, TPostWithAuthor } from "@/types/post"
+import { TCategory, TPostWithAuthor } from "@/types/post"
 import { formatToDate } from "@/utils/formatToDate"
 
-import Logo from "/public/favicon_bg.png"
-import { useQRCode } from "next-qrcode"
 import Link from "next/link"
+import QRCode from "@/components/QRCode"
 
 type MuralPostProps = {
 	post: TPostWithAuthor
@@ -17,8 +16,6 @@ type MuralPostProps = {
 }
 
 export default function MuralPost(props: MuralPostProps) {
-	const { Canvas } = useQRCode()
-
 	return (
 		<div
 			className={styles.post}
@@ -64,27 +61,9 @@ export default function MuralPost(props: MuralPostProps) {
 					</div>
 					<div className={styles.continue}>
 						<span>Continue no QR Code</span>
-						<div className={styles.qrCode}>
-							<Canvas
-								text={process.env.NEXT_PUBLIC_URL + props.post.slug}
-								logo={{
-									src: Logo.src,
-									options: {
-										width: 40,
-									},
-								}}
-								options={{
-									level: "M",
-									margin: 3,
-									scale: 4,
-									width: 200,
-									color: {
-										dark: "#000",
-										light: "#fff",
-									},
-								}}
-							/>
-						</div>
+						<QRCode
+							text={process.env.NEXT_PUBLIC_URL + `/noticias/${props.post.slug}`}
+						/>
 					</div>
 				</div>
 			</div>

@@ -140,17 +140,3 @@
 	flex-direction: column;
 	gap: 0.5em;
 }
-
-.qrCode {
-	--size: 15em;
-	width: var(--size);
-	height: var(--size);
-	border-radius: 1em;
-	overflow: hidden;
-}
-
-.qrCode canvas {
-	width: 100% !important;
-	height: 100% !important;
-	object-fit: cover;
-}
