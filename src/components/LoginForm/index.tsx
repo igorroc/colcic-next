@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect } from "react"
 import TextField from "@mui/material/TextField"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -18,9 +18,11 @@ export default function LoginForm() {
 	const router = useRouter()
 	const { setUserToken, token } = useUserToken()
 
-	if (token) {
-		router.push("/dashboard")
-	}
+	useEffect(() => {
+		if (token) {
+			router.push("/dashboard")
+		}
+	}, [token, router])
 
 	function handleLogin(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
