@@ -85,6 +85,33 @@
 	animation: var(--skeleton-animation);
 }
 
+.skeleton .postBanner {
+	height: 300px;
+}
+
+.skeleton .sideHeaderContainer {
+	gap: 1rem;
+}
+
+.skeleton .socialMediaIconsContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+}
+
+.skeleton .iconContainer {
+	--size: 2em;
+	display: block;
+	width: var(--size);
+	height: var(--size);
+	opacity: var(--opacity);
+	background: linear-gradient(to right, var(--color-1), var(--color-2), var(--color-1));
+	background-size: 200%;
+	border-radius: 50%;
+	animation: var(--skeleton-animation);
+}
+
 @keyframes skeletonLoading {
 	0% {
 		background-position: -100%;
@@ -198,6 +225,7 @@
 
 .bodyText {
 	margin-top: 3em;
+	width: 100%;
 }
 
 /* RESPONSIVE MEDIA QUERIES */

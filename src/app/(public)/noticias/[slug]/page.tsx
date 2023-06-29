@@ -91,18 +91,9 @@ export default async function Post({ params }: PostPageType) {
 								</div>
 							</div>
 							<div className={styles.socialMediaIconsContainer}>
-								<div className={styles.iconContainer}>
-									<FiLink2 size={22} />
-								</div>
-								<div className={styles.iconContainer}>
-									<AiOutlineWhatsApp size={24} />
-								</div>
-								<div className={styles.iconContainer}>
-									<FaLinkedinIn size={24} />
-								</div>
-								<div className={styles.iconContainer}>
-									<AiOutlineTwitter size={24} />
-								</div>
+								{[...Array(4)].map((_, index) => (
+									<div className={styles.iconContainer} key={index}></div>
+								))}
 							</div>
 							<div className={styles.likeContainer}>
 								<AiOutlineHeart />

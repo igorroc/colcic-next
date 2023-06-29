@@ -1,0 +1,27 @@
+.skeletonText {
+	--color-1: #99a1ac;
+	--color-2: #cad0d7;
+	--opacity: 0.5;
+	--skeleton-animation: skeletonLoading 3s var(--delay) ease-in-out infinite;
+
+	display: block;
+	min-width: 5em;
+	width: var(--width);
+	height: 1rem;
+	margin: 0.5rem 0;
+	background: linear-gradient(to right, var(--color-1), var(--color-2), var(--color-1));
+	background-size: 200%;
+	border-radius: 5px;
+	opacity: var(--opacity);
+	animation: var(--skeleton-animation);
+}
+
+@keyframes skeletonLoading {
+	0% {
+		background-position: -100%;
+	}
+
+	100% {
+		background-position: 100%;
+	}
+}
