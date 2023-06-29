@@ -1,18 +1,14 @@
 "use client"
 
 import { getCurrentUser } from "@/hooks/users"
-import { getToken } from "@/utils/handleToken"
+import { getUserToken, removeUserToken } from "@/utils/handleUserToken"
 import { redirect } from "next/navigation"
 import React from "react"
 
 export default function Logout() {
-	const userToken = getToken()
+	removeUserToken()
 
-	if (!userToken) {
-		redirect("/login")
-	}
-
-	const user = getCurrentUser(userToken)
+	redirect("/login")
 
 	return (
 		<div>

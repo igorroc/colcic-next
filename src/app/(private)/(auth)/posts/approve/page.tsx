@@ -5,10 +5,10 @@ import React from "react"
 import { redirect } from "next/navigation"
 import { getPostsWaitingForApproval } from "@/hooks/posts"
 import Image from "next/image"
-import { getToken } from "@/utils/handleToken"
+import { getUserToken } from "@/utils/handleUserToken"
 
 export default function Users() {
-	const userToken = getToken()
+	const userToken = getUserToken()
 
 	if (!userToken) {
 		redirect("/login")

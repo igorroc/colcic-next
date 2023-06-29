@@ -1,10 +1,10 @@
-import { getToken } from "@/utils/handleToken"
+import { getUserToken } from "@/utils/handleUserToken"
 import { getCurrentUser } from "@/hooks/users"
 import { redirect } from "next/navigation"
 import React from "react"
 
 export default function Settings() {
-	const userToken = getToken()
+	const userToken = getUserToken()
 
 	if (!userToken) {
 		redirect("/login")

@@ -1,6 +1,6 @@
 "use client"
 
-import { getToken } from "@/utils/handleToken"
+import { getUserToken } from "@/utils/handleUserToken"
 import { getCurrentUser } from "@/hooks/users"
 import Image from "next/image"
 import Link from "next/link"
@@ -54,7 +54,7 @@ const sideNavListSecondary = [
 export default function SideBar() {
 	const pathname = usePathname()
 
-	const userToken = getToken()
+	const userToken = getUserToken()
 
 	if (!userToken) {
 		redirect("/login")

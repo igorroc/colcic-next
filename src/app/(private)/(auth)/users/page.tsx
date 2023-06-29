@@ -3,10 +3,10 @@
 import { getCurrentUser } from "@/hooks/users"
 import React from "react"
 import { redirect } from "next/navigation"
-import { getToken } from "@/utils/handleToken"
+import { getUserToken } from "@/utils/handleUserToken"
 
 export default function Users() {
-	const userToken = getToken()
+	const userToken = getUserToken()
 
 	if (!userToken) {
 		redirect("/login")

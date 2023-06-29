@@ -1,14 +1,14 @@
 "use client"
 
 import { getCurrentUser } from "@/hooks/users"
-import { getToken } from "@/utils/handleToken"
+import { getUserToken } from "@/utils/handleUserToken"
 import { redirect } from "next/navigation"
 import React from "react"
 import AdminDashboard from "./adminDashboard"
 import UserDashboard from "./userDashboard"
 
 export default function Dashboard() {
-	const userToken = getToken()
+	const userToken = getUserToken()
 
 	if (!userToken) {
 		redirect("/login")

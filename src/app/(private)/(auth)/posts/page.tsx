@@ -1,6 +1,6 @@
 "use client"
 
-import { getToken } from "@/utils/handleToken"
+import { getUserToken } from "@/utils/handleUserToken"
 import { getPostsByUser } from "@/hooks/posts"
 import { getCurrentUser } from "@/hooks/users"
 import Link from "next/link"
@@ -8,7 +8,7 @@ import { redirect } from "next/navigation"
 import React from "react"
 
 export default function Posts() {
-	const userToken = getToken()
+	const userToken = getUserToken()
 
 	if (!userToken) {
 		redirect("/login")

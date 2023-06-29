@@ -1,9 +1,13 @@
 import { LOCAL_STORAGE_KEY } from "@/constants/storage"
 
-export function getToken() {
+export function getUserToken() {
 	return localStorage.getItem(`${LOCAL_STORAGE_KEY}user-token`)
 }
 
-export function setToken(token: string) {
+export function setUserToken(token: string) {
 	return localStorage.setItem(`${LOCAL_STORAGE_KEY}user-token`, token)
+}
+
+export function removeUserToken() {
+	return localStorage.removeItem(`${LOCAL_STORAGE_KEY}user-token`)
 }
