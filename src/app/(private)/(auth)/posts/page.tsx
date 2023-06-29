@@ -1,3 +1,5 @@
+"use client"
+
 import { LOCAL_STORAGE_KEY } from "@/constants/storage"
 import { getPostsByUser } from "@/hooks/posts"
 import { getCurrentUser } from "@/hooks/users"
