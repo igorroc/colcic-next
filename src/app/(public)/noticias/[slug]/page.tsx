@@ -1,8 +1,6 @@
 import React from "react"
 import Image from "next/image"
-import { FiLink2 } from "react-icons/fi"
-import { FaLinkedinIn } from "react-icons/fa"
-import { AiOutlineWhatsApp, AiOutlineTwitter, AiOutlineHeart } from "react-icons/ai"
+import { AiOutlineHeart } from "react-icons/ai"
 
 import img404 from "/public/404.png"
 import styles from "./page.module.css"
@@ -15,6 +13,7 @@ import { Button } from "@/components/Button"
 
 import { TCategory } from "@/types/post"
 import { getPostBySlug } from "@/hooks/posts"
+import LikeButton from "@/components/LikeButton"
 
 interface PostPageType {
 	params: {
@@ -143,10 +142,7 @@ export default async function Post({ params }: PostPageType) {
 								</div>
 							</div>
 							<SharableLinks />
-							<div className={styles.likeContainer}>
-								<AiOutlineHeart />
-								Curtir
-							</div>
+							<LikeButton post={post} />
 						</div>
 					</div>
 					<div className={styles.postBanner}>

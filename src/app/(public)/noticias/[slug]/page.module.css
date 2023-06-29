@@ -189,24 +189,6 @@
 	align-items: flex-start;
 }
 
-.likeContainer {
-	display: flex;
-	margin-top: 0.6rem;
-	padding: 0.3rem 0.5rem;
-	color: var(--primary-color);
-	background-color: rgba(255, 255, 255, 0.3);
-	border-radius: 8px;
-	gap: 0.2rem;
-	align-items: center;
-	cursor: pointer;
-	transition: all 0.3s ease-in-out;
-}
-
-.likeContainer:hover {
-	background-color: rgba(255, 255, 255, 0.5);
-	color: var(--cancel-color);
-}
-
 .postBanner {
 	max-width: calc(var(--max-width) - 80px);
 	width: 90%;
