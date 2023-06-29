@@ -1,4 +1,4 @@
-import { getPostsByUser } from "@/hooks/posts"
+import { getPostsByUser, getPostsWaitingForApprovalFromUser } from "@/hooks/posts"
 import { getCurrentUser } from "@/hooks/users"
 import Link from "next/link"
 import React from "react"
@@ -6,7 +6,7 @@ import React from "react"
 export default function UserDashboard() {
 	const user = getCurrentUser()
 	const posts = getPostsByUser(user.id)
-	const postsEmAguardo = posts
+	const postsEmAguardo = getPostsWaitingForApprovalFromUser(user.id)
 
 	return (
 		<div>
@@ -36,7 +36,7 @@ export default function UserDashboard() {
 				<>
 					<p>
 						Atualmente você tem{" "}
-						{posts.length == 1 ? `1 publicação` : `${posts.length} publicações`}
+						{posts.length == 1 ? `1 publicação!` : `${posts.length} publicações!`}
 					</p>
 					<p>
 						<Link href="/posts">Ver publicações</Link>

@@ -1,5 +1,6 @@
 import { getPostsByUser } from "@/hooks/posts"
 import { getCurrentUser } from "@/hooks/users"
+import Link from "next/link"
 import React from "react"
 
 export default function Posts() {
@@ -17,7 +18,11 @@ export default function Posts() {
 					</div>
 				))
 			) : (
-				<></>
+				<>
+					<p>Você ainda não possui publicações aprovadas.</p>
+					<p>Que tal começar agora mesmo?</p>
+					<Link href="/posts/new">Criar publicação</Link>
+				</>
 			)}
 		</div>
 	)
