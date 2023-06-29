@@ -12,10 +12,12 @@ type QRCodeProps = {
 export default function QRCode(props: QRCodeProps) {
 	const { Canvas } = useQRCode()
 
+	const link = props.text
+
 	return (
 		<div className={styles.qrCode}>
 			<Canvas
-				text={props.text}
+				text={link}
 				logo={{
 					src: Logo.src,
 					options: {
