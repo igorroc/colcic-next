@@ -1,11 +1,15 @@
 import defaultBody from "@/utils/defaultPostBody"
 
-import PostBanner5G from "/public/postBanner1.png"
-import PostBannerMeta from "/public/postBanner2.png"
-import PostBannerSeguranca from "/public/postBanner3.png"
+import PostBanner5G from "/public/fakedata/posts/5G.png"
+import PostBannerMeta from "/public/fakedata/posts/metaverso.png"
+import PostBannerSeguranca from "/public/fakedata/posts/seguranca.png"
 
-import PostAuthorPicture1 from "/public/igor.png"
-import PostAuthorPicture2 from "/public/people.png"
+import IgorIMG from "/public/fakedata/users/igor.png"
+import BiaIMG from "/public/fakedata/users/bia.png"
+import IsaacIMG from "/public/fakedata/users/isaac.png"
+import LeoIMG from "/public/fakedata/users/leo.png"
+import AdrianIMG from "/public/fakedata/users/adrian.png"
+
 import { TPost } from "@/types/post"
 
 export const postList: TPost[] = [
@@ -19,7 +23,7 @@ export const postList: TPost[] = [
 		author: {
 			id: 1,
 			name: "Igor Rocha",
-			avatar: PostAuthorPicture1,
+			avatar: IgorIMG,
 		},
 		created_at: "2023-01-01T00:00:00.000Z",
 		categories: [
@@ -43,8 +47,8 @@ export const postList: TPost[] = [
 			"A postagem em markdown destaca a revolução da tecnologia 5G e por que ela é tão impactante. Com imagens ilustrativas, a descrição enfatiza as principais características do 5G, como velocidades superiores, latência ultrabaixa e capacidade de conexão massiva. Também menciona como o 5G impulsiona a inovação em vários setores, desde a medicina até a indústria automotiva. A postagem conclui incentivando os leitores a se prepararem para um futuro conectado e a abraçarem o poder transformador do 5G.",
 		author: {
 			id: 2,
-			name: "John Doe",
-			avatar: PostAuthorPicture2,
+			name: "Bia",
+			avatar: BiaIMG,
 		},
 		created_at: "2020-05-05T00:00:00.000Z",
 		categories: [
@@ -67,9 +71,9 @@ export const postList: TPost[] = [
 		description:
 			"A postagem em markdown destaca a revolução da tecnologia 5G e por que ela é tão impactante. Com imagens ilustrativas, a descrição enfatiza as principais características do 5G, como velocidades superiores, latência ultrabaixa e capacidade de conexão massiva. Também menciona como o 5G impulsiona a inovação em vários setores, desde a medicina até a indústria automotiva. A postagem conclui incentivando os leitores a se prepararem para um futuro conectado e a abraçarem o poder transformador do 5G.",
 		author: {
-			id: 1,
-			name: "Igor Rocha",
-			avatar: PostAuthorPicture1,
+			id: 3,
+			name: "Isaac",
+			avatar: IsaacIMG,
 		},
 		created_at: "1999-12-12T00:00:00.000Z",
 		categories: [
@@ -92,9 +96,9 @@ export const postList: TPost[] = [
 		description:
 			"Nesta postagem, exploramos as principais tendências em Inteligência Artificial (IA). Discutimos como a IA está transformando diversas áreas, como saúde, finanças e transporte. Abordamos tópicos como aprendizado de máquina, redes neurais e algoritmos avançados. Além disso, destacamos o papel da ética na IA e as preocupações relacionadas à privacidade e segurança. Prepare-se para descobrir as últimas inovações e como a IA está moldando o futuro.",
 		author: {
-			id: 2,
-			name: "Laura Santos",
-			avatar: PostAuthorPicture1,
+			id: 4,
+			name: "Leo",
+			avatar: LeoIMG,
 		},
 		created_at: "2023-06-15T10:30:00.000Z",
 		categories: [
@@ -118,9 +122,9 @@ export const postList: TPost[] = [
 		description:
 			"Nesta postagem, exploramos o impacto da Realidade Aumentada (RA) na sociedade. Apresentamos exemplos de como a RA está sendo usada em diferentes setores, como educação, entretenimento e comércio. Discutimos as tecnologias subjacentes, como rastreamento de movimento e reconhecimento de objetos, que tornam possível a experiência imersiva da RA. Além disso, refletimos sobre o potencial futuro da RA e como ela pode mudar nossa forma de interagir com o mundo.",
 		author: {
-			id: 3,
-			name: "Gabriel Silva",
-			avatar: PostAuthorPicture1,
+			id: 5,
+			name: "Adrian",
+			avatar: AdrianIMG,
 		},
 		created_at: "2023-06-20T14:45:00.000Z",
 		categories: [
@@ -130,31 +134,6 @@ export const postList: TPost[] = [
 			},
 			{
 				id: 6,
-				name: "Transformação",
-			},
-		],
-	},
-	{
-		id: 6,
-		slug: "o-potencial-da-internet-das-coisas-iot",
-		title: "O Potencial da Internet das Coisas (IoT)",
-		body: defaultBody,
-		banner: PostBanner5G,
-		description:
-			"Nesta postagem, exploramos o potencial da Internet das Coisas (IoT) e como ela está transformando nossas vidas. Discutimos como os dispositivos conectados podem interagir entre si, coletar dados e fornecer insights úteis. Apresentamos exemplos práticos de aplicativos da IoT em áreas como casa inteligente, saúde e cidades inteligentes. Também abordamos as preocupações de segurança e privacidade associadas à IoT e como esses desafios podem ser enfrentados. Prepare-se para descobrir um mundo cada vez mais conectado e inteligente.",
-		author: {
-			id: 3,
-			name: "Gabriel Silva",
-			avatar: PostAuthorPicture2,
-		},
-		created_at: "2023-06-20T14:45:00.000Z",
-		categories: [
-			{
-				id: 7,
-				name: "Internet das Coisas",
-			},
-			{
-				id: 8,
 				name: "Transformação",
 			},
 		],

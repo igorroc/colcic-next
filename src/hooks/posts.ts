@@ -16,10 +16,16 @@ export function getPostBySlug(slug: string) {
 
 	if (post) {
 		return {
-            post,
-            status: 200
-        }
+			post,
+			status: 200,
+		}
 	} else {
 		return { error: "Post not found", status: 404 }
 	}
+}
+
+export function getPostsByUser(userId: number) {
+	const posts = postList.filter((post) => post.author.id === userId)
+
+	return posts
 }
