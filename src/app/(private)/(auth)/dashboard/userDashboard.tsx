@@ -1,10 +1,10 @@
 import { getPostsByUser } from "@/hooks/posts"
-import { getUser } from "@/hooks/users"
+import { getCurrentUser } from "@/hooks/users"
 import Link from "next/link"
 import React from "react"
 
 export default function UserDashboard() {
-	const user = getUser()
+	const user = getCurrentUser()
 	const posts = getPostsByUser(user.id)
 	const postsEmAguardo = posts
 

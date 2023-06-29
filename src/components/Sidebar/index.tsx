@@ -1,6 +1,6 @@
 "use client"
 
-import { getUser } from "@/hooks/users"
+import { getCurrentUser } from "@/hooks/users"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -46,7 +46,7 @@ const sideNavListSecondary = [
 export default function SideBar() {
 	const pathname = usePathname()
 
-	const user = getUser()
+	const user = getCurrentUser()
 
 	return (
 		<aside className={styles.side}>

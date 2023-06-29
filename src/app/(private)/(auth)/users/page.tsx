@@ -1,11 +1,11 @@
 "use client"
 
-import { getUser } from "@/hooks/users"
+import { getCurrentUser } from "@/hooks/users"
 import React from "react"
 import { redirect } from "next/navigation"
 
 export default function Users() {
-	const user = getUser()
+	const user = getCurrentUser()
 
 	if (!user.isAdmin) {
 		redirect("/dashboard")

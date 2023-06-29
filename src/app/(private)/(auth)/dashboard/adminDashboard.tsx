@@ -1,8 +1,8 @@
-import { getUser } from "@/hooks/users"
+import { getCurrentUser } from "@/hooks/users"
 import React from "react"
 
 export default function AdminDashboard() {
-	const user = getUser()
+	const user = getCurrentUser()
 
 	return (
 		<div>

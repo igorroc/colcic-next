@@ -1,9 +1,9 @@
 import { getPostsByUser } from "@/hooks/posts"
-import { getUser } from "@/hooks/users"
+import { getCurrentUser } from "@/hooks/users"
 import React from "react"
 
 export default function Posts() {
-	const user = getUser()
+	const user = getCurrentUser()
 
 	const posts = getPostsByUser(user.id)
 
