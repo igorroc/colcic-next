@@ -50,3 +50,15 @@ export function getPostsByUser(userId: number) {
 
 	return posts
 }
+
+export function getPostsWaitingForApproval() {
+	const posts = postList.filter((post) => post.status === "pending")
+	let postsWithAuthors: TPostWithAuthor[] = []
+
+	posts.map((post) => {
+		const author = getUserById(post.author_id)
+		postsWithAuthors.push({ ...post, author })
+	})
+
+	return postsWithAuthors
+}

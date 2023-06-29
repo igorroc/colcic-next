@@ -18,6 +18,7 @@ export type TPost = {
 	description: string
 	author_id: number
 	created_at: string
+	status: "approved" | "pending" | "rejected"
 	categories: TCategory[]
 	banner: StaticImageData
 }

@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import React from "react"
+import { AiFillClockCircle } from "react-icons/ai"
 
 import { FaCog, FaNewspaper, FaUserFriends } from "react-icons/fa"
 import { MdDashboard, MdLogout } from "react-icons/md"
@@ -26,6 +27,12 @@ const sideNavList = [
 		title: "Usuários",
 		href: "/users",
 		icon: <FaUserFriends />,
+		isAdmin: true,
+	},
+	{
+		title: "Aprovar Publicações",
+		href: "/posts/approve",
+		icon: <AiFillClockCircle />,
 		isAdmin: true,
 	},
 ]
