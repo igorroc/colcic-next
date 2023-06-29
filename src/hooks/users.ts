@@ -1,4 +1,3 @@
-import { useUserToken } from "@/utils/handleUserToken"
 import { users } from "./userList"
 
 export function getCurrentUser(userToken: string) {

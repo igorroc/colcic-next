@@ -1,7 +1,7 @@
 "use client"
 
 import { MdKeyboardArrowDown, MdOutlineFileDownload, MdLink } from "react-icons/md"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 
 import Image from "next/image"
@@ -10,6 +10,9 @@ import styles from "./header.module.css"
 
 import ColcicLogo from "/public/logo.png"
 import Link from "next/link"
+import { useUserToken } from "@/utils/handleUserToken"
+import { getCurrentUser } from "@/hooks/users"
+import { TUser } from "@/types/user"
 
 const navList = [
 	{
@@ -123,6 +126,16 @@ export function Header() {
 	const [showNavList, setShowNavList] = useState(false)
 	const pathname = usePathname()
 
+	const { token } = useUserToken()
+	const [user, setUser] = useState<TUser>()
+
+	useEffect(() => {
+		if (token) {
+			const currentUser: TUser = getCurrentUser(token)
+			setUser(currentUser)
+		}
+	}, [token])
+
 	function toggleNavList() {
 		setShowNavList(!showNavList)
 	}
@@ -201,6 +214,16 @@ export function Header() {
 							})}
 						</ul>
 					</nav>
+
+					{user && (
+						<Link
+							href="/dashboard"
+							className={styles.userPhoto}
+							title="Entrar no painel"
+						>
+							<Image src={user.photo} alt="Foto de perfil do usuário" />
+						</Link>
+					)}
 				</div>
 			</div>
 
