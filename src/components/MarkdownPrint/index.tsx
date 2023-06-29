@@ -1,4 +1,5 @@
 "use client"
+
 import dynamic from "next/dynamic"
 
 const MarkdownPreview = dynamic(() => import("@uiw/react-markdown-preview"), { ssr: false })
