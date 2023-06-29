@@ -3,7 +3,7 @@ import React from "react"
 
 import styles from "./muralPost.module.css"
 
-import { TCategory, TPost } from "@/types/post"
+import { TCategory, TPost, TPostWithAuthor } from "@/types/post"
 import { formatToDate } from "@/utils/formatToDate"
 
 import Logo from "/public/favicon_bg.png"
@@ -11,7 +11,7 @@ import { useQRCode } from "next-qrcode"
 import Link from "next/link"
 
 type MuralPostProps = {
-	post: TPost
+	post: TPostWithAuthor
 	activeItem: number
 	index: number
 }
