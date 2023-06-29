@@ -12,7 +12,7 @@ export default function UserDashboard() {
 		<div>
 			<h1>Dashboard</h1>
 			<p>Olá, {user.name}!</p>
-			{postsEmAguardo.length > 0 && <h2>🚀 Publicações em Aguardo</h2>}
+			{postsEmAguardo.length > 0 && <h2>⏰ Publicações em Aguardo</h2>}
 			{postsEmAguardo.length > 1 && (
 				<>
 					<p>Atualmente você tem {postsEmAguardo.length} publicações em aguardo</p>
