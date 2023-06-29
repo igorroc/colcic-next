@@ -1,6 +1,6 @@
 "use client"
 
-import { LOCAL_STORAGE_KEY } from "@/constants/storage"
+import { getToken } from "@/utils/handleToken"
 import { getPostsByUser } from "@/hooks/posts"
 import { getCurrentUser } from "@/hooks/users"
 import Link from "next/link"
@@ -8,7 +8,7 @@ import { redirect } from "next/navigation"
 import React from "react"
 
 export default function Posts() {
-	const userToken = window.localStorage.getItem(`${LOCAL_STORAGE_KEY}user-token`)
+	const userToken = getToken()
 
 	if (!userToken) {
 		redirect("/login")

@@ -1,6 +1,6 @@
 "use client"
 
-import { LOCAL_STORAGE_KEY } from "@/constants/storage"
+import { getToken } from "@/utils/handleToken"
 import { getCurrentUser } from "@/hooks/users"
 import Image from "next/image"
 import Link from "next/link"
@@ -54,7 +54,7 @@ const sideNavListSecondary = [
 export default function SideBar() {
 	const pathname = usePathname()
 
-	const userToken = window.localStorage.getItem(`${LOCAL_STORAGE_KEY}user-token`)
+	const userToken = getToken()
 
 	if (!userToken) {
 		redirect("/login")

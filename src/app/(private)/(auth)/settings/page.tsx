@@ -1,10 +1,10 @@
-import { LOCAL_STORAGE_KEY } from "@/constants/storage"
+import { getToken } from "@/utils/handleToken"
 import { getCurrentUser } from "@/hooks/users"
 import { redirect } from "next/navigation"
 import React from "react"
 
 export default function Settings() {
-	const userToken = window.localStorage.getItem(`${LOCAL_STORAGE_KEY}user-token`)
+	const userToken = getToken()
 
 	if (!userToken) {
 		redirect("/login")

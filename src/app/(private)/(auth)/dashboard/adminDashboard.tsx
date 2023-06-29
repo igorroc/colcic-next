@@ -1,12 +1,12 @@
-import { LOCAL_STORAGE_KEY } from "@/constants/storage"
 import { getPostsWaitingForApproval } from "@/hooks/posts"
 import { getCurrentUser } from "@/hooks/users"
+import { getToken } from "@/utils/handleToken"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import React from "react"
 
 export default function AdminDashboard() {
-	const userToken = window.localStorage.getItem(`${LOCAL_STORAGE_KEY}user-token`)
+	const userToken = getToken()
 
 	if (!userToken) {
 		redirect("/login")

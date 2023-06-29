@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEY } from "@/constants/storage"
+import { setToken } from "@/utils/handleToken"
 import { users } from "./userList"
 
 export function getCurrentUser(userToken: string) {
@@ -13,7 +13,7 @@ export function handleUserLogin(username: string, password: string) {
 	const user = users.filter((user) => user.username === username && user.password === password)[0]
 
 	if (user) {
-		window.localStorage.setItem(`${LOCAL_STORAGE_KEY}user-token`, user.token)
+		setToken(user.token)
 		return user
 	}
 

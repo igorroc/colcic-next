@@ -3,10 +3,10 @@
 import { getCurrentUser } from "@/hooks/users"
 import React from "react"
 import { redirect } from "next/navigation"
-import { LOCAL_STORAGE_KEY } from "@/constants/storage"
+import { getToken } from "@/utils/handleToken"
 
 export default function Users() {
-	const userToken = window.localStorage.getItem(`${LOCAL_STORAGE_KEY}user-token`)
+	const userToken = getToken()
 
 	if (!userToken) {
 		redirect("/login")
