@@ -1,10 +1,20 @@
+"use client"
+
+import { LOCAL_STORAGE_KEY } from "@/constants/storage"
 import { getPostsByUser, getPostsWaitingForApprovalFromUser } from "@/hooks/posts"
 import { getCurrentUser } from "@/hooks/users"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 import React from "react"
 
 export default function UserDashboard() {
-	const user = getCurrentUser()
+	const userToken = window.localStorage.getItem(`${LOCAL_STORAGE_KEY}user-token`)
+
+	if (!userToken) {
+		redirect("/login")
+	}
+
+	const user = getCurrentUser(userToken)
 	const posts = getPostsByUser(user.id)
 	const postsEmAguardo = getPostsWaitingForApprovalFromUser(user.id)
 
