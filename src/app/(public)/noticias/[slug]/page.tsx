@@ -141,7 +141,7 @@ export default async function Post({ params }: PostPageType) {
 						<div className={styles.sideHeaderContainer}>
 							<div className={styles.avatarUserInfo}>
 								<Image
-									src={post.author.avatar}
+									src={post.author.photo}
 									alt={`Foto de perfil de ${post.author.name}`}
 								/>
 								<div>

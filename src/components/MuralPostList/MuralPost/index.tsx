@@ -19,7 +19,6 @@ type MuralPostProps = {
 export default function MuralPost(props: MuralPostProps) {
 	const { Canvas } = useQRCode()
 
-
 	return (
 		<div
 			className={styles.post}
@@ -52,7 +51,7 @@ export default function MuralPost(props: MuralPostProps) {
 					<div className={styles.postAuthor}>
 						<div className={styles.authorPicture}>
 							<Image
-								src={props.post.author.avatar}
+								src={props.post.author.photo}
 								alt={`Foto de ${props.post.author.name}`}
 							/>
 						</div>
@@ -72,7 +71,7 @@ export default function MuralPost(props: MuralPostProps) {
 									src: Logo.src,
 									options: {
 										width: 40,
-									}
+									},
 								}}
 								options={{
 									level: "M",

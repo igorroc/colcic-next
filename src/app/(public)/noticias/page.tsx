@@ -4,7 +4,6 @@ import React from "react"
 
 import { FiArrowUpRight } from "react-icons/fi"
 
-import { TPost } from "@/types/post"
 import { formatToDate } from "@/utils/formatToDate"
 
 import styles from "./noticias.module.css"
@@ -12,7 +11,7 @@ import { getPosts } from "@/hooks/posts"
 
 export default async function Noticias() {
 	const posts = getPosts()
-	const mainPost: TPost = posts[0]
+	const mainPost = posts[0]
 
 	return (
 		<>
@@ -45,7 +44,7 @@ export default async function Noticias() {
 						<Link href={`/noticias/${mainPost.slug}`}>Ler mais</Link>
 						<div className={styles.postInfo}>
 							<div className={styles.postAuthorImage}>
-								<Image src={mainPost.author.avatar} alt={mainPost.author.name} />
+								<Image src={mainPost.author.photo} alt={mainPost.author.name} />
 							</div>
 							<div className={styles.postAuthorInfo}>
 								<span className={styles.postAuthorName}>
@@ -62,7 +61,7 @@ export default async function Noticias() {
 
 			{posts.length > 0 && (
 				<section className={[styles.posts, "MaxWidthWrapper"].join(" ")}>
-					{posts.slice(1).map((post: TPost, index: number) => (
+					{posts.slice(1).map((post, index: number) => (
 						<div key={index} className={styles.postItem}>
 							<Link href={`/noticias/${post.slug}`} className={styles.postImage}>
 								<Image src={post.banner} alt={post.title} />
@@ -85,7 +84,7 @@ export default async function Noticias() {
 								<Link href={`/noticias/${post.slug}`}>Ler mais</Link>
 								<div className={styles.postInfo}>
 									<div className={styles.postAuthorImage}>
-										<Image src={post.author.avatar} alt={post.author.name} />
+										<Image src={post.author.photo} alt={post.author.name} />
 									</div>
 									<div className={styles.postAuthorInfo}>
 										<span className={styles.postAuthorName}>

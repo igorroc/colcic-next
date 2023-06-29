@@ -1,22 +1,43 @@
+import { TPostWithAuthor } from "@/types/post"
 import { postList } from "./postList"
+import { getUserById } from "./users"
 
 export function getPosts() {
-	return postList
+	const posts = postList
+	let postsWithAuthors: TPostWithAuthor[] = []
+
+	posts.map((post) => {
+		const author = getUserById(post.author_id)
+		postsWithAuthors.push({ ...post, author })
+	})
+
+	return postsWithAuthors
 }
 
 export function getHomePosts() {
 	const homePostsIds = [1, 4, 6]
 	const posts = postList.filter((post) => homePostsIds.includes(post.id))
+	let postsWithAuthors: TPostWithAuthor[] = []
 
-	return posts
+	posts.map((post) => {
+		const author = getUserById(post.author_id)
+		postsWithAuthors.push({ ...post, author })
+	})
+
+	return postsWithAuthors
 }
 
 export function getPostBySlug(slug: string) {
 	const post = postList.find((post) => post.slug === slug)
 
 	if (post) {
+		let postWithAuthor: TPostWithAuthor
+
+		const author = getUserById(post.author_id)
+		postWithAuthor = { ...post, author }
+
 		return {
-			post,
+			post: postWithAuthor,
 			status: 200,
 		}
 	} else {
@@ -25,7 +46,7 @@ export function getPostBySlug(slug: string) {
 }
 
 export function getPostsByUser(userId: number) {
-	const posts = postList.filter((post) => post.author.id === userId)
+	const posts = postList.filter((post) => post.author_id === userId)
 
 	return posts
 }

@@ -1,9 +1,8 @@
 import { StaticImageData } from "next/image"
 
 export type TAuthor = {
-	id: number
 	name: string
-	avatar: StaticImageData
+	photo: StaticImageData
 }
 
 export type TCategory = {
@@ -17,8 +16,12 @@ export type TPost = {
 	title: string
 	body: string
 	description: string
-	author: TAuthor
+	author_id: number
 	created_at: string
 	categories: TCategory[]
 	banner: StaticImageData
+}
+
+export type TPostWithAuthor = TPost & {
+	author: TAuthor
 }

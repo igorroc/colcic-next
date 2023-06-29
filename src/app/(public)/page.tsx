@@ -12,7 +12,6 @@ import ImageMissao from "/public/lamp.png"
 import SlideShowAcademicos from "@/components/SlideShowAcademicos"
 
 import { redes, entidades } from "@/changeable/inicio"
-import { TPost } from "@/types/post"
 import { formatToDate } from "@/utils/formatToDate"
 import { FiArrowUpRight } from "react-icons/fi"
 import { getHomePosts } from "@/hooks/posts"
@@ -79,14 +78,11 @@ export default async function Home() {
 					<h1>Notícias importantes</h1>
 					{posts && (
 						<div className={styles.noticias}>
-							{posts.map((post: TPost, index: number) => (
+							{posts.map((post, index: number) => (
 								<div key={index} className={styles.card}>
 									<div className={styles.postInfo}>
 										<div className={styles.postAuthorImage}>
-											<Image
-												src={post.author.avatar}
-												alt={post.author.name}
-											/>
+											<Image src={post.author.photo} alt={post.author.name} />
 										</div>
 										<div className={styles.postAuthorInfo}>
 											<span className={styles.postAuthorName}>
