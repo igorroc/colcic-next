@@ -155,18 +155,31 @@ export function Header() {
 						/>
 					</Link>
 
-					<button
-						className={styles.iconMenu}
-						onClick={toggleNavList}
-						aria-label="Ativar menu lateral"
-					>
-						<div>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</button>
+					<div className={[styles.sideMenu, styles.sideMenuMobile].join(" ")}>
+						<button
+							className={styles.iconMenu}
+							onClick={toggleNavList}
+							aria-label="Ativar menu lateral"
+						>
+							<div>
+								<span></span>
+								<span></span>
+								<span></span>
+							</div>
+						</button>
 
+						{user && (
+							<Link
+								href="/dashboard"
+								className={styles.userPhoto}
+								title="Entrar no painel"
+							>
+								<Image src={user.photo} alt="Foto de perfil do usuário" />
+							</Link>
+						)}
+					</div>
+
+					{/* <div className={[styles.sideMenu, styles.sideMenuDesktop].join(" ")}> */}
 					<nav className={styles.navList}>
 						<ul>
 							{navList.map((item, i) => {
@@ -218,12 +231,14 @@ export function Header() {
 					{user && (
 						<Link
 							href="/dashboard"
-							className={styles.userPhoto}
+							className={[styles.userPhoto, styles.userPhotoDesktop].join(" ")}
 							title="Entrar no painel"
 						>
 							<Image src={user.photo} alt="Foto de perfil do usuário" />
 						</Link>
 					)}
+
+					{/* </div> */}
 				</div>
 			</div>
 
