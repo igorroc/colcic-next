@@ -19,6 +19,19 @@ export function handleUserLogin(username: string, password: string) {
 	return false
 }
 
+export async function getAllUsers() {
+	try {
+		// const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users")
+
+		// console.log(res)
+
+		return users
+	} catch (err) {
+		console.error(err)
+		return []
+	}
+}
+
 export function getTopPublishers() {
 	// busca 5 usuários com mais posts e retorna um array com os usuários (nome, photo e quantidade), ordenados por quantidade de posts, do maior para o menor
 
