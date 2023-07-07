@@ -22,37 +22,43 @@ export default function Posts() {
 	return (
 		<div>
 			<h1>Minhas Publicações</h1>
-			{posts.length > 0 ? (
-				<div className={styles.row}>
-					{posts.map((post, index) => (
-						<div key={index} className={styles.post}>
-							<div className={styles.image}>
-								<Image src={post.banner} alt={post.title} />
-							</div>
-							<div className={styles.content}>
-								<b className={styles.title}>{post.title}</b>
-								<div className={styles.row}>
-									<Link
-										href={"/posts/" + post.id + "/edit"}
-										className={styles.button}
-									>
-										<AiFillEdit />
-									</Link>
-									<Link href={"/noticias/" + post.slug} className={styles.button}>
-										<BsFillEyeFill />
-									</Link>
+			<div className={styles.content}>
+				{posts.length > 0 ? (
+					<div className={styles.row}>
+						{posts.map((post, index) => (
+							<div key={index} className={styles.post}>
+								<div className={styles.image}>
+									<Image src={post.banner} alt={post.title} />
+								</div>
+								<div className={styles.content}>
+									<b className={styles.title}>{post.title}</b>
+									<div className={styles.row}>
+										<Link
+											href={"/posts/" + post.id + "/edit"}
+											className={styles.button}
+										>
+											<AiFillEdit />
+										</Link>
+										<Link
+											href={"/noticias/" + post.slug}
+											className={styles.button}
+										>
+											<BsFillEyeFill />
+										</Link>
+									</div>
 								</div>
 							</div>
-						</div>
-					))}
-				</div>
-			) : (
-				<>
-					<p>Você ainda não possui publicações aprovadas.</p>
-					<p>Que tal começar agora mesmo?</p>
-					<Button href={"/posts/new"} label="Criar publicação" type="primary" />
-				</>
-			)}
+						))}
+					</div>
+				) : (
+					<>
+						<p>Você ainda não possui publicações aprovadas.</p>
+						<p>Que tal começar agora mesmo?</p>
+					</>
+				)}
+			</div>
+
+			<Button href={"/posts/new"} label="Criar publicação" type="primary" />
 		</div>
 	)
 }

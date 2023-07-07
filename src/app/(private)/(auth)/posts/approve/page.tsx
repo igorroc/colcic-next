@@ -14,7 +14,6 @@ export default function Users() {
 
 	if (!user.isAdmin) {
 		redirect("/dashboard")
-		return null
 	}
 	const postsWaitingForApproval = getPostsWaitingForApproval()
 

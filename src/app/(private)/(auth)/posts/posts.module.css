@@ -58,3 +58,7 @@
 .post .button:hover {
 	background: var(--primary-color-hover);
 }
+
+.content {
+	margin: 3em 0;
+}
