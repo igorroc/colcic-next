@@ -20,7 +20,10 @@ import { TUserSimple } from "@/types/user"
 import { useRouter } from "next/navigation"
 
 export default function UsersNew() {
-	const { createUser } = useUser()
+	const { createUser } = useUser({
+		adminOnlyPage: true,
+		redirectTo: "/dashboard",
+	})
 	const router = useRouter()
 
 	const [type, setType] = useState("")

@@ -8,7 +8,7 @@ import React from "react"
 
 export default function UserDashboard() {
 	const { token } = useUserToken()
-	const { user } = useUser(token)
+	const { user } = useUser({ token })
 	const { getPostsByUser, getPostsWaitingForApprovalFromUser } = usePosts()
 
 	if (!user) return <div>Loading...</div>

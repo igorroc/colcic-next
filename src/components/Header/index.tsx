@@ -127,7 +127,7 @@ export function Header() {
 	const pathname = usePathname()
 
 	const { token } = useUserToken()
-	const { user } = useUser(token)
+	const { user } = useUser({ token })
 
 	function toggleNavList() {
 		setShowNavList(!showNavList)

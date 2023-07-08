@@ -14,7 +14,7 @@ export default function Users() {
 	const [users, setUsers] = useState<TUser[]>()
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
-	const { getAllUsers } = useUser()
+	const { getAllUsers } = useUser({ adminOnlyPage: true })
 
 	useEffect(() => {
 		async function getData() {

@@ -6,7 +6,7 @@ import React from "react"
 
 export default function Settings() {
 	const { token } = useUserToken()
-	const { user } = useUser(token)
+	const { user } = useUser({ token })
 
 	return (
 		<div>

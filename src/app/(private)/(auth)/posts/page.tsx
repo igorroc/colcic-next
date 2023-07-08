@@ -14,7 +14,7 @@ import { BsFillEyeFill } from "react-icons/bs"
 
 export default function Posts() {
 	const { token } = useUserToken()
-	const { user } = useUser(token)
+	const { user } = useUser({ token })
 	const { getPostsByUser } = usePosts()
 
 	if (!user) return <div>Loading...</div>

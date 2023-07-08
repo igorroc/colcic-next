@@ -9,7 +9,7 @@ import UserDashboard from "./userDashboard"
 
 export default function Dashboard() {
 	const { token } = useUserToken()
-	const { user } = useUser(token)
+	const { user } = useUser({ token })
 	const [loading, setLoading] = useState(true)
 	const [state, setState] = useState("")
 
@@ -21,6 +21,8 @@ export default function Dashboard() {
 			setState("error")
 		}
 		setLoading(false)
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user])
 
 	if (loading) return <div>Loading...</div>

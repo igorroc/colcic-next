@@ -1,23 +1,36 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { users } from "./userList"
-import { postList } from "./postList"
 import { TUser, TUserSimple } from "@/types/user"
 
-export default function useUser(token: string | null = null) {
+interface IUserHook {
+	adminOnlyPage?: boolean
+	redirectTo?: string
+	token?: string
+}
+
+export default function useUser(options: IUserHook | undefined = {}) {
 	const [user, setUser] = useState<TUser | null>(null)
 
 	useEffect(() => {
 		async function getData() {
+			const token = options?.token
+			const adminPage = options?.adminOnlyPage
+
 			if (token) {
 				const user = await getCurrentUser(token)
 				setUser(user)
 			}
+
+			if (adminPage) {
+				adminOnlyPage()
+			}
 		}
 
 		getData()
-	}, [token])
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	async function getUserById(userId: string) {
 		try {
@@ -65,7 +78,13 @@ export default function useUser(token: string | null = null) {
 	async function getCurrentUser(userToken: string) {
 		try {
 			const res = await fetch(
-				process.env.NEXT_PUBLIC_API_URL + "/users/auth/token?token=" + userToken
+				process.env.NEXT_PUBLIC_API_URL + `/users/auth/token?token?${userToken}`,
+				{
+					method: "GET",
+					headers: {
+						Authorization: `Bearer ${userToken}`,
+					},
+				} as RequestInit
 			)
 
 			if (res.ok) {
@@ -117,6 +136,18 @@ export default function useUser(token: string | null = null) {
 		}
 	}
 
+	async function isAdmin() {
+		return user?.type === "admin"
+	}
+
+	function adminOnlyPage() {
+		// verifica se o usuário está logado e se é admin
+		// se não for, redireciona para a home
+		if (user?.type !== "admin") {
+			window.location.href = "/"
+		}
+	}
+
 	async function editUser(user: TUserSimple, id: string) {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + id, {
@@ -154,12 +185,6 @@ export default function useUser(token: string | null = null) {
 		}
 	}
 
-	async function adminOnlyPage() {
-		// verifica se o usuário está logado e se é admin
-		// se não for, redireciona para a home
-		// const user = await getCurrentUser()
-	}
-
 	return {
 		getUserById,
 		handleUserLogin,
@@ -169,5 +194,7 @@ export default function useUser(token: string | null = null) {
 		editUser,
 		deleteUser,
 		user,
+		isAdmin,
+		adminOnlyPage,
 	}
 }

@@ -10,7 +10,7 @@ import Image from "next/image"
 
 export default function AdminDashboard() {
 	const { token } = useUserToken()
-	const { user } = useUser(token)
+	const { user } = useUser({ token })
 	const { getPostsWaitingForApproval } = usePosts()
 	const postsWaitingForApproval = getPostsWaitingForApproval()
 
