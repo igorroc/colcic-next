@@ -15,11 +15,14 @@ import {
 
 import styles from "./new.module.css"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
-import { createUser } from "@/hooks/users"
+import useUser from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 export default function UsersNew() {
+	const { createUser } = useUser()
+	const router = useRouter()
+
 	const [type, setType] = useState("")
 	const [showPassword, setShowPassword] = useState(false)
 	const [creating, setCreating] = useState(false)
@@ -55,7 +58,7 @@ export default function UsersNew() {
 		if (newUser) {
 			alert("Usuário criado com sucesso!")
 			form.reset()
-			redirect("/users")
+			router.push("/users")
 		} else {
 			alert("Erro ao criar usuário!")
 		}

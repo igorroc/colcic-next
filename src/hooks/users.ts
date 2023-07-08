@@ -24,10 +24,11 @@ export default function useUser(token: string | null = null) {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + userId)
 
 			if (res.ok) {
-				const usersRes: TUser = await res.json()
+				const userRes: TUser = await res.json()
 
-				return usersRes
+				return userRes
 			} else {
+				console.error("COLCIC-ERR", "User not found")
 				return null
 			}
 		} catch (err) {
@@ -63,12 +64,15 @@ export default function useUser(token: string | null = null) {
 
 	async function getCurrentUser(userToken: string) {
 		try {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users")
+			const res = await fetch(
+				process.env.NEXT_PUBLIC_API_URL + "/users/auth/token?token=" + userToken
+			)
 
 			if (res.ok) {
-				const usersRes: TUser[] = await res.json()
+				const userRes: TUser = await res.json()
+				console.log("COLCIC-LOG", `token=${userToken}`, userRes)
 
-				return usersRes[1]
+				return userRes
 			} else {
 				return null
 			}
@@ -157,25 +161,6 @@ export default function useUser(token: string | null = null) {
 		// const user = await getCurrentUser()
 	}
 
-	function getTopPublishers() {
-		// busca 5 usuários com mais posts e retorna um array com os usuários (nome, photo e quantidade), ordenados por quantidade de posts, do maior para o menor
-
-		const topPublishers = users
-			.map((user) => {
-				const posts = postList.filter((post) => post.author_id === user._id)
-
-				return {
-					id: user._id,
-					name: user.name,
-					photo: user.profilePhoto,
-					posts: posts.length,
-				}
-			})
-			.sort((a, b) => b.posts - a.posts)
-
-		return topPublishers.slice(0, 5)
-	}
-
 	return {
 		getUserById,
 		handleUserLogin,
@@ -185,6 +170,5 @@ export default function useUser(token: string | null = null) {
 		editUser,
 		deleteUser,
 		user,
-		getTopPublishers,
 	}
 }

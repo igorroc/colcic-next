@@ -17,7 +17,7 @@ import styles from "./edit.module.css"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import useUser from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
-import { redirect } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 
 interface UserEditProps {
 	params: {
@@ -27,6 +27,7 @@ interface UserEditProps {
 
 export default function UserEdit({ params }: UserEditProps) {
 	const { getUserById, editUser } = useUser()
+	const router = useRouter()
 
 	const [type, setType] = useState("")
 	const [showPassword, setShowPassword] = useState(false)
@@ -81,7 +82,7 @@ export default function UserEdit({ params }: UserEditProps) {
 		if (newUser) {
 			alert("Usuário editado com sucesso!")
 			form.reset()
-			redirect("/users")
+			router.push("/users")
 		} else {
 			alert("Erro ao criar usuário!")
 		}

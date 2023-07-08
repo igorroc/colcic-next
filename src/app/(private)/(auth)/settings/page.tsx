@@ -1,13 +1,11 @@
 "use client"
 
 import { useUserToken } from "@/utils/handleUserToken"
-import { getCurrentUser } from "@/hooks/users"
-import { redirect } from "next/navigation"
+import useUser from "@/hooks/users"
 import React from "react"
 
 export default function Settings() {
 	const { token } = useUserToken()
-
 	const { user } = useUser(token)
 
 	return (

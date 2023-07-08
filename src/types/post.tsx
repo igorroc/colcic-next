@@ -3,10 +3,7 @@ import { TUser } from "./user"
 
 export type TAuthor = TUser
 
-export type TCategory = {
-	id: string
-	name: string
-}
+export type TCategory = string | null
 
 export type TPost = {
 	_id: string
@@ -14,13 +11,18 @@ export type TPost = {
 	// slug: string
 	title: string
 	body: string
-	description: string
 	created_at: string
 	status: "ativo" | "pending" | "rejected"
-	categories: TCategory[]
-	banner: StaticImageData
+	category: string[]
+	types: string[]
+	image: string
+	activationDate: string
+	expirationDate: string
+	createdAt: string
+	updatedAt: string
+	__v: number
 }
 
 export type TPostWithAuthor = TPost & {
-	author: TAuthor
+	author_obj: TAuthor
 }

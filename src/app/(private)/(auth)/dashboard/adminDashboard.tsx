@@ -10,10 +10,9 @@ import Image from "next/image"
 
 export default function AdminDashboard() {
 	const { token } = useUserToken()
-	const { user, getTopPublishers } = useUser(token)
+	const { user } = useUser(token)
 	const { getPostsWaitingForApproval } = usePosts()
 	const postsWaitingForApproval = getPostsWaitingForApproval()
-	const topPublishers = getTopPublishers()
 
 	if (!user) return <div>Loading...</div>
 
@@ -33,27 +32,16 @@ export default function AdminDashboard() {
 					<p>Nenhuma publicação aguardando aprovação</p>
 				</div>
 			)}
-			<h2>Top publicadores</h2>
+			<h2>Dados</h2>
 			<div className={styles.row}>
-				{topPublishers.map((publisher) => (
-					<div className={styles.card} key={publisher.id}>
-						<div className={styles.userPhoto}>
-							<Image
-								src={publisher.photo}
-								alt={publisher.name}
-								width={100}
-								height={100}
-							/>
-						</div>
-						<span className={styles.userName}>{publisher.name}</span>
-						<span>
-							{publisher.posts > 1
-								? `${publisher.posts} posts`
-								: `${publisher.posts} post`}
-						</span>
-						{/* <Link href={`/users/${publisher.id}`}>Ver perfil</Link> */}
-					</div>
-				))}
+				<div className={styles.card}>
+					<p>Usuários</p>
+					<b>0</b>
+				</div>
+				<div className={styles.card}>
+					<p>Publicações</p>
+					<b>0</b>
+				</div>
 			</div>
 		</div>
 	)
