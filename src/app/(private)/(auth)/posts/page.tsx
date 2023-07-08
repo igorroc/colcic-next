@@ -30,19 +30,19 @@ export default function Posts() {
 						{posts.map((post, index) => (
 							<div key={index} className={styles.post}>
 								<div className={styles.image}>
-									<Image src={post.banner} alt={post.title} />
+									<Image src={post.image} alt={post.title} />
 								</div>
 								<div className={styles.content}>
 									<b className={styles.title}>{post.title}</b>
 									<div className={styles.row}>
 										<Link
-											href={"/posts/" + post.id + "/edit"}
+											href={"/posts/" + post._id + "/edit"}
 											className={styles.button}
 										>
 											<AiFillEdit />
 										</Link>
 										<Link
-											href={"/noticias/" + post.slug}
+											href={"/noticias/" + post._id}
 											className={styles.button}
 										>
 											<BsFillEyeFill />
