@@ -35,6 +35,7 @@ export default function UserEdit({ params }: UserEditProps) {
 	const [fullName, setFullName] = useState("")
 	const [username, setUsername] = useState("")
 	const [email, setEmail] = useState("")
+	const [photo, setPhoto] = useState("")
 
 	useEffect(() => {
 		async function getData() {
@@ -44,6 +45,7 @@ export default function UserEdit({ params }: UserEditProps) {
 				setUsername(user.username)
 				setEmail(user.email)
 				setType(user.type)
+				setPhoto(user.profilePhoto)
 			}
 		}
 
@@ -73,8 +75,7 @@ export default function UserEdit({ params }: UserEditProps) {
 			email: form.email.value,
 			password: form.password.value,
 			type: type,
-			profilePhoto:
-				"https://media.discordapp.net/attachments/946836126478520320/1127076884992241685/image.png?width=86&height=79",
+			profilePhoto: photo,
 		}
 
 		const newUser = await editUser(data, params.id)
@@ -135,6 +136,14 @@ export default function UserEdit({ params }: UserEditProps) {
 						),
 					}}
 					required
+				/>
+				<TextField
+					label="Foto de perfil"
+					type="url"
+					name="photo"
+					required
+					value={photo}
+					onChange={(event) => setPhoto(event.target.value)}
 				/>
 				<FormControl fullWidth required>
 					<InputLabel id="label-type">Tipo</InputLabel>
