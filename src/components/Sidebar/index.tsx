@@ -65,8 +65,12 @@ export default function SideBar() {
 	if (!token) {
 		redirect("/login")
 	}
-
 	const user = getCurrentUser(token)
+
+	if(sideNavList.find(item => item.href == pathname)?.isAdmin && !user.isAdmin) {
+		redirect("/dashboard")
+	}
+
 
 	return (
 		<aside className={styles.side}>
