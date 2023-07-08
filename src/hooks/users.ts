@@ -78,7 +78,7 @@ export default function useUser(options: IUserHook | undefined = {}) {
 	async function getCurrentUser(userToken: string) {
 		try {
 			const res = await fetch(
-				process.env.NEXT_PUBLIC_API_URL + `/users/auth/token?token?${userToken}`,
+				process.env.NEXT_PUBLIC_API_URL + `/users/auth/${userToken}`,
 				{
 					method: "GET",
 					headers: {
