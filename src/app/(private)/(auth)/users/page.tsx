@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@/components/Button"
 import { getAllUsers } from "@/hooks/users"
 import { TUser } from "@/types/user"
 import Link from "next/link"
@@ -55,14 +54,14 @@ export default function Users() {
 										<th>{user.email}</th>
 										<th className={styles.actionsGroup}>
 											<Link
-												href={`/users/${user.username}/edit`}
+												href={`/users/${user._id}`}
 												className={styles.actionButton}
 												title="Editar usuário"
 											>
 												<AiFillEdit />
 											</Link>
 											<Link
-												href={`/users/${user.username}/delete`}
+												href={`/users/${user._id}/delete`}
 												className={styles.actionButton}
 												title="Excluir usuário"
 											>

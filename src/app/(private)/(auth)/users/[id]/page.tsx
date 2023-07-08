@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/Button"
 import {
 	FormControl,
@@ -13,16 +13,25 @@ import {
 	TextField,
 } from "@mui/material"
 
-import styles from "./new.module.css"
+import styles from "./edit.module.css"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
-import { createUser } from "@/hooks/users"
+import { createUser, editUser, getUserById } from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
 import { redirect } from "next/navigation"
 
-export default function UsersNew() {
+interface UserEditProps {
+	params: {
+		id: string
+	}
+}
+
+export default function UserEdit({ params }: UserEditProps) {
 	const [type, setType] = useState("")
 	const [showPassword, setShowPassword] = useState(false)
 	const [creating, setCreating] = useState(false)
+	const [fullName, setFullName] = useState("")
+	const [username, setUsername] = useState("")
+	const [email, setEmail] = useState("")
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setType(event.target.value as string)
@@ -50,10 +59,10 @@ export default function UsersNew() {
 				"https://media.discordapp.net/attachments/946836126478520320/1127076884992241685/image.png?width=86&height=79",
 		}
 
-		const newUser = await createUser(data)
+		const newUser = await editUser(data, params.id)
 
 		if (newUser) {
-			alert("Usuário criado com sucesso!")
+			alert("Usuário editado com sucesso!")
 			form.reset()
 			redirect("/users")
 		} else {
@@ -61,13 +70,48 @@ export default function UsersNew() {
 		}
 	}
 
+	useEffect(() => {
+		async function getData() {
+			const user = await getUserById(params.id)
+			if (user) {
+				setFullName(user.name)
+				setUsername(user.username)
+				setEmail(user.email)
+				setType(user.type)
+			}
+		}
+
+		getData()
+	}, [params.id])
+
 	return (
 		<div>
-			<h1>Novo usuário</h1>
+			<h1>Editar usuário</h1>
 			<form action="" id={styles.form} onSubmit={handleSubmit}>
-				<TextField label="Nome" type="text" name="fullName" required />
-				<TextField label="Username" type="text" name="username" required />
-				<TextField label="Email" type="email" name="email" required />
+				<TextField
+					label="Nome"
+					type="text"
+					name="fullName"
+					required
+					value={fullName}
+					onChange={(event) => setFullName(event.target.value)}
+				/>
+				<TextField
+					label="Username"
+					type="text"
+					name="username"
+					required
+					value={username}
+					onChange={(event) => setUsername(event.target.value)}
+				/>
+				<TextField
+					label="Email"
+					type="email"
+					name="email"
+					required
+					value={email}
+					onChange={(event) => setEmail(event.target.value)}
+				/>
 				<TextField
 					label="Senha"
 					type={showPassword ? "text" : "password"}
@@ -99,7 +143,7 @@ export default function UsersNew() {
 				{creating ? (
 					<p>Criando usuário...</p>
 				) : (
-					<Button label="Criar usuário" type="primary" />
+					<Button label="Editar usuário" type="primary" />
 				)}
 			</form>
 		</div>

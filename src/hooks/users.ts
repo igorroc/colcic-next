@@ -6,8 +6,19 @@ export function getCurrentUser(userToken: string) {
 	return users.filter((user) => user.token === userToken)[0]
 }
 
-export function getUserById(userId: string) {
-	return users.filter((user) => user._id === userId)[0]
+export async function getUserById(userId: string) {
+	try {
+		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + userId)
+
+		const usersRes: TUser = await res.json()
+
+		console.log(usersRes)
+
+		return usersRes
+	} catch (err) {
+		console.error(err)
+		return null
+	}
 }
 
 export function handleUserLogin(username: string, password: string) {
@@ -37,6 +48,25 @@ export async function createUser(user: TUserSimple) {
 	try {
 		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
 			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(user),
+		})
+
+		const newUser: TUser = await res.json()
+
+		return newUser
+	} catch (err) {
+		console.error(err)
+		return null
+	}
+}
+
+export async function editUser(user: TUserSimple, id: string) {
+	try {
+		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + id, {
+			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
 			},
