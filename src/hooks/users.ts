@@ -10,13 +10,15 @@ export async function getUserById(userId: string) {
 	try {
 		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + userId)
 
-		const usersRes: TUser = await res.json()
+		if (res.ok) {
+			const usersRes: TUser = await res.json()
 
-		console.log(usersRes)
-
-		return usersRes
+			return usersRes
+		} else {
+			return null
+		}
 	} catch (err) {
-		console.error(err)
+		console.error("COLCIC-ERR", err)
 		return null
 	}
 }
@@ -76,6 +78,24 @@ export async function editUser(user: TUserSimple, id: string) {
 		const newUser: TUser = await res.json()
 
 		return newUser
+	} catch (err) {
+		console.error(err)
+		return null
+	}
+}
+
+export async function deleteUser(id: string) {
+	try {
+		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + id, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+
+		const deleted = res.ok
+
+		return deleted
 	} catch (err) {
 		console.error(err)
 		return null
