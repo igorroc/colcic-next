@@ -52,8 +52,7 @@ export default function UsersNew() {
 			email: form.email.value,
 			password: form.password.value,
 			type: type,
-			profilePhoto:
-				"https://media.discordapp.net/attachments/946836126478520320/1127076884992241685/image.png?width=86&height=79",
+			profilePhoto: "https://img.freepik.com/free-icon/user_318-563642.jpg?w=360",
 		}
 
 		const newUser = await createUser(data)
