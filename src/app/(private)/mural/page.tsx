@@ -1,4 +1,6 @@
-import React from "react"
+"use client"
+
+import React, { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 
@@ -8,20 +10,64 @@ import MuralTimer from "@/components/MuralTimer"
 
 import styles from "./mural.module.css"
 import Logo from "/public/logo_large.svg"
-import { getPosts } from "@/hooks/posts"
+import usePosts from "@/hooks/posts"
+import { TPostWithAuthor } from "@/types/post"
+import QRCode from "@/components/QRCode"
+import Countdown from "@/components/Countdown"
 
 export default function Mural() {
-	const posts = getPosts()
+	const searchParams = useSearchParams()
+	const delay = Number(searchParams.get("delay")) || 10000
+	const revalidateDelay = Number(searchParams.get("revalidate")) || 30 * 60
 
-	// const delay = Number(searchParams.get("delay")) || 10000
-	const delay = 20000
+	const [loading, setLoading] = useState(true)
+	const { getPosts } = usePosts()
+	const [posts, setPosts] = useState<TPostWithAuthor[]>()
+
+	useEffect(() => {
+		async function loadPosts() {
+			const p = await getPosts()
+			setPosts(p)
+			setLoading(false)
+		}
+
+		const intervalDelay = revalidateDelay * 1000
+		console.log("intervalDelay", intervalDelay)
+
+		const interval = setInterval(async () => {
+			setLoading(true)
+			loadPosts()
+			console.warn("COLCIC-LOG: Revalidating posts")
+		}, intervalDelay)
+
+		loadPosts()
+
+		return () => clearInterval(interval)
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return (
 		<main className={styles.main}>
 			<div className={styles.logo}>
 				<Image src={Logo} alt="Logo do colegiado" />
 			</div>
-			{(!posts || posts.length === 0) && <p>Carregando...</p>}
+			{loading ? (
+				<div className={styles.centered}>
+					<p>Carregando...</p>
+				</div>
+			) : null}
+
+			{!loading && (!posts || posts.length === 0) && (
+				<div className={styles.centered}>
+					<p>
+						Novas notícias devem aparecer em{" "}
+						<Countdown timeInSeconds={revalidateDelay} />
+					</p>
+					<p>Que tal dar uma olhada no site enquanto isso?</p>
+					<QRCode text={process.env.NEXT_PUBLIC_URL || "/"} />
+				</div>
+			)}
 
 			{posts && posts.length > 0 && (
 				<>
