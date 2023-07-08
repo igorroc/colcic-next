@@ -18,8 +18,10 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import useUser from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
 import { useRouter } from "next/navigation"
+import { useUserToken } from "@/utils/handleUserToken"
 
 export default function UsersNew() {
+	const { token } = useUserToken()
 	const { createUser } = useUser({
 		adminOnlyPage: true,
 		redirectTo: "/dashboard",
@@ -55,7 +57,7 @@ export default function UsersNew() {
 			profilePhoto: "https://img.freepik.com/free-icon/user_318-563642.jpg?w=360",
 		}
 
-		const newUser = await createUser(data)
+		const newUser = await createUser(data, token)
 
 		if (newUser) {
 			alert("Usuário criado com sucesso!")

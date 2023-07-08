@@ -31,9 +31,13 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	async function getUserById(userId: string) {
+	async function getUserById(userId: string, token: string) {
 		try {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + userId)
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + userId, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
 			if (res.ok) {
 				const userRes: TUser = await res.json()
@@ -109,12 +113,13 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		}
 	}
 
-	async function createUser(user: TUserSimple) {
+	async function createUser(user: TUserSimple, token: string) {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
 				},
 				body: JSON.stringify(user),
 			})
@@ -146,12 +151,13 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		}
 	}
 
-	async function editUser(user: TUserSimple, id: string) {
+	async function editUser(user: TUserSimple, id: string, token: string) {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + id, {
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
 				},
 				body: JSON.stringify(user),
 			})
@@ -165,12 +171,13 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		}
 	}
 
-	async function deleteUser(id: string) {
+	async function deleteUser(id: string, token: string) {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + id, {
 				method: "DELETE",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
 				},
 			})
 

@@ -1,6 +1,7 @@
 "use client"
 
 import useUser from "@/hooks/users"
+import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import { redirect, useRouter } from "next/navigation"
 import React, { useState, useEffect } from "react"
@@ -14,6 +15,7 @@ interface DeleteUserProps {
 }
 
 export default function DeleteUser({ params }: DeleteUserProps) {
+	const { token } = useUserToken()
 	const [fullName, setFullName] = useState("")
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(true)
@@ -22,7 +24,7 @@ export default function DeleteUser({ params }: DeleteUserProps) {
 
 	useEffect(() => {
 		async function getData() {
-			const user = await getUserById(params.id)
+			const user = await getUserById(params.id, token)
 			if (user) {
 				setFullName(user.name)
 			} else {
@@ -36,7 +38,7 @@ export default function DeleteUser({ params }: DeleteUserProps) {
 	}, [params.id])
 
 	async function handleDelete() {
-		const deleted = await deleteUser(params.id)
+		const deleted = await deleteUser(params.id, token)
 
 		if (deleted) {
 			router.push("/users")

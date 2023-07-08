@@ -18,6 +18,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import useUser from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
 import { redirect, useRouter } from "next/navigation"
+import { useUserToken } from "@/utils/handleUserToken"
 
 interface UserEditProps {
 	params: {
@@ -26,6 +27,7 @@ interface UserEditProps {
 }
 
 export default function UserEdit({ params }: UserEditProps) {
+	const { token } = useUserToken()
 	const { getUserById, editUser } = useUser()
 	const router = useRouter()
 
@@ -39,7 +41,7 @@ export default function UserEdit({ params }: UserEditProps) {
 
 	useEffect(() => {
 		async function getData() {
-			const user = await getUserById(params.id)
+			const user = await getUserById(params.id, token)
 			if (user) {
 				setFullName(user.name)
 				setUsername(user.username)
@@ -78,7 +80,7 @@ export default function UserEdit({ params }: UserEditProps) {
 			profilePhoto: photo,
 		}
 
-		const newUser = await editUser(data, params.id)
+		const newUser = await editUser(data, params.id, token)
 
 		if (newUser) {
 			alert("Usuário editado com sucesso!")
