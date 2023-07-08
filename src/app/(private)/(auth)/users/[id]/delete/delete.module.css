@@ -1,0 +1,39 @@
+.actions {
+	display: flex;
+	gap: 1em;
+	align-items: center;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.delete {
+	background-color: #f44336;
+	color: #fff;
+	border: none;
+	border-radius: 0.25rem;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: var(--transition);
+}
+
+.delete:hover {
+	background-color: #d32f2f;
+}
+
+.cancel {
+	text-decoration: none;
+	background-color: #fff;
+	color: #000;
+	border: none;
+	border-radius: 0.25rem;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: var(--transition);
+}
+
+.cancel:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
