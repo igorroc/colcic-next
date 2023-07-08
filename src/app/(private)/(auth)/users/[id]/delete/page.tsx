@@ -1,8 +1,8 @@
 "use client"
 
-import { deleteUser, getUserById } from "@/hooks/users"
+import useUser from "@/hooks/users"
 import Link from "next/link"
-import { redirect } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import React, { useState, useEffect } from "react"
 
 import styles from "./delete.module.css"
@@ -17,6 +17,8 @@ export default function DeleteUser({ params }: DeleteUserProps) {
 	const [fullName, setFullName] = useState("")
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(true)
+	const { getUserById, deleteUser } = useUser()
+	const router = useRouter()
 
 	useEffect(() => {
 		async function getData() {
@@ -30,13 +32,14 @@ export default function DeleteUser({ params }: DeleteUserProps) {
 		}
 
 		getData()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params.id])
 
 	async function handleDelete() {
 		const deleted = await deleteUser(params.id)
 
 		if (deleted) {
-			redirect("/users")
+			router.push("/users")
 		}
 	}
 
