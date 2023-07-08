@@ -70,7 +70,6 @@ export default function useUser(token: string | null = null) {
 
 			if (res.ok) {
 				const userRes: TUser = await res.json()
-				console.log("COLCIC-LOG", `token=${userToken}`, userRes)
 
 				return userRes
 			} else {
