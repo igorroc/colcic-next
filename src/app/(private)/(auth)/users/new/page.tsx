@@ -59,6 +59,7 @@ export default function UsersNew() {
 		} else {
 			alert("Erro ao criar usuário!")
 		}
+		setCreating(false)
 	}
 
 	return (

@@ -56,9 +56,13 @@ export async function createUser(user: TUserSimple) {
 			body: JSON.stringify(user),
 		})
 
-		const newUser: TUser = await res.json()
+		if (res.ok) {
+			const newUser: TUser = await res.json()
 
-		return newUser
+			return newUser
+		} else {
+			return null
+		}
 	} catch (err) {
 		console.error(err)
 		return null
