@@ -25,37 +25,37 @@ export default function MuralPost(props: MuralPostProps) {
 			}}
 		>
 			<div className={styles.postBanner}>
-				<Image src={props.post.banner} alt="Banner do post" />
+				<Image src={props.post.image} alt="Banner do post" />
 			</div>
 			<div className={styles.postContent}>
 				<div className={styles.postCategoryList}>
-					{props.post.categories.map((category: TCategory, index_c) => (
+					{/* {props.post.categories.map((category: TCategory, index_c) => (
 						<div className={styles.postCategory} key={index_c}>
 							<span>{category.name}</span>
 						</div>
-					))}
+					))} */}
 				</div>
 				<div className={styles.postTitle}>
-					<Link href={"/noticias/" + props.post.slug}>
+					<Link href={"/noticias/" + props.post._id}>
 						<h1>{props.post.title}</h1>
 					</Link>
 				</div>
 				<div className={styles.postDescription}>
-					<p>{props.post.description}</p>
+					{/* <p>{props.post.description}</p> */}
 				</div>
 
 				<div className={styles.bottomInfo}>
 					<div className={styles.postAuthor}>
 						<div className={styles.authorPicture}>
 							<Image
-								src={props.post.author.profilePhoto}
-								alt={`Foto de ${props.post.author.name}`}
+								src={props.post.author_obj.profilePhoto}
+								alt={`Foto de ${props.post.author_obj.name}`}
 								width={100}
 								height={100}
 							/>
 						</div>
 						<div className={styles.authorInfo}>
-							<span className={styles.authorName}>{props.post.author.name}</span>
+							<span className={styles.authorName}>{props.post.author_obj.name}</span>
 							<span className={styles.authorDate}>
 								{formatToDate(props.post.created_at)}
 							</span>
@@ -64,7 +64,7 @@ export default function MuralPost(props: MuralPostProps) {
 					<div className={styles.continue}>
 						<span>Continue no QR Code</span>
 						<QRCode
-							text={process.env.NEXT_PUBLIC_URL + `/noticias/${props.post.slug}`}
+							text={process.env.NEXT_PUBLIC_URL + `/noticias/${props.post._id}`}
 						/>
 					</div>
 				</div>

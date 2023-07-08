@@ -1,7 +1,6 @@
 "use client"
 
-import { TAuthor, TPost, TPostWithAuthor } from "@/types/post"
-import { postList } from "./postList"
+import { TPost, TPostWithAuthor } from "@/types/post"
 import useUser from "./users"
 
 export default function usePosts() {

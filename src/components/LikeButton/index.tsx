@@ -15,18 +15,18 @@ export default function LikeButton(props: LikeButtonProps) {
 	const { likedPosts, likeCurrentPost } = usePostLike()
 
 	async function handleLike() {
-		likeCurrentPost(props.post.slug)
+		likeCurrentPost(props.post._id)
 	}
 
 	return (
 		<div
 			className={[
 				styles.likeContainer,
-				likedPosts?.includes(props.post.slug) ? styles.liked : "",
+				likedPosts?.includes(props.post._id) ? styles.liked : "",
 			].join(" ")}
 			onClick={handleLike}
 		>
-			{likedPosts?.includes(props.post.slug) ? (
+			{likedPosts?.includes(props.post._id) ? (
 				<>
 					<AiFillHeart />
 					<span>Curtido</span>
