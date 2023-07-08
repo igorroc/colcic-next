@@ -1,7 +1,7 @@
 import React from "react"
 
-import { getPostsWaitingForApproval } from "@/hooks/posts"
-import { getCurrentUser, getTopPublishers } from "@/hooks/users"
+import usePosts from "@/hooks/posts"
+import useUser from "@/hooks/users"
 import { useUserToken } from "@/utils/handleUserToken"
 
 import styles from "./dashboard.module.css"
@@ -10,11 +10,12 @@ import Image from "next/image"
 
 export default function AdminDashboard() {
 	const { token } = useUserToken()
-
-	const user = getCurrentUser(token)
+	const { user, getTopPublishers } = useUser(token)
+	const { getPostsWaitingForApproval } = usePosts()
 	const postsWaitingForApproval = getPostsWaitingForApproval()
-
 	const topPublishers = getTopPublishers()
+
+	if (!user) return <div>Loading...</div>
 
 	return (
 		<div>

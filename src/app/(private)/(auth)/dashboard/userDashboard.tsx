@@ -1,15 +1,18 @@
 "use client"
 
-import { getPostsByUser, getPostsWaitingForApprovalFromUser } from "@/hooks/posts"
-import { getCurrentUser } from "@/hooks/users"
+import usePosts from "@/hooks/posts"
+import useUser from "@/hooks/users"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import React from "react"
 
 export default function UserDashboard() {
 	const { token } = useUserToken()
+	const { user } = useUser(token)
+	const { getPostsByUser, getPostsWaitingForApprovalFromUser } = usePosts()
 
-	const user = getCurrentUser(token)
+	if (!user) return <div>Loading...</div>
+
 	const posts = getPostsByUser(user._id)
 	const postsEmAguardo = getPostsWaitingForApprovalFromUser(user._id)
 

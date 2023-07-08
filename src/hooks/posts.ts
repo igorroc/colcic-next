@@ -1,76 +1,108 @@
-import { TAuthor, TPostWithAuthor } from "@/types/post"
+"use client"
+
+import { TAuthor, TPost, TPostWithAuthor } from "@/types/post"
 import { postList } from "./postList"
-import { getUserById } from "./users"
+import useUser from "./users"
 
-export function getPosts() {
-	const posts = postList
-	let postsWithAuthors: TPostWithAuthor[] = []
+export default function usePosts() {
+	const { getUserById } = useUser()
 
-	posts.map((post) => {
-		const author = getUserById(post.author_id)
-		postsWithAuthors.push({ ...post, author })
-	})
+	async function getPosts() {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts")
 
-	return postsWithAuthors
-}
+			const postsRes: TPost[] = await res.json()
+			let postsWithAuthors: TPostWithAuthor[] = []
 
-export function getHomePosts() {
-	const homePostsIds = ["1", "4", "6"]
-	const posts = postList.filter((post) => homePostsIds.includes(post.id))
-	let postsWithAuthors: TPostWithAuthor[] = []
+			postsRes.map(async (post) => {
+				const author = await getUserById(post.author)
+				if (author === null) return console.error("COLCIC-ERR: Author not found")
+				postsWithAuthors.push({ ...post, author })
+			})
 
-	posts.map((post) => {
-		const author = getUserById(post.author_id)
-		postsWithAuthors.push({ ...post, author })
-	})
-
-	return postsWithAuthors
-}
-
-export function getPostBySlug(slug: string) {
-	const post = postList.find((post) => post.slug === slug)
-
-	if (post) {
-		let postWithAuthor: TPostWithAuthor
-
-		const author = getUserById(post.author_id)
-		postWithAuthor = { ...post, author }
-
-		return {
-			post: postWithAuthor,
-			status: 200,
+			return postsWithAuthors
+			return postsRes
+		} catch (err) {
+			console.error(err)
+			return []
 		}
-	} else {
-		return { error: "Post not found", status: 404 }
 	}
-}
 
-export function getPostsByUser(userId: string) {
-	const posts = postList.filter((post) => post.author_id === userId && post.status === "approved")
+	function getHomePosts() {
+		const homePostsIds = ["1", "4", "6"]
+		const posts = postList.filter((post) => homePostsIds.includes(post.id))
+		let postsWithAuthors: TPostWithAuthor[] = []
 
-	return posts
-}
+		posts.map(async (post) => {
+			const author = await getUserById(post.author_id)
+			if (author === null) return console.error("COLCIC-ERR: Author not found")
+			postsWithAuthors.push({ ...post, author })
+		})
 
-export function getPostsWaitingForApproval() {
-	const posts = postList.filter((post) => post.status === "pending")
-	let postsWithAuthors: TPostWithAuthor[] = []
+		return postsWithAuthors
+	}
 
-	posts.map((post) => {
-		const author: TAuthor = getUserById(post.author_id)
-		postsWithAuthors.push({ ...post, author })
-	})
+	async function getPostBySlug(slug: string) {
+		const post = postList.find((post) => post.slug === slug)
 
-	return postsWithAuthors
-}
+		if (post) {
+			let postWithAuthor: TPostWithAuthor
 
-export function getPostsWaitingForApprovalFromUser(userId: string) {
-	const posts = postList.filter((post) => post.status === "pending" && post.author_id === userId)
-	let postsWithAuthors: TPostWithAuthor[] = []
+			const author = await getUserById(post.author_id)
+			if (author === null) return console.error("COLCIC-ERR: Author not found")
+			postWithAuthor = { ...post, author }
 
-	posts.map((post) => {
-		const author = getUserById(post.author_id)
-		postsWithAuthors.push({ ...post, author })
-	})
+			return {
+				post: postWithAuthor,
+				status: 200,
+			}
+		} else {
+			return { error: "Post not found", status: 404 }
+		}
+	}
 
-	return postsWithAuthors
+	function getPostsByUser(userId: string) {
+		const posts = postList.filter(
+			(post) => post.author_id === userId && post.status === "approved"
+		)
+
+		return posts
+	}
+
+	function getPostsWaitingForApproval() {
+		const posts = postList.filter((post) => post.status === "pending")
+		let postsWithAuthors: TPostWithAuthor[] = []
+
+		posts.map(async (post) => {
+			const author = await getUserById(post.author_id)
+			if (author === null) return console.error("COLCIC-ERR: Author not found")
+			postsWithAuthors.push({ ...post, author })
+		})
+
+		return postsWithAuthors
+	}
+
+	function getPostsWaitingForApprovalFromUser(userId: string) {
+		const posts = postList.filter(
+			(post) => post.status === "pending" && post.author_id === userId
+		)
+		let postsWithAuthors: TPostWithAuthor[] = []
+
+		posts.map(async (post) => {
+			const author = await getUserById(post.author_id)
+			if (author === null) return console.error("COLCIC-ERR: Author not found")
+			postsWithAuthors.push({ ...post, author })
+		})
+
+		return postsWithAuthors
+	}
+
+	return {
+		getPosts,
+		getHomePosts,
+		getPostBySlug,
+		getPostsByUser,
+		getPostsWaitingForApproval,
+		getPostsWaitingForApprovalFromUser,
+	}
 }

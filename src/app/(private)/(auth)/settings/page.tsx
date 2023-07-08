@@ -8,7 +8,7 @@ import React from "react"
 export default function Settings() {
 	const { token } = useUserToken()
 
-	const user = getCurrentUser(token)
+	const { user } = useUser(token)
 
 	return (
 		<div>

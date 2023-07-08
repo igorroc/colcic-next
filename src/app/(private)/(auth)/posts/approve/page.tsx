@@ -1,9 +1,10 @@
 "use client"
 
 import React from "react"
-import { getPostsWaitingForApproval } from "@/hooks/posts"
+import usePosts from "@/hooks/posts"
 
 export default function Users() {
+	const { getPostsWaitingForApproval } = usePosts()
 	const postsWaitingForApproval = getPostsWaitingForApproval()
 
 	return (

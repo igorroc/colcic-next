@@ -15,7 +15,7 @@ import {
 
 import styles from "./edit.module.css"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
-import { createUser, editUser, getUserById } from "@/hooks/users"
+import useUser from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
 import { redirect } from "next/navigation"
 
@@ -26,12 +26,29 @@ interface UserEditProps {
 }
 
 export default function UserEdit({ params }: UserEditProps) {
+	const { getUserById, editUser } = useUser()
+
 	const [type, setType] = useState("")
 	const [showPassword, setShowPassword] = useState(false)
 	const [creating, setCreating] = useState(false)
 	const [fullName, setFullName] = useState("")
 	const [username, setUsername] = useState("")
 	const [email, setEmail] = useState("")
+
+	useEffect(() => {
+		async function getData() {
+			const user = await getUserById(params.id)
+			if (user) {
+				setFullName(user.name)
+				setUsername(user.username)
+				setEmail(user.email)
+				setType(user.type)
+			}
+		}
+
+		getData()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [params.id])
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setType(event.target.value as string)
@@ -69,20 +86,6 @@ export default function UserEdit({ params }: UserEditProps) {
 			alert("Erro ao criar usuário!")
 		}
 	}
-
-	useEffect(() => {
-		async function getData() {
-			const user = await getUserById(params.id)
-			if (user) {
-				setFullName(user.name)
-				setUsername(user.username)
-				setEmail(user.email)
-				setType(user.type)
-			}
-		}
-
-		getData()
-	}, [params.id])
 
 	return (
 		<div>

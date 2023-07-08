@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/Button"
-import { getAllUsers } from "@/hooks/users"
+import useUser from "@/hooks/users"
 import { TUser } from "@/types/user"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
@@ -14,6 +14,7 @@ export default function Users() {
 	const [users, setUsers] = useState<TUser[]>()
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
+	const { getAllUsers } = useUser()
 
 	useEffect(() => {
 		async function getData() {

@@ -11,7 +11,7 @@ import styles from "./header.module.css"
 import ColcicLogo from "/public/logo.png"
 import Link from "next/link"
 import { useUserToken } from "@/utils/handleUserToken"
-import { getCurrentUser } from "@/hooks/users"
+import useUser from "@/hooks/users"
 import { TUser } from "@/types/user"
 
 const navList = [
@@ -127,14 +127,7 @@ export function Header() {
 	const pathname = usePathname()
 
 	const { token } = useUserToken()
-	const [user, setUser] = useState<TUser>()
-
-	useEffect(() => {
-		if (token) {
-			const currentUser: TUser = getCurrentUser(token)
-			setUser(currentUser)
-		}
-	}, [token])
+	const { user } = useUser(token)
 
 	function toggleNavList() {
 		setShowNavList(!showNavList)

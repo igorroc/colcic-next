@@ -9,14 +9,14 @@ export type TCategory = {
 }
 
 export type TPost = {
-	id: string
-	slug: string
+	_id: string
+	author: string
+	// slug: string
 	title: string
 	body: string
 	description: string
-	author_id: string
 	created_at: string
-	status: "approved" | "pending" | "rejected"
+	status: "ativo" | "pending" | "rejected"
 	categories: TCategory[]
 	banner: StaticImageData
 }

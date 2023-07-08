@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import React from "react"
@@ -7,10 +9,11 @@ import { FiArrowUpRight } from "react-icons/fi"
 import { formatToDate } from "@/utils/formatToDate"
 
 import styles from "./noticias.module.css"
-import { getPosts } from "@/hooks/posts"
+import usePosts from "@/hooks/posts"
 
 export default async function Noticias() {
-	const posts = getPosts()
+	const { getPosts } = usePosts()
+	const posts = await getPosts()
 	const mainPost = posts[0]
 
 	return (

@@ -12,13 +12,9 @@ import ImageMissao from "/public/lamp.png"
 import SlideShowAcademicos from "@/components/SlideShowAcademicos"
 
 import { redes, entidades } from "@/changeable/inicio"
-import { formatToDate } from "@/utils/formatToDate"
-import { FiArrowUpRight } from "react-icons/fi"
-import { getHomePosts } from "@/hooks/posts"
+import HomePosts from "@/components/HomePosts"
 
 export default async function Home() {
-	const posts = getHomePosts()
-
 	return (
 		<main>
 			<section className="section">
@@ -76,55 +72,7 @@ export default async function Home() {
 			<section data-variant className={"section"}>
 				<div className={"MaxWidthWrapper"}>
 					<h1>Notícias importantes</h1>
-					{posts && (
-						<div className={styles.noticias}>
-							{posts.map((post, index: number) => (
-								<div key={index} className={styles.card}>
-									<div className={styles.postInfo}>
-										<div className={styles.postAuthorImage}>
-											<Image
-												src={post.author.profilePhoto}
-												alt={post.author.name}
-												width={100}
-												height={100}
-											/>
-										</div>
-										<div className={styles.postAuthorInfo}>
-											<span className={styles.postAuthorName}>
-												{post.author.name}
-											</span>
-											<span className={styles.postDate}>
-												{formatToDate(post.created_at)}
-											</span>
-										</div>
-									</div>
-									<Link
-										href={`/noticias/${post.slug}`}
-										className={styles.postImage}
-									>
-										<Image src={post.banner} alt={post.title} />
-										<div className={styles.arrowLink}>
-											<FiArrowUpRight size={28} />
-										</div>
-									</Link>
-									<div className={styles.postContent}>
-										<Link
-											className={styles.postTitle}
-											href={`/noticias/${post.slug}`}
-										>
-											{post.title}
-										</Link>
-										<p className={styles.postDescription}>{post.description}</p>
-										<Button
-											label="Ler mais"
-											type="secondary"
-											href={`/noticias/${post.slug}`}
-										/>
-									</div>
-								</div>
-							))}
-						</div>
-					)}
+					<HomePosts />
 				</div>
 			</section>
 			<section className="section">

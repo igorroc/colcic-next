@@ -6,7 +6,7 @@ import Link from "next/link"
 import { redirect, usePathname } from "next/navigation"
 
 import { useUserToken } from "@/utils/handleUserToken"
-import { getCurrentUser } from "@/hooks/users"
+import useUser from "@/hooks/users"
 
 import { AiFillClockCircle, AiFillHome } from "react-icons/ai"
 import { FaCog, FaNewspaper, FaUserFriends } from "react-icons/fa"
@@ -61,19 +61,12 @@ const sideNavListSecondary = [
 export default function SideBar() {
 	const pathname = usePathname()
 	const { token } = useUserToken()
-	const [user, setUser] = useState<TUser>()
+	const { user } = useUser(token)
 
 	useEffect(() => {
 		if (!token) {
 			redirect("/login")
 		}
-
-		async function getData() {
-			const userRes: TUser = getCurrentUser(token)
-			setUser(userRes)
-		}
-
-		getData()
 
 		if (sideNavList.find((item) => item.href == pathname)?.isAdmin && user?.type != "admin") {
 			redirect("/dashboard")

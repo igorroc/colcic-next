@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-import { handleUserLogin } from "@/hooks/users"
+import useUser from "@/hooks/users"
 
 import styles from "./login-form.module.css"
 
@@ -17,6 +17,7 @@ export default function LoginForm() {
 	const [password, setPassword] = React.useState("")
 	const router = useRouter()
 	const { setUserToken, token } = useUserToken()
+	const { handleUserLogin } = useUser()
 
 	useEffect(() => {
 		if (token) {
@@ -24,9 +25,9 @@ export default function LoginForm() {
 		}
 	}, [token, router])
 
-	function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+	async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		const userIsLogged = handleUserLogin(userName, password)
+		const userIsLogged = await handleUserLogin(userName, password)
 
 		if (userIsLogged) {
 			setUserToken(userIsLogged.token)

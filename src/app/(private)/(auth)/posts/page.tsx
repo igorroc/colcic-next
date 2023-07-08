@@ -1,8 +1,8 @@
 "use client"
 
 import { useUserToken } from "@/utils/handleUserToken"
-import { getPostsByUser } from "@/hooks/posts"
-import { getCurrentUser } from "@/hooks/users"
+import usePosts from "@/hooks/posts"
+import useUser from "@/hooks/users"
 import Link from "next/link"
 import React from "react"
 import { Button } from "@/components/Button"
@@ -14,8 +14,10 @@ import { BsFillEyeFill } from "react-icons/bs"
 
 export default function Posts() {
 	const { token } = useUserToken()
+	const { user } = useUser(token)
+	const { getPostsByUser } = usePosts()
 
-	const user = getCurrentUser(token)
+	if (!user) return <div>Loading...</div>
 
 	const posts = getPostsByUser(user._id)
 
