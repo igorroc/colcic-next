@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/Button"
 import { getAllUsers } from "@/hooks/users"
 import { TUser } from "@/types/user"
 import Link from "next/link"
@@ -29,7 +30,7 @@ export default function Users() {
 		<div>
 			<div className={styles.title}>
 				<h1>Usuários</h1>
-				<Link href="/users/new">Novo usuário</Link>
+				<Button label="Novo usuário" href="/users/new" type="primary" />
 			</div>
 			{isError && <p>Erro ao carregar usuários</p>}
 			{isLoading ? (
