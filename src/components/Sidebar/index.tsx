@@ -60,26 +60,25 @@ const sideNavListSecondary = [
 
 export default function SideBar() {
 	const pathname = usePathname()
-
 	const { token } = useUserToken()
 	const [user, setUser] = useState<TUser>()
 
-	if (!token) {
-		redirect("/login")
-	}
-
 	useEffect(() => {
+		if (!token) {
+			redirect("/login")
+		}
+
 		async function getData() {
 			const userRes: TUser = getCurrentUser(token)
 			setUser(userRes)
 		}
 
 		getData()
-	}, [token])
 
-	if (sideNavList.find((item) => item.href == pathname)?.isAdmin && user?.type != "admin") {
-		redirect("/dashboard")
-	}
+		if (sideNavList.find((item) => item.href == pathname)?.isAdmin && user?.type != "admin") {
+			redirect("/dashboard")
+		}
+	}, [token, pathname, user?.type])
 
 	return (
 		<aside className={styles.side}>
