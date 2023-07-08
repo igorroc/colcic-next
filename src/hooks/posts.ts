@@ -1,6 +1,6 @@
 "use client"
 
-import { TPost, TPostWithAuthor } from "@/types/post"
+import { TPost, TPostToPublish, TPostWithAuthor } from "@/types/post"
 import useUser from "./users"
 
 export default function usePosts() {
@@ -107,6 +107,31 @@ export default function usePosts() {
 		// return postsWithAuthors
 	}
 
+	async function createPost(post: TPostToPublish, token: string) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts", {
+				method: "POST",
+				body: JSON.stringify(post),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+
+			const postRes: TPost = await res.json()
+
+			if (!postRes) {
+				console.error("COLCIC-ERR: No post created")
+				return null
+			}
+
+			return postRes
+		} catch (err) {
+			console.error(err)
+			return null
+		}
+	}
+
 	return {
 		getPosts,
 		getHomePosts,
@@ -114,5 +139,6 @@ export default function usePosts() {
 		getPostsByUser,
 		getPostsWaitingForApproval,
 		getPostsWaitingForApprovalFromUser,
+		createPost,
 	}
 }

@@ -16,10 +16,20 @@ import {
 } from "@mui/material"
 
 import styles from "./page.module.css"
+import { Button } from "@/components/Button"
+import BasicDatePicker from "@/components/DatePicker"
+import usePosts from "@/hooks/posts"
+import { useUserToken } from "@/utils/handleUserToken"
+import { PostType, TPostToPublish } from "@/types/post"
 
 const publishTypes = ["Site", "Mural"]
 
 export default function Editor() {
+	const { createPost } = usePosts()
+	const { token } = useUserToken()
+
+	const maxDescriptionLength = 100
+
 	const [title, setTitle] = useState("")
 	const [slug, setSlug] = useState("")
 	const [hasEditedSlug, setHasEditedSlug] = useState(false)
@@ -27,7 +37,9 @@ export default function Editor() {
 	const [publiType, setPubliType] = useState<string[]>([])
 	const [bannerH, setBannerH] = useState("")
 	const [bannerV, setBannerV] = useState("")
-	const maxDescriptionLength = 100
+	const [categories, setCategories] = useState("")
+	const [expirationDate, setExpirationDate] = useState<Date | null>(null)
+	const [body, setBody] = useState("")
 
 	const handleChange = (event: SelectChangeEvent<typeof publiType>) => {
 		const {
@@ -49,16 +61,38 @@ export default function Editor() {
 		setSlug(title.toLowerCase().replace(/ /g, "-"))
 	}, [title, hasEditedSlug])
 
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault()
+
+		const data: TPostToPublish = {
+			title,
+			// slug,
+			// description,
+			// bannerH,
+			// bannerV,
+			category: categories.split(" "),
+			types: publiType as PostType[],
+			expirationDate: expirationDate || new Date(),
+			body,
+			status: "pending",
+			activationDate: new Date(),
+		}
+
+		const res = await createPost(data, token)
+
+		console.log("submit", res)
+	}
 	return (
 		<div>
 			<h1>Criar publicação</h1>
-			<form action="" id={styles.form}>
+			<form action="" id={styles.form} onSubmit={handleSubmit}>
 				<TextField
 					label="Título"
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
+					required
 				/>
-				<FormControl variant="outlined">
+				<FormControl variant="outlined" required>
 					<InputLabel htmlFor="component-helper">Slug</InputLabel>
 					<OutlinedInput
 						id="component-helper"
@@ -74,16 +108,11 @@ export default function Editor() {
 						Slug é o nome que aparece na URL da publicação
 					</FormHelperText>
 				</FormControl>
-				<div>
-					<TextField
-						label="Banner"
-						value={bannerH}
-						onChange={(e) => setBannerH(e.target.value)}
-					/>
-					{/* eslint-disable-next-line  */}
-					{bannerH && <img src={bannerH} alt="Banner" width={100} height={100} />}
-				</div>
-				<FormControl error={description.length > maxDescriptionLength} variant="outlined">
+				<FormControl
+					error={description.length > maxDescriptionLength}
+					variant="outlined"
+					required
+				>
 					<InputLabel htmlFor="component-helper">Descrição</InputLabel>
 					<OutlinedInput
 						id="component-helper"
@@ -96,7 +125,16 @@ export default function Editor() {
 						Caracteres restantes: {maxDescriptionLength - description.length}
 					</FormHelperText>
 				</FormControl>
-				<FormControl>
+				<TextField
+					label="Conteúdo"
+					multiline
+					minRows={5}
+					maxRows={10}
+					value={body}
+					onChange={(e) => setBody(e.target.value)}
+					required
+				/>
+				<FormControl required>
 					<InputLabel id="demo-multiple-checkbox-label">Tipo de Postagem</InputLabel>
 					<Select
 						labelId="demo-multiple-checkbox-label"
@@ -115,6 +153,45 @@ export default function Editor() {
 						))}
 					</Select>
 				</FormControl>
+				<FormControl variant="outlined">
+					<InputLabel htmlFor="categories">Categorias</InputLabel>
+					<OutlinedInput
+						id="categories"
+						value={categories}
+						label="Categorias"
+						onChange={(e) => setCategories(e.target.value)}
+					/>
+					<FormHelperText id="categories-text">
+						Categorias separadas por espaço
+					</FormHelperText>
+				</FormControl>
+				<BasicDatePicker
+					label="Data de expiração"
+					helperText="A notícia será removida do site após essa data"
+					value={expirationDate}
+					onChange={(newValue) => setExpirationDate(newValue)}
+				/>
+				<div className={styles.bannerPreview}>
+					<FormControl variant="outlined" required>
+						<InputLabel htmlFor="banner-H">Banner Horizontal</InputLabel>
+						<OutlinedInput
+							id="banner-H"
+							value={bannerH}
+							label="Banner Horizontal"
+							onChange={(e) => setBannerH(e.target.value)}
+						/>
+						<FormHelperText id="banner-H-text">
+							Imagem que ficará no corpo da publicação (1920x1080)
+						</FormHelperText>
+					</FormControl>
+					{bannerH && (
+						<div className={styles.bannerPreview}>
+							{/* eslint-disable-next-line  */}
+							<img src={bannerH} alt="Banner" />
+						</div>
+					)}
+				</div>
+				<Button label="Publicar" type="primary" />
 			</form>
 		</div>
 	)

@@ -26,3 +26,22 @@ export type TPost = {
 export type TPostWithAuthor = TPost & {
 	author_obj: TAuthor
 }
+
+export enum PostType {
+	SITE = "site",
+	MURAL = "mural",
+}
+
+export type TPostToPublish = {
+	body: string
+	title: string
+	status: string
+	activationDate: Date
+	expirationDate: Date
+	category: string[]
+	types: PostType[]
+	// bannerHorizontal: string
+	// bannerVertical: string
+	// author_id: string
+	// description: string
+}
