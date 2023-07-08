@@ -1,6 +1,6 @@
 import { users } from "./userList"
 import { postList } from "./postList"
-import { TUser } from "@/types/user"
+import { TUser, TUserSimple } from "@/types/user"
 
 export function getCurrentUser(userToken: string) {
 	return users.filter((user) => user.token === userToken)[0]
@@ -30,6 +30,25 @@ export async function getAllUsers() {
 	} catch (err) {
 		console.error(err)
 		return []
+	}
+}
+
+export async function createUser(user: TUserSimple) {
+	try {
+		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(user),
+		})
+
+		const newUser: TUser = await res.json()
+
+		return newUser
+	} catch (err) {
+		console.error(err)
+		return null
 	}
 }
 

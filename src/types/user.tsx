@@ -12,3 +12,12 @@ export type TUser = {
 	updatedAt: string
 	__v: number
 }
+
+export type TUserSimple = {
+	name: string
+	email: string
+	username: string
+	password: string
+	type: string
+	profilePhoto: string
+}
