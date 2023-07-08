@@ -9,23 +9,22 @@
 }
 
 .table th {
+	position: relative;
 	padding: 0.5em;
-	line-height: normal;
 	text-align: left;
-	border: 1px solid #333;
 }
 
 .table tbody th {
 	font-weight: normal;
 }
 
-.actionsGroup {
+.flexRow {
 	display: flex;
 	align-items: center;
 	gap: 0.5em;
 }
 
-.actionsGroup .actionButton {
+.actionButton {
 	width: 2em;
 	height: 2em;
 	border-radius: 0.5em;
@@ -35,6 +34,6 @@
 	transition: var(--transition);
 }
 
-.actionsGroup .actionButton:hover {
-	background-color: #3332;
+.actionButton:hover {
+	background-color: #476ff13a;
 }

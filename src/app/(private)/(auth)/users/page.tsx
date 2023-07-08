@@ -4,7 +4,7 @@ import { getAllUsers } from "@/hooks/users"
 import { TUser } from "@/types/user"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
-import { AiFillEdit } from "react-icons/ai"
+import { AiFillEdit, AiFillStar } from "react-icons/ai"
 import { FaTrash } from "react-icons/fa"
 
 import styles from "./users.module.css"
@@ -49,10 +49,13 @@ export default function Users() {
 							{users &&
 								users.map((user) => (
 									<tr key={user._id}>
-										<th>{user.name}</th>
+										<th className={styles.flexRow}>
+											{user.type === "admin" && <AiFillStar />}
+											<span>{user.name}</span>
+										</th>
 										<th>{user.username}</th>
 										<th>{user.email}</th>
-										<th className={styles.actionsGroup}>
+										<th className={styles.flexRow}>
 											<Link
 												href={`/users/${user._id}`}
 												className={styles.actionButton}
