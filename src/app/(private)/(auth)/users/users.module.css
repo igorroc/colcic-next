@@ -1,0 +1,40 @@
+.title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.table thead tr {
+	height: max-content;
+}
+
+.table th {
+	padding: 0.5em;
+	line-height: normal;
+	text-align: left;
+	border: 1px solid #333;
+}
+
+.table tbody th {
+	font-weight: normal;
+}
+
+.actionsGroup {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.actionsGroup .actionButton {
+	width: 2em;
+	height: 2em;
+	border-radius: 0.5em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: var(--transition);
+}
+
+.actionsGroup .actionButton:hover {
+	background-color: #3332;
+}
