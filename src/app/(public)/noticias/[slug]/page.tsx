@@ -1,4 +1,6 @@
-import React from "react"
+"use client"
+
+import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { AiOutlineHeart } from "react-icons/ai"
 
@@ -11,8 +13,8 @@ import MarkdownPrint from "@/components/MarkdownPrint"
 import SharableLinks from "@/components/SharableLinks"
 import { Button } from "@/components/Button"
 
-import { TCategory } from "@/types/post"
-import { getPostBySlug } from "@/hooks/posts"
+import { TCategory, TPostWithAuthor } from "@/types/post"
+import usePosts from "@/hooks/posts"
 import LikeButton from "@/components/LikeButton"
 
 interface PostPageType {
@@ -24,9 +26,25 @@ interface PostPageType {
 export const revalidate = 30
 
 export default async function Post({ params }: PostPageType) {
-	const response = getPostBySlug(params.slug)
+	const { getPostBySlug } = usePosts()
+	const [post, setPost] = useState<TPostWithAuthor>()
+	const [loading, setLoading] = useState(true)
 
-	if (response.status != 200) {
+	useEffect(() => {
+		async function loadPost() {
+			const p = await getPostBySlug(params.slug)
+			if (p) {
+				setPost(p)
+			}
+			setLoading(false)
+		}
+
+		loadPost()
+	}, [params.slug, getPostBySlug])
+
+	const response = await getPostBySlug(params.slug)
+
+	if (!post && !loading) {
 		return (
 			<div className={styles.mainContainer}>
 				<div className={styles.error}>
@@ -50,8 +68,6 @@ export default async function Post({ params }: PostPageType) {
 			</div>
 		)
 	}
-
-	const post = response.post
 
 	return (
 		<div className={styles.mainContainer}>
@@ -120,24 +136,24 @@ export default async function Post({ params }: PostPageType) {
 							].join(" ")}
 						>
 							<div className={styles.categories}>
-								{post?.categories.map((category: TCategory, index: number) => (
+								{/* {post?.categories.map((category: TCategory, index: number) => (
 									<span className={styles.categoriesTag} key={index}>
 										{category.name}
 									</span>
-								))}
+								))} */}
 							</div>
 							<h1 className={styles.postHeaderTitle}>{post?.title}</h1>
 						</div>
 						<div className={styles.sideHeaderContainer}>
 							<div className={styles.avatarUserInfo}>
 								<Image
-									src={post.author.profilePhoto}
-									alt={`Foto de perfil de ${post.author.name}`}
+									src={post.author_obj.profilePhoto}
+									alt={`Foto de perfil de ${post.author_obj.name}`}
 									width={100}
 									height={100}
 								/>
 								<div>
-									<p className={styles.authorName}>{post?.author.name}</p>
+									<p className={styles.authorName}>{post?.author_obj.name}</p>
 									<p className={styles.postDate}>
 										{formatToDate(post.created_at)}
 									</p>
@@ -148,7 +164,7 @@ export default async function Post({ params }: PostPageType) {
 						</div>
 					</div>
 					<div className={styles.postBanner}>
-						<Image src={post?.banner} alt="post banner" width={767} />
+						<Image src={post?.image} alt="post banner" width={767} />
 					</div>
 					<div className={styles.bodyText}>
 						<MarkdownPrint text={post.body} />
