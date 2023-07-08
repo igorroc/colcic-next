@@ -167,7 +167,8 @@ export function Header() {
 								className={styles.userPhoto}
 								title="Entrar no painel"
 							>
-								<Image
+								{/* eslint-disable-next-line */}
+								<img
 									src={user.profilePhoto}
 									alt="Foto de perfil do usuário"
 									width={100}
@@ -232,7 +233,8 @@ export function Header() {
 							className={[styles.userPhoto, styles.userPhotoDesktop].join(" ")}
 							title="Entrar no painel"
 						>
-							<Image
+							{/* eslint-disable-next-line */}
+							<img
 								src={user.profilePhoto}
 								alt="Foto de perfil do usuário"
 								width={100}
