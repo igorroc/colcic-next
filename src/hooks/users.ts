@@ -1,12 +1,13 @@
 import { users } from "./userList"
 import { postList } from "./postList"
+import { TUser } from "@/types/user"
 
 export function getCurrentUser(userToken: string) {
 	return users.filter((user) => user.token === userToken)[0]
 }
 
-export function getUserById(userId: number) {
-	return users.filter((user) => user.id === userId)[0]
+export function getUserById(userId: string) {
+	return users.filter((user) => user._id === userId)[0]
 }
 
 export function handleUserLogin(username: string, password: string) {
@@ -21,11 +22,11 @@ export function handleUserLogin(username: string, password: string) {
 
 export async function getAllUsers() {
 	try {
-		// const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users")
+		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users")
 
-		// console.log(res)
+		const usersRes: TUser[] = await res.json()
 
-		return users
+		return usersRes
 	} catch (err) {
 		console.error(err)
 		return []
@@ -37,12 +38,12 @@ export function getTopPublishers() {
 
 	const topPublishers = users
 		.map((user) => {
-			const posts = postList.filter((post) => post.author_id === user.id)
+			const posts = postList.filter((post) => post.author_id === user._id)
 
 			return {
-				id: user.id,
+				id: user._id,
 				name: user.name,
-				photo: user.photo,
+				photo: user.profilePhoto,
 				posts: posts.length,
 			}
 		})

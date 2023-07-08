@@ -37,7 +37,12 @@ export default function AdminDashboard() {
 				{topPublishers.map((publisher) => (
 					<div className={styles.card} key={publisher.id}>
 						<div className={styles.userPhoto}>
-							<Image src={publisher.photo} alt={publisher.name} />
+							<Image
+								src={publisher.photo}
+								alt={publisher.name}
+								width={100}
+								height={100}
+							/>
 						</div>
 						<span className={styles.userName}>{publisher.name}</span>
 						<span>

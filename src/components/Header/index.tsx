@@ -174,7 +174,12 @@ export function Header() {
 								className={styles.userPhoto}
 								title="Entrar no painel"
 							>
-								<Image src={user.photo} alt="Foto de perfil do usuário" />
+								<Image
+									src={user.profilePhoto}
+									alt="Foto de perfil do usuário"
+									width={100}
+									height={100}
+								/>
 							</Link>
 						)}
 					</div>
@@ -234,7 +239,12 @@ export function Header() {
 							className={[styles.userPhoto, styles.userPhotoDesktop].join(" ")}
 							title="Entrar no painel"
 						>
-							<Image src={user.photo} alt="Foto de perfil do usuário" />
+							<Image
+								src={user.profilePhoto}
+								alt="Foto de perfil do usuário"
+								width={100}
+								height={100}
+							/>
 						</Link>
 					)}
 

@@ -48,8 +48,10 @@ export default function MuralPost(props: MuralPostProps) {
 					<div className={styles.postAuthor}>
 						<div className={styles.authorPicture}>
 							<Image
-								src={props.post.author.photo}
+								src={props.post.author.profilePhoto}
 								alt={`Foto de ${props.post.author.name}`}
+								width={100}
+								height={100}
 							/>
 						</div>
 						<div className={styles.authorInfo}>

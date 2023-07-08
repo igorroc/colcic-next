@@ -17,7 +17,7 @@ export default function Posts() {
 
 	const user = getCurrentUser(token)
 
-	const posts = getPostsByUser(user.id)
+	const posts = getPostsByUser(user._id)
 
 	return (
 		<div>

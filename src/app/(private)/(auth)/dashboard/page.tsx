@@ -12,7 +12,7 @@ export default function Dashboard() {
 
 	const user = getCurrentUser(token)
 
-	if (user.isAdmin) return <AdminDashboard />
+	if (user.type == "admin") return <AdminDashboard />
 
 	return <UserDashboard />
 }

@@ -1,11 +1,14 @@
 import { StaticImageData } from "next/image"
 
 export type TUser = {
-	id: number
+	_id: string
 	name: string
+	email: string
 	username: string
 	password: string
-	token: string
-	photo: StaticImageData
-	isAdmin: boolean
+	type: string
+	profilePhoto: string
+	createdAt: string
+	updatedAt: string
+	__v: number
 }

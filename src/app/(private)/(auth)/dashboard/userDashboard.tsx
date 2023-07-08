@@ -10,8 +10,8 @@ export default function UserDashboard() {
 	const { token } = useUserToken()
 
 	const user = getCurrentUser(token)
-	const posts = getPostsByUser(user.id)
-	const postsEmAguardo = getPostsWaitingForApprovalFromUser(user.id)
+	const posts = getPostsByUser(user._id)
+	const postsEmAguardo = getPostsWaitingForApprovalFromUser(user._id)
 
 	return (
 		<div>

@@ -82,7 +82,12 @@ export default async function Home() {
 								<div key={index} className={styles.card}>
 									<div className={styles.postInfo}>
 										<div className={styles.postAuthorImage}>
-											<Image src={post.author.photo} alt={post.author.name} />
+											<Image
+												src={post.author.profilePhoto}
+												alt={post.author.name}
+												width={100}
+												height={100}
+											/>
 										</div>
 										<div className={styles.postAuthorInfo}>
 											<span className={styles.postAuthorName}>
