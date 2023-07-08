@@ -93,7 +93,8 @@ export default function SideBar() {
 			<div className={styles.actions}>
 				{user?.profilePhoto && (
 					<div className={styles.userPhoto} title={user.name}>
-						<Image
+						{/* eslint-disable-next-line */}
+						<img
 							src={user?.profilePhoto}
 							alt={"Foto de perfil"}
 							width={100}
