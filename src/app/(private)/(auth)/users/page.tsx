@@ -3,6 +3,7 @@
 import { Button } from "@/components/Button"
 import useUser from "@/hooks/users"
 import { TUser } from "@/types/user"
+import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import { AiFillEdit, AiFillStar } from "react-icons/ai"
@@ -14,7 +15,8 @@ export default function Users() {
 	const [users, setUsers] = useState<TUser[]>()
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
-	const { getAllUsers } = useUser({ adminOnlyPage: true })
+	const { token } = useUserToken()
+	const { getAllUsers } = useUser({ token, adminOnlyPage: true, redirectTo: "/dashboard" })
 
 	useEffect(() => {
 		async function getData() {

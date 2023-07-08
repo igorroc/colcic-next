@@ -20,10 +20,9 @@ export default function useUser(options: IUserHook | undefined = {}) {
 			if (token) {
 				const user = await getCurrentUser(token)
 				setUser(user)
-			}
-
-			if (adminPage) {
-				adminOnlyPage()
+				if (adminPage) {
+					adminOnlyPage(token, options?.redirectTo)
+				}
 			}
 		}
 
@@ -77,15 +76,12 @@ export default function useUser(options: IUserHook | undefined = {}) {
 
 	async function getCurrentUser(userToken: string) {
 		try {
-			const res = await fetch(
-				process.env.NEXT_PUBLIC_API_URL + `/users/auth/${userToken}`,
-				{
-					method: "GET",
-					headers: {
-						Authorization: `Bearer ${userToken}`,
-					},
-				} as RequestInit
-			)
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + `/users/auth/${userToken}`, {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${userToken}`,
+				},
+			} as RequestInit)
 
 			if (res.ok) {
 				const userRes: TUser = await res.json()
@@ -140,11 +136,13 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		return user?.type === "admin"
 	}
 
-	function adminOnlyPage() {
+	async function adminOnlyPage(token: string, redirectTo: string = "/") {
+		const user = await getCurrentUser(token)
+		setUser(user)
 		// verifica se o usuário está logado e se é admin
 		// se não for, redireciona para a home
 		if (user?.type !== "admin") {
-			window.location.href = "/"
+			window.location.href = redirectTo
 		}
 	}
 
