@@ -1,5 +1,4 @@
 import React from "react"
-import Link from "next/link"
 
 import { getPostsWaitingForApproval } from "@/hooks/posts"
 import { getCurrentUser, getTopPublishers } from "@/hooks/users"

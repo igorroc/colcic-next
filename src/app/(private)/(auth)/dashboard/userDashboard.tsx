@@ -4,7 +4,6 @@ import { getPostsByUser, getPostsWaitingForApprovalFromUser } from "@/hooks/post
 import { getCurrentUser } from "@/hooks/users"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
-import { redirect } from "next/navigation"
 import React from "react"
 
 export default function UserDashboard() {
