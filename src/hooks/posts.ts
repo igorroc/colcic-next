@@ -50,7 +50,7 @@ export default function usePosts() {
 	}
 
 	async function getPostBySlug(slug: string) {
-		return null
+		return null as TPostWithAuthor | null
 		// const post = postList.find((post) => post.slug === slug)
 
 		// if (post) {
@@ -70,7 +70,7 @@ export default function usePosts() {
 	}
 
 	function getPostsByUser(userId: string) {
-		return []
+		return [] as TPostWithAuthor[]
 		// const posts = postList.filter(
 		// 	(post) => post.author_id === userId && post.status === "approved"
 		// )
@@ -79,7 +79,7 @@ export default function usePosts() {
 	}
 
 	function getPostsWaitingForApproval() {
-		return []
+		return [] as TPostWithAuthor[]
 		// const posts = postList.filter((post) => post.status === "pending")
 		// let postsWithAuthors: TPostWithAuthor[] = []
 
@@ -93,7 +93,7 @@ export default function usePosts() {
 	}
 
 	function getPostsWaitingForApprovalFromUser(userId: string) {
-		return []
+		return [] as TPostWithAuthor[]
 		// const posts = postList.filter(
 		// 	(post) => post.status === "pending" && post.author_id === userId
 		// )
