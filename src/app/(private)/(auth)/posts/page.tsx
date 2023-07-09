@@ -33,7 +33,9 @@ export default function Posts() {
 
 			if (!posts) return
 
-			setPosts(posts)
+			const filteredPosts = posts.filter((post) => post.author._id === user._id)
+
+			setPosts(filteredPosts)
 		}
 
 		getData()
