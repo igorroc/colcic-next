@@ -29,7 +29,9 @@ export default function Mural() {
 	useEffect(() => {
 		async function loadPosts() {
 			const p = await getPosts(token)
-			setPosts(p)
+			if (p) {
+				setPosts(p.reverse())
+			}
 			setLoading(false)
 		}
 
