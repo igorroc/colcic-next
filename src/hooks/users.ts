@@ -80,6 +80,29 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		}
 	}
 
+	async function handleFirstAccess(identifier: string, password: string, accessCode: string) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/first-access", {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ identifier, password, accessCode }),
+			})
+
+			if (res.ok) {
+				const usersRes: TUser = await res.json()
+
+				return usersRes
+			} else {
+				return null
+			}
+		} catch (err) {
+			console.error(err)
+			return false
+		}
+	}
+
 	async function getCurrentUser(userToken: string) {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + `/users/auth/${userToken}`, {
@@ -212,5 +235,6 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		user,
 		isAdmin,
 		adminOnlyPage,
+		handleFirstAccess,
 	}
 }

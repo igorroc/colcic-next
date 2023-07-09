@@ -6,6 +6,7 @@ export type TUser = {
 	email: string
 	username: string
 	password: string
+	accessCode?: string
 	type: string
 	profilePhoto: string
 	createdAt: string

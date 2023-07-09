@@ -6,8 +6,9 @@ import { TUser } from "@/types/user"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
-import { AiFillEdit, AiFillStar } from "react-icons/ai"
+import { AiFillEdit, AiOutlineStar } from "react-icons/ai"
 import { FaTrash } from "react-icons/fa"
+import { FiClock } from "react-icons/fi"
 
 import styles from "./users.module.css"
 
@@ -23,6 +24,7 @@ export default function Users() {
 			const userRes = await getAllUsers()
 
 			setUsers(userRes)
+
 			setIsLoading(false)
 		}
 
@@ -44,6 +46,7 @@ export default function Users() {
 					<table className={styles.table}>
 						<thead>
 							<tr>
+								<th>Tipo</th>
 								<th>Nome</th>
 								<th>Username</th>
 								<th>Email</th>
@@ -54,8 +57,13 @@ export default function Users() {
 							{users &&
 								users.map((user) => (
 									<tr key={user._id}>
+										<th>
+											{user.type === "admin" && (
+												<AiOutlineStar title="Administrador" />
+											)}
+											{!user.password && <FiClock title="Novo usuário" />}
+										</th>
 										<th className={styles.flexRow}>
-											{user.type === "admin" && <AiFillStar />}
 											<span>{user.name}</span>
 										</th>
 										<th>{user.username}</th>
