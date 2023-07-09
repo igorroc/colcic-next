@@ -62,7 +62,7 @@ export default function Settings() {
 		}
 
 		if (user) {
-			const newUser = await editUser(data, user._id)
+			const newUser = await editUser(data, user._id, token)
 
 			if (newUser) {
 				alert("Perfil editado com sucesso!")
@@ -72,6 +72,7 @@ export default function Settings() {
 				alert("Erro ao editar perfil!")
 			}
 		}
+		setCreating(false)
 	}
 
 	function handlePhotoError() {
@@ -132,7 +133,7 @@ export default function Settings() {
 						<div className={styles.profilePhoto}>
 							{photoError ? (
 								<div className={styles.photoError} title="Erro ao carregar foto">
-									<IoClose  size={32}/>
+									<IoClose size={32} />
 								</div>
 							) : (
 								<>
