@@ -56,7 +56,7 @@ export default function useUser(options: IUserHook | undefined = {}) {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ email: username, password }),
+				body: JSON.stringify({ identifier: username, password }),
 			})
 
 			if (res.ok) {
@@ -158,7 +158,14 @@ export default function useUser(options: IUserHook | undefined = {}) {
 				body: JSON.stringify(user),
 			})
 
+			if (!res.ok) {
+				console.error("COLCIC-ERR", "Internal error")
+				return null
+			}
+
 			const newUser: TUser = await res.json()
+
+			console.log(newUser)
 
 			return newUser
 		} catch (err) {
