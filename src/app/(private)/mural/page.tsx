@@ -14,8 +14,10 @@ import usePosts from "@/hooks/posts"
 import { TPostWithAuthorObj } from "@/types/post"
 import QRCode from "@/components/QRCode"
 import Countdown from "@/components/Countdown"
+import { useUserToken } from "@/utils/handleUserToken"
 
 export default function Mural() {
+	const { token } = useUserToken()
 	const searchParams = useSearchParams()
 	const delay = Number(searchParams.get("delay")) || 10000
 	const revalidateDelay = Number(searchParams.get("revalidate")) || 30 * 60
@@ -26,13 +28,12 @@ export default function Mural() {
 
 	useEffect(() => {
 		async function loadPosts() {
-			const p = await getPosts()
+			const p = await getPosts(token)
 			setPosts(p)
 			setLoading(false)
 		}
 
 		const intervalDelay = revalidateDelay * 1000
-		console.log("intervalDelay", intervalDelay)
 
 		const interval = setInterval(async () => {
 			setLoading(true)
