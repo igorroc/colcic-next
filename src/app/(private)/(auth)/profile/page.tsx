@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation"
 import { TUserSimple } from "@/types/user"
 import { IoClose } from "react-icons/io5"
 
-export default function Settings() {
+export default function Profile() {
 	const router = useRouter()
 	const { token } = useUserToken()
 	const { user, editUser } = useUser({ token })
@@ -81,7 +81,7 @@ export default function Settings() {
 
 	return (
 		<div>
-			<h1>Configurações</h1>
+			<h1>Editar perfil</h1>
 
 			<form action="" id={styles.form} onSubmit={handleSubmit}>
 				<TextField
@@ -147,6 +147,16 @@ export default function Settings() {
 							)}
 						</div>
 					)}
+					{/* <input
+						type="file"
+						name="photo"
+						id="photo"
+						value={photo}
+						onChange={(event) => {
+							setPhotoError(false)
+							setPhoto(event.target.value)
+						}}
+					/> */}
 					<TextField
 						label="Foto de perfil"
 						type="url"

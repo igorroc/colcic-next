@@ -9,11 +9,10 @@ import { useUserToken } from "@/utils/handleUserToken"
 import useUser from "@/hooks/users"
 
 import { AiFillClockCircle, AiFillHome } from "react-icons/ai"
-import { FaCog, FaNewspaper, FaUserFriends } from "react-icons/fa"
+import { FaCog, FaNewspaper, FaUserAlt, FaUserFriends } from "react-icons/fa"
 import { MdDashboard, MdLogout } from "react-icons/md"
 
 import styles from "./sidebar.module.css"
-import { TUser } from "@/types/user"
 
 const sideNavList = [
 	{
@@ -42,9 +41,9 @@ const sideNavList = [
 
 const sideNavListSecondary = [
 	{
-		title: "Configurações",
-		href: "/settings",
-		icon: <FaCog />,
+		title: "Perfil",
+		href: "/profile",
+		icon: <FaUserAlt />,
 	},
 	{
 		title: "Página inicial",
