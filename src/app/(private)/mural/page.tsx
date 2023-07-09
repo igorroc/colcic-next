@@ -11,7 +11,7 @@ import MuralTimer from "@/components/MuralTimer"
 import styles from "./mural.module.css"
 import Logo from "/public/logo_large.svg"
 import usePosts from "@/hooks/posts"
-import { TPostWithAuthorObj } from "@/types/post"
+import { TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
 import QRCode from "@/components/QRCode"
 import Countdown from "@/components/Countdown"
 import { useUserToken } from "@/utils/handleUserToken"
@@ -23,12 +23,12 @@ export default function Mural() {
 	const revalidateDelay = Number(searchParams.get("revalidate")) || 30 * 60
 
 	const [loading, setLoading] = useState(true)
-	const { getPosts } = usePosts()
-	const [posts, setPosts] = useState<TPostWithAuthorObj[]>()
+	const { getMuralPosts } = usePosts()
+	const [posts, setPosts] = useState<TPostWithAuthorId[]>()
 
 	useEffect(() => {
 		async function loadPosts() {
-			const p = await getPosts(token)
+			const p = await getMuralPosts()
 			if (p) {
 				setPosts(p.reverse())
 			}

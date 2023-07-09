@@ -50,6 +50,24 @@ export default function usePosts() {
 		}
 	}
 
+	async function getMuralPosts(): Promise<TPostWithAuthorId[] | undefined> {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/mural")
+
+			const postsRes: TPostWithAuthorId[] = await res.json()
+
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
+
+			return postsRes
+		} catch (err) {
+			console.error(err)
+			return []
+		}
+	}
+
 	async function getHomePosts(token: string) {
 		const homePostsIds = ["64aa1e197e1c99437ad22986"]
 		const posts = await getPosts(token)
@@ -179,5 +197,6 @@ export default function usePosts() {
 		getPostsWaitingForApprovalFromUser,
 		createPost,
 		deletePost,
+		getMuralPosts,
 	}
 }
