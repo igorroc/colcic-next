@@ -1,42 +1,60 @@
 "use client"
 
-import { TPost, TPostToPublish, TPostWithAuthor } from "@/types/post"
+import { TPost, TPostToPublish, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
 import useUser from "./users"
 
 export default function usePosts() {
 	const { getUserById } = useUser()
 
-	async function getPosts() {
+	async function getPosts(token: string): Promise<TPostWithAuthorObj[] | undefined> {
 		try {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts")
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
-			const postsRes: TPost[] = await res.json()
+			const postsRes: TPostWithAuthorId[] = await res.json()
 
 			if (!postsRes || postsRes.length == 0) {
 				console.error("COLCIC-ERR: No posts found")
 				return []
 			}
 
-			let postsWithAuthors: TPostWithAuthor[] = []
+			let postsWithAuthors: TPostWithAuthorObj[] = []
 
-			postsRes.map(async (post) => {
-				const author = await getUserById(post.author)
-				if (author === null) return console.error("COLCIC-ERR: Author not found")
-				postsWithAuthors.push({ ...post, author_obj: author })
-			})
+			return await Promise.all(
+				postsRes.map(async (post) => {
+					const author = await getUserById(post.author, token)
+					if (author === null) {
+						console.error("COLCIC-ERR: Author not found")
+						return null
+					}
 
-			console.log("POSTS WITH AUTHORS", postsWithAuthors)
-
-			return postsWithAuthors
+					const postWithAuthor: TPostWithAuthorObj = { ...post, author: author }
+					postsWithAuthors.push(postWithAuthor)
+				})
+			)
+				.then(() => {
+					return postsWithAuthors
+				})
+				.catch((err) => {
+					console.error(err)
+					return []
+				})
 		} catch (err) {
 			console.error(err)
 			return []
 		}
 	}
 
-	async function getHomePosts() {
-		const homePostsIds = ["64a3c2b99f2d581f1c2daacd"]
-		const posts = await getPosts()
+	async function getHomePosts(token: string) {
+		const homePostsIds = ["64aa1e197e1c99437ad22986"]
+		const posts = await getPosts(token)
+
+		console.log(posts)
 
 		if (!posts || posts.length === 0) {
 			console.error("COLCIC-ERR: No home posts found")
@@ -49,7 +67,7 @@ export default function usePosts() {
 	}
 
 	async function getPostBySlug(slug: string) {
-		return null as TPostWithAuthor | null
+		return null as TPostWithAuthorObj | null
 		// const post = postList.find((post) => post.slug === slug)
 
 		// if (post) {
@@ -69,7 +87,7 @@ export default function usePosts() {
 	}
 
 	function getPostsByUser(userId: string) {
-		return [] as TPostWithAuthor[]
+		return [] as TPostWithAuthorObj[]
 		// const posts = postList.filter(
 		// 	(post) => post.author_id === userId && post.status === "approved"
 		// )
@@ -78,7 +96,7 @@ export default function usePosts() {
 	}
 
 	function getPostsWaitingForApproval() {
-		return [] as TPostWithAuthor[]
+		return [] as TPostWithAuthorObj[]
 		// const posts = postList.filter((post) => post.status === "pending")
 		// let postsWithAuthors: TPostWithAuthor[] = []
 
@@ -92,7 +110,7 @@ export default function usePosts() {
 	}
 
 	function getPostsWaitingForApprovalFromUser(userId: string) {
-		return [] as TPostWithAuthor[]
+		return [] as TPostWithAuthorObj[]
 		// const posts = postList.filter(
 		// 	(post) => post.status === "pending" && post.author_id === userId
 		// )

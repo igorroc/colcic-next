@@ -11,16 +11,18 @@ import usePosts from "@/hooks/posts"
 
 import styles from "./homePosts.module.css"
 import { Button } from "../Button"
-import { TPostWithAuthor } from "@/types/post"
+import { TPostWithAuthorObj } from "@/types/post"
+import { useUserToken } from "@/utils/handleUserToken"
 
 export default function HomePosts() {
+	const { token } = useUserToken()
 	const { getHomePosts } = usePosts()
-	const [posts, setPosts] = useState<TPostWithAuthor[]>()
+	const [posts, setPosts] = useState<TPostWithAuthorObj[]>()
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		async function getData() {
-			const p = await getHomePosts()
+			const p = await getHomePosts(token)
 
 			if (p && p.length > 0) {
 				setPosts(p)
@@ -45,37 +47,39 @@ export default function HomePosts() {
 						<div key={index} className={styles.card}>
 							<div className={styles.postInfo}>
 								<div className={styles.postAuthorImage}>
-									<Image
-										src={post.author_obj.profilePhoto}
-										alt={post.author_obj.name}
+									{/* eslint-disable-next-line  */}
+									<img
+										src={post.author.profilePhoto}
+										alt={post.author.name}
 										width={100}
 										height={100}
 									/>
 								</div>
 								<div className={styles.postAuthorInfo}>
 									<span className={styles.postAuthorName}>
-										{post.author_obj.name}
+										{post.author.name}
 									</span>
 									<span className={styles.postDate}>
-										{formatToDate(post.created_at)}
+										{formatToDate(post.createdAt)}
 									</span>
 								</div>
 							</div>
-							<Link href={`/noticias/${post._id}`} className={styles.postImage}>
-								<Image src={post.image} alt={post.title} />
+							<Link href={`/noticias/${post.slug}`} className={styles.postImage}>
+								{/* eslint-disable-next-line */}
+								<img src={post.horizontal_image} alt={post.title} />
 								<div className={styles.arrowLink}>
 									<FiArrowUpRight size={28} />
 								</div>
 							</Link>
 							<div className={styles.postContent}>
-								<Link className={styles.postTitle} href={`/noticias/${post._id}`}>
+								<Link className={styles.postTitle} href={`/noticias/${post.slug}`}>
 									{post.title}
 								</Link>
 								{/* <p className={styles.postDescription}>{post.description}</p> */}
 								<Button
 									label="Ler mais"
 									type="secondary"
-									href={`/noticias/${post._id}`}
+									href={`/noticias/${post.slug}`}
 								/>
 							</div>
 						</div>

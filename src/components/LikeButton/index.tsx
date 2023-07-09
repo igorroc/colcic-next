@@ -1,6 +1,6 @@
 "use client"
 
-import { TPostWithAuthor } from "@/types/post"
+import { TPostWithAuthorObj } from "@/types/post"
 import { usePostLike } from "@/utils/handlePostLike"
 import React, { useEffect } from "react"
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
@@ -8,7 +8,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
 import styles from "./like-button.module.css"
 
 interface LikeButtonProps {
-	post: TPostWithAuthor
+	post: TPostWithAuthorObj
 }
 
 export default function LikeButton(props: LikeButtonProps) {

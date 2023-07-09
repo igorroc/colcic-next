@@ -1,26 +1,46 @@
 "use client"
 
+import React, { useState, useEffect } from "react"
 import { useUserToken } from "@/utils/handleUserToken"
 import usePosts from "@/hooks/posts"
 import useUser from "@/hooks/users"
 import Link from "next/link"
-import React from "react"
 import { Button } from "@/components/Button"
 
 import styles from "./posts.module.css"
 import Image from "next/image"
 import { AiFillEdit } from "react-icons/ai"
 import { BsFillEyeFill } from "react-icons/bs"
+import { TPost, TPostWithAuthorObj } from "@/types/post"
+import { TUser } from "@/types/user"
 
 export default function Posts() {
 	const { token } = useUserToken()
-	const { user } = useUser({ token })
-	const { getPostsByUser } = usePosts()
+	const { getCurrentUser } = useUser({ token })
+	const { getPostsByUser, getPosts } = usePosts()
+	const [posts, setPosts] = useState<TPost[]>([])
+	const [user, setUser] = useState<TUser>()
+
+	useEffect(() => {
+		async function getData() {
+			const user = await getCurrentUser(token)
+
+			if (!user) return
+
+			setUser(user)
+
+			const posts = await getPosts(token)
+
+			if (!posts) return
+
+			setPosts(posts)
+		}
+
+		getData()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	if (!user) return <div>Loading...</div>
-
-	const posts = getPostsByUser(user._id)
-
 	return (
 		<div>
 			<h1>Minhas Publicações</h1>
@@ -30,7 +50,7 @@ export default function Posts() {
 						{posts.map((post, index) => (
 							<div key={index} className={styles.post}>
 								<div className={styles.image}>
-									<Image src={post.image} alt={post.title} />
+									<Image src={post.vertical_image} alt={post.title} />
 								</div>
 								<div className={styles.content}>
 									<b className={styles.title}>{post.title}</b>

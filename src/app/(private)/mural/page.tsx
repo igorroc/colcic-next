@@ -11,7 +11,7 @@ import MuralTimer from "@/components/MuralTimer"
 import styles from "./mural.module.css"
 import Logo from "/public/logo_large.svg"
 import usePosts from "@/hooks/posts"
-import { TPostWithAuthor } from "@/types/post"
+import { TPostWithAuthorObj } from "@/types/post"
 import QRCode from "@/components/QRCode"
 import Countdown from "@/components/Countdown"
 
@@ -22,7 +22,7 @@ export default function Mural() {
 
 	const [loading, setLoading] = useState(true)
 	const { getPosts } = usePosts()
-	const [posts, setPosts] = useState<TPostWithAuthor[]>()
+	const [posts, setPosts] = useState<TPostWithAuthorObj[]>()
 
 	useEffect(() => {
 		async function loadPosts() {

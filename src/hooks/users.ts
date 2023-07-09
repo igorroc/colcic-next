@@ -31,9 +31,15 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	async function getUserById(userId: string) {
+	async function getUserById(userId: string, token: string) {
 		try {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + userId)
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + userId, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
 			if (res.ok) {
 				const userRes: TUser = await res.json()

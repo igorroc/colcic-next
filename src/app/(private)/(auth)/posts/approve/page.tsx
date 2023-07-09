@@ -2,12 +2,12 @@
 
 import React from "react"
 import usePosts from "@/hooks/posts"
-import { TPostWithAuthor } from "@/types/post"
+import { TPostWithAuthorObj } from "@/types/post"
 
 export default function Users() {
 	const { getPostsWaitingForApproval } = usePosts()
 	// const postsWaitingForApproval = getPostsWaitingForApproval()
-	const postsWaitingForApproval = [] as TPostWithAuthor[]
+	const postsWaitingForApproval = [] as TPostWithAuthorObj[]
 
 	return (
 		<div>
