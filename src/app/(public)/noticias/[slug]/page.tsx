@@ -42,7 +42,9 @@ export default function Post({ params }: PostPageType) {
 		}
 
 		loadPost()
-	}, [params.slug, getPostBySlug])
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	if (!post && !loading) {
 		return (
@@ -166,7 +168,8 @@ export default function Post({ params }: PostPageType) {
 						</div>
 					</div>
 					<div className={styles.postBanner}>
-						<Image src={post.horizontal_image} alt="post banner" width={767} />
+						{/* eslint-disable-next-line */}
+						<img src={post.horizontal_image} alt="post banner" />
 					</div>
 					<div className={styles.bodyText}>
 						<MarkdownPrint text={post.body} />
