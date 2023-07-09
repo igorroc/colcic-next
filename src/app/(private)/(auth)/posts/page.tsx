@@ -50,19 +50,20 @@ export default function Posts() {
 						{posts.map((post, index) => (
 							<div key={index} className={styles.post}>
 								<div className={styles.image}>
-									<Image src={post.vertical_image} alt={post.title} />
+									{/* eslint-disable-next-line */}
+									<img src={post.vertical_image} alt={post.title} />
 								</div>
 								<div className={styles.content}>
 									<b className={styles.title}>{post.title}</b>
 									<div className={styles.row}>
 										<Link
-											href={"/posts/" + post._id + "/edit"}
+											href={"/posts/" + post.slug + "/edit"}
 											className={styles.button}
 										>
 											<AiFillEdit />
 										</Link>
 										<Link
-											href={"/noticias/" + post._id}
+											href={"/noticias/" + post.slug}
 											className={styles.button}
 										>
 											<BsFillEyeFill />
