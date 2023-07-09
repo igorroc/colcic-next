@@ -12,6 +12,13 @@
 	padding: 5em;
 	width: 100%;
 	height: calc(100% - 10em);
-	max-height: 80vh;
+	/* max-height: 80vh; */
 	overflow-y: auto;
+}
+
+@media (max-width: 765px) {
+	.main {
+		padding: 2em;
+		height: calc(100% - 4em);
+	}
 }

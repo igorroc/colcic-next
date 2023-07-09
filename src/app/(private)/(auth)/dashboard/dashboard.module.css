@@ -9,7 +9,7 @@
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	width: max-content;
+	max-width: max-content;
 	gap: 0.5em;
 	padding: 1em 3em;
 	border-radius: 1em;
