@@ -1,6 +1,7 @@
 "use client"
 
 import usePosts from "@/hooks/posts"
+import useUser from "@/hooks/users"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -18,17 +19,25 @@ export default function PostDelete(props: PostDeleteProps) {
 	const router = useRouter()
 	const { token } = useUserToken()
 	const { getPostBySlug, deletePost } = usePosts()
+	const { getUserById } = useUser()
 
 	const [postTitle, setPostTitle] = useState("")
+	const [postAuthor, setPostAuthor] = useState("")
 	const [slug, setSlug] = useState("")
 
 	useEffect(() => {
 		async function getData() {
 			const post = await getPostBySlug(props.params.slug)
 
-			setPostTitle(props.params.slug)
 			setSlug(props.params.slug)
+
 			if (!post) return
+			setPostTitle(post.title)
+
+			const author = await getUserById(post.author, token)
+
+			if (!author) return
+			setPostAuthor(author.name)
 		}
 
 		getData()
@@ -53,7 +62,8 @@ export default function PostDelete(props: PostDeleteProps) {
 
 			<>
 				<p>
-					Você tem certeza que deseja deletar a publicação <strong>{postTitle}</strong>?
+					Você tem certeza que deseja deletar a publicação <strong>{postTitle}</strong>,
+					criada por <strong>{postAuthor}</strong>?
 				</p>
 
 				<div className={styles.actions}>
