@@ -8,13 +8,16 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
 import styles from "./like-button.module.css"
 
 interface LikeButtonProps {
-	post: TPostWithAuthorObj
+	post?: TPostWithAuthorObj
+	isPreview?: boolean
 }
 
 export default function LikeButton(props: LikeButtonProps) {
 	const { likedPosts, likeCurrentPost } = usePostLike()
 
 	async function handleLike() {
+		if (!props.post) return
+
 		likeCurrentPost(props.post._id)
 	}
 
@@ -22,11 +25,11 @@ export default function LikeButton(props: LikeButtonProps) {
 		<div
 			className={[
 				styles.likeContainer,
-				likedPosts?.includes(props.post._id) ? styles.liked : "",
+				props.post && likedPosts?.includes(props.post._id) ? styles.liked : "",
 			].join(" ")}
 			onClick={handleLike}
 		>
-			{likedPosts?.includes(props.post._id) ? (
+			{props.post && likedPosts?.includes(props.post._id) ? (
 				<>
 					<AiFillHeart />
 					<span>Curtido</span>

@@ -16,15 +16,23 @@ import {
 } from "@mui/material"
 
 import styles from "./page.module.css"
+import previewSiteStyles from "../../../../(public)/noticias/[slug]/page.module.css"
+import previewMuralStyles from "../../../../../components/MuralPostList/MuralPost/muralPost.module.css"
+
 import { Button } from "@/components/Button"
 import BasicDatePicker from "@/components/DatePicker"
 import usePosts from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
-import { PostType, TPostToPublish } from "@/types/post"
+import { PostType, TCategory, TPostToPublish } from "@/types/post"
 import slugCleaner from "@/utils/slugCleaner"
 import useUser from "@/hooks/users"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
+import LikeButton from "@/components/LikeButton"
+import SharableLinks from "@/components/SharableLinks"
+import { formatToDate } from "@/utils/formatToDate"
+import MarkdownPrint from "@/components/MarkdownPrint"
+import QRCode from "@/components/QRCode"
 
 const publishTypes: string[] = Object.values(PostType)
 
@@ -47,6 +55,7 @@ export default function Editor() {
 	const [categories, setCategories] = useState("")
 	const [expirationDate, setExpirationDate] = useState<Date | null>(null)
 	const [body, setBody] = useState("")
+	const [isPreview, setIsPreview] = useState(false)
 
 	const handleChange = (event: SelectChangeEvent<typeof publicationType>) => {
 		const {
@@ -81,8 +90,18 @@ export default function Editor() {
 		getData()
 	}, [getCurrentUser, token])
 
+	useEffect(() => {
+		if (!publicationType.includes("mural")) {
+			setBannerV(bannerH)
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [bannerH, publicationType])
+
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		console.log("submit")
+
 		if (!user) return
 
 		const data: TPostToPublish = {
@@ -91,7 +110,7 @@ export default function Editor() {
 			description,
 			horizontal_image: bannerH,
 			vertical_image: bannerV,
-			categories: categories.split(" "),
+			categories: categories.split(","),
 			types: publicationType as PostType[],
 			expirationDate: expirationDate || new Date(),
 			body,
@@ -111,6 +130,159 @@ export default function Editor() {
 			alert("Erro ao criar postagem")
 		}
 		console.log("submit", res)
+	}
+
+	function handlePreview() {
+		setIsPreview(!isPreview)
+	}
+
+	if (isPreview) {
+		return (
+			<div>
+				<h1>Pré-visualizar</h1>
+				{publicationType.includes("mural") && <h2>Visualização no site</h2>}
+
+				<div>
+					<div className={previewSiteStyles.postHeader}>
+						<div
+							className={[
+								previewSiteStyles.sideHeaderContainer,
+								previewSiteStyles.leftSideHeaderContainer,
+							].join(" ")}
+						>
+							{categories && (
+								<div className={previewSiteStyles.categories}>
+									{categories
+										.split(",")
+										.map((category: TCategory, index: number) => (
+											<span
+												className={previewSiteStyles.categoriesTag}
+												key={index}
+											>
+												{category}
+											</span>
+										))}
+								</div>
+							)}
+							<h1 className={previewSiteStyles.postHeaderTitle}>{title}</h1>
+						</div>
+						<div className={previewSiteStyles.sideHeaderContainer}>
+							{user && (
+								<div className={previewSiteStyles.avatarUserInfo}>
+									{/* eslint-disable-next-line */}
+									<img
+										src={user.profilePhoto}
+										alt={`Foto de perfil de ${user.name}`}
+										width={100}
+										height={100}
+									/>
+									<div>
+										<p className={previewSiteStyles.authorName}>{user.name}</p>
+										<p className={previewSiteStyles.postDate}>
+											{new Date().toDateString()}
+										</p>
+									</div>
+								</div>
+							)}
+							<SharableLinks />
+							<LikeButton isPreview />
+						</div>
+					</div>
+					<div className={previewSiteStyles.postBanner}>
+						{/* eslint-disable-next-line */}
+						<img src={bannerH} alt="post banner" />
+					</div>
+					<div className={[previewSiteStyles.bodyText, styles.body].join(" ")}>
+						<MarkdownPrint text={body} />
+					</div>
+					<p className={styles.continue}>
+						O resto do seu post será exibido aqui. Você pode usar{" "}
+						<a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">
+							Markdown
+						</a>{" "}
+						para formatar o texto.
+					</p>
+				</div>
+
+				{publicationType.includes("mural") && (
+					<>
+						<h2>Visualização no mural</h2>
+						<div>
+							<div className={styles.postMural}>
+								<div className={previewMuralStyles.postBanner}>
+									{/* eslint-disable-next-line */}
+									<img src={bannerV} alt="Banner do post" />
+								</div>
+								<div className={previewMuralStyles.postContent}>
+									{categories && (
+										<div className={previewMuralStyles.postCategoryList}>
+											{categories
+												.split(",")
+												.map((category: TCategory, index_c) => (
+													<div
+														className={previewMuralStyles.postCategory}
+														key={index_c}
+													>
+														<span>{category}</span>
+													</div>
+												))}
+										</div>
+									)}
+									<div className={previewMuralStyles.postTitle}>
+										<a>
+											<h1>{title}</h1>
+										</a>
+									</div>
+									<div className={previewMuralStyles.postDescription}>
+										<p>{description}</p>
+									</div>
+
+									<div className={previewMuralStyles.bottomInfo}>
+										{user && (
+											<div className={previewMuralStyles.postAuthor}>
+												<div className={previewMuralStyles.authorPicture}>
+													{/* eslint-disable-next-line */}
+													<img
+														src={user.profilePhoto}
+														alt={`Foto de ${user.name}`}
+														width={100}
+														height={100}
+													/>
+												</div>
+												<div className={previewMuralStyles.authorInfo}>
+													<span className={previewMuralStyles.authorName}>
+														{user.name}
+													</span>
+													<span className={previewMuralStyles.authorDate}>
+														{new Date().toDateString()}
+													</span>
+												</div>
+											</div>
+										)}
+
+										<div className={previewMuralStyles.continue}>
+											<span>Continue no QR Code</span>
+											<QRCode
+												text={
+													process.env.NEXT_PUBLIC_URL +
+													`/noticias/${slug}`
+												}
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</>
+				)}
+				<form onSubmit={handleSubmit}>
+					<div className={styles.actions}>
+						<Button label="Voltar" type="secondary" onClick={handlePreview} />
+						<Button label="Publicar" type="primary" />
+					</div>
+				</form>
+			</div>
+		)
 	}
 
 	return (
@@ -205,51 +377,50 @@ export default function Editor() {
 				/>
 				<div className={styles.bannerPreview}>
 					<FormControl variant="outlined" required>
-						<InputLabel htmlFor="banner-H">Banner Horizontal</InputLabel>
+						<InputLabel htmlFor="banner-H">
+							{publicationType.includes("mural") ? "Banner Horizontal" : "Banner"}
+						</InputLabel>
 						<OutlinedInput
 							id="banner-H"
 							value={bannerH}
-							label="Banner Horizontal"
+							label={
+								publicationType.includes("mural") ? "Banner Horizontal" : "Banner"
+							}
 							onChange={(e) => setBannerH(e.target.value)}
 						/>
 						<FormHelperText id="banner-H-text">
-							Você deve colocar um link para a imagem que ficará no topo da publicação
-							(exemplo: https://colcic.uesc.br/assets/banner.png)
+							Esse banner ficará no topo da publicação, recomendamos o tamanho
+							(1920x1080)
 							<br />
-							Recomendamos o tamanho (1920x1080)
+							Você deve colocar o link da imagem
+							<br />
 						</FormHelperText>
 					</FormControl>
-					{bannerH && (
-						<div className={styles.bannerPreview}>
-							{/* eslint-disable-next-line  */}
-							<img src={bannerH} alt="Banner" />
-						</div>
-					)}
 				</div>
-				<div className={styles.bannerPreview}>
-					<FormControl variant="outlined" required>
-						<InputLabel htmlFor="banner-V">Banner Vertical</InputLabel>
-						<OutlinedInput
-							id="banner-V"
-							value={bannerV}
-							label="Banner Vertical"
-							onChange={(e) => setBannerV(e.target.value)}
-						/>
-						<FormHelperText id="banner-V-text">
-							Você deve colocar um link para a imagem que ficará na lateral da
-							publicação (exemplo: https://colcic.uesc.br/assets/banner.png)
-							<br />
-							Recomendamos o tamanho (1000X1500)
-						</FormHelperText>
-					</FormControl>
-					{bannerV && (
-						<div className={styles.bannerPreview}>
-							{/* eslint-disable-next-line  */}
-							<img src={bannerV} alt="Banner" />
-						</div>
-					)}
+				{publicationType.includes("mural") && (
+					<div className={styles.bannerPreview}>
+						<FormControl variant="outlined" required>
+							<InputLabel htmlFor="banner-V">Banner Vertical</InputLabel>
+							<OutlinedInput
+								id="banner-V"
+								value={bannerV}
+								label="Banner Vertical"
+								onChange={(e) => setBannerV(e.target.value)}
+							/>
+							<FormHelperText id="banner-V-text">
+								Esse banner ficará na lateral da publicação, recomendamos o tamanho
+								(1000X1500)
+								<br />
+								Você deve colocar o link da imagem
+							</FormHelperText>
+						</FormControl>
+					</div>
+				)}
+
+				<div className={styles.actions}>
+					<Button label="Pré-visualizar" type="secondary" onClick={handlePreview} />
+					<Button label="Publicar" type="primary" />
 				</div>
-				<Button label="Publicar" type="primary" />
 			</form>
 		</div>
 	)

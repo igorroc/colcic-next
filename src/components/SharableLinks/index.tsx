@@ -8,6 +8,7 @@ import { FiLink2 } from "react-icons/fi"
 import styles from "./sharableLinks.module.css"
 
 export default function SharableLinks() {
+	
 	function copy(type: string) {
 		const url = window.location.href
 		switch (type) {
@@ -37,6 +38,7 @@ export default function SharableLinks() {
 				break
 		}
 	}
+
 	return (
 		<div className={styles.socialMediaIconsContainer}>
 			<div className={styles.iconContainer} onClick={() => copy("link")}>
