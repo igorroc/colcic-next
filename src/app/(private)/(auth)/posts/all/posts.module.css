@@ -71,3 +71,17 @@
 .content {
 	margin: 3em 0;
 }
+
+.author {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+}
+
+.authorPhoto {
+	--size: 2em;
+	width: var(--size);
+	height: var(--size);
+	border-radius: 50%;
+	overflow: hidden;
+}

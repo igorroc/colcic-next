@@ -8,17 +8,18 @@ import Link from "next/link"
 import { Button } from "@/components/Button"
 
 import styles from "./posts.module.css"
-import Image from "next/image"
 import { AiFillEdit } from "react-icons/ai"
 import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
-import { TPost, TPostWithAuthorObj } from "@/types/post"
+import { TPostWithAuthorObj } from "@/types/post"
 import { TUser } from "@/types/user"
+import { useRouter } from "next/navigation"
 
 export default function Posts() {
+	const router = useRouter()
 	const { token } = useUserToken()
 	const { getCurrentUser } = useUser({ token })
 	const { getPostsByUser, getPosts } = usePosts()
-	const [posts, setPosts] = useState<TPost[]>([])
+	const [posts, setPosts] = useState<TPostWithAuthorObj[]>([])
 	const [user, setUser] = useState<TUser>()
 
 	useEffect(() => {
@@ -27,15 +28,18 @@ export default function Posts() {
 
 			if (!user) return
 
+			if (user.type != "admin") {
+				router.push("/posts")
+				return
+			}
+
 			setUser(user)
 
 			const posts = await getPosts(token)
 
 			if (!posts) return
 
-			const filteredPosts = posts.filter((post) => post.author._id === user._id)
-
-			setPosts(filteredPosts)
+			setPosts(posts)
 		}
 
 		getData()
@@ -46,10 +50,8 @@ export default function Posts() {
 	return (
 		<div>
 			<div className={styles.rowTitle}>
-				<h1>Minhas Publicações</h1>
-				{user.type == "admin" && (
-					<Button label="Ver todas" type="secondary" href={"/posts/all"} />
-				)}
+				<h1>Todas as Publicações</h1>
+				{user.type == "admin" && <Button label="Voltar" type="secondary" href={"/posts"} />}
 			</div>
 			<div className={styles.content}>
 				{posts.length > 0 ? (
@@ -61,6 +63,16 @@ export default function Posts() {
 									<img src={post.vertical_image} alt={post.title} />
 								</div>
 								<div className={styles.content}>
+									<div className={styles.author}>
+										<div className={styles.authorPhoto}>
+											{/* eslint-disable-next-line */}
+											<img
+												src={post.author.profilePhoto}
+												alt={post.author.name}
+											/>
+										</div>
+										<span className={styles.author}>{post.author.name}</span>
+									</div>
 									<b className={styles.title}>{post.title}</b>
 									<div className={styles.row}>
 										<Link
@@ -88,13 +100,10 @@ export default function Posts() {
 					</div>
 				) : (
 					<>
-						<p>Você ainda não possui publicações aprovadas.</p>
-						<p>Que tal começar agora mesmo?</p>
+						<p>Não existem publicações</p>
 					</>
 				)}
 			</div>
-
-			<Button href={"/posts/new"} label="Criar publicação" type="primary" />
 		</div>
 	)
 }
