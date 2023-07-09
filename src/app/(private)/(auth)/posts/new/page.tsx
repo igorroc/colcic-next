@@ -21,6 +21,7 @@ import BasicDatePicker from "@/components/DatePicker"
 import usePosts from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
 import { PostType, TPostToPublish } from "@/types/post"
+import slugCleaner from "@/utils/slugCleaner"
 
 const publishTypes = ["Site", "Mural"]
 
@@ -58,7 +59,8 @@ export default function Editor() {
 			return
 		}
 		if (hasEditedSlug) return
-		setSlug(title.toLowerCase().replace(/ /g, "-"))
+		setSlug(slugCleaner(title))
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [title, hasEditedSlug])
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -100,7 +102,8 @@ export default function Editor() {
 						label="Slug"
 						onChange={(e) => {
 							setHasEditedSlug(true)
-							setSlug(e.target.value)
+
+							setSlug(slugCleaner(e.target.value))
 						}}
 						multiline
 					/>
@@ -181,7 +184,11 @@ export default function Editor() {
 							onChange={(e) => setBannerH(e.target.value)}
 						/>
 						<FormHelperText id="banner-H-text">
-							Imagem que ficará no corpo da publicação (1920x1080)
+							<p>
+								Você deve colocar um link para a imagem que ficará no topo da
+								publicação (exemplo: https://colcic.uesc.br/assets/banner.png)
+							</p>
+							<p>Recomendamos o tamanho (1920x1080)</p>
 						</FormHelperText>
 					</FormControl>
 					{bannerH && (
