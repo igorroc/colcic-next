@@ -68,37 +68,17 @@ export default function usePosts() {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug)
 
-			const postsRes: TPostWithAuthorId[] = await res.json()
+			const postRes: TPostWithAuthorId = await res.json()
 
-			if (!postsRes || postsRes.length == 0) {
-				console.error("COLCIC-ERR: No posts found")
-				return []
+			if (!postRes) {
+				console.error("COLCIC-ERR: Post not found")
+				return null
 			}
 
-			let postsWithAuthors: TPostWithAuthorObj[] = []
-
-			return await Promise.all(
-				postsRes.map(async (post) => {
-					const author = await getUserById(post.author, token)
-					if (author === null) {
-						console.error("COLCIC-ERR: Author not found")
-						return null
-					}
-
-					const postWithAuthor: TPostWithAuthorObj = { ...post, author: author }
-					postsWithAuthors.push(postWithAuthor)
-				})
-			)
-				.then(() => {
-					return postsWithAuthors
-				})
-				.catch((err) => {
-					console.error(err)
-					return []
-				})
+			return postRes
 		} catch (err) {
 			console.error(err)
-			return []
+			return null
 		}
 	}
 

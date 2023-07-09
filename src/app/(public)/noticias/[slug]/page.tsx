@@ -13,7 +13,7 @@ import MarkdownPrint from "@/components/MarkdownPrint"
 import SharableLinks from "@/components/SharableLinks"
 import { Button } from "@/components/Button"
 
-import { TCategory, TPostWithAuthorObj } from "@/types/post"
+import { TCategory, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
 import usePosts from "@/hooks/posts"
 import LikeButton from "@/components/LikeButton"
 
@@ -27,7 +27,7 @@ export const revalidate = 30
 
 export default function Post({ params }: PostPageType) {
 	const { getPostBySlug } = usePosts()
-	const [post, setPost] = useState<TPostWithAuthorObj>()
+	const [post, setPost] = useState<TPostWithAuthorId>()
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
@@ -147,7 +147,7 @@ export default function Post({ params }: PostPageType) {
 							<h1 className={styles.postHeaderTitle}>{post.title}</h1>
 						</div>
 						<div className={styles.sideHeaderContainer}>
-							<div className={styles.avatarUserInfo}>
+							{/* <div className={styles.avatarUserInfo}>
 								<Image
 									src={post.author.profilePhoto}
 									alt={`Foto de perfil de ${post.author.name}`}
@@ -160,7 +160,7 @@ export default function Post({ params }: PostPageType) {
 										{formatToDate(post.createdAt)}
 									</p>
 								</div>
-							</div>
+							</div> */}
 							<SharableLinks />
 							<LikeButton post={post} />
 						</div>
