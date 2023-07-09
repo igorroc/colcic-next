@@ -24,7 +24,7 @@ export default function DeleteUser({ params }: DeleteUserProps) {
 
 	useEffect(() => {
 		async function getData() {
-			const user = await getUserById(params.id, token)
+			const user = await getUserById(params.id)
 			if (user) {
 				setFullName(user.name)
 			} else {
