@@ -75,7 +75,7 @@ export default function HomePosts() {
 								<Link className={styles.postTitle} href={`/noticias/${post.slug}`}>
 									{post.title}
 								</Link>
-								{/* <p className={styles.postDescription}>{post.description}</p> */}
+								<p className={styles.postDescription}>{post.description}</p>
 								<Button
 									label="Ler mais"
 									type="secondary"
