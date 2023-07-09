@@ -1,9 +1,15 @@
-import { StaticImageData } from "next/image"
 import { TUser } from "./user"
 
 export type TAuthor = TUser
 
 export type TCategory = string | null
+
+export enum PostType {
+	SITE = "site",
+	MURAL = "mural",
+}
+
+export type PostStatus = "ativo" | "pendente" | "deletado"
 
 export type TPost = {
 	_id: string
@@ -12,7 +18,7 @@ export type TPost = {
 	title: string
 	body: string
 	created_at: string
-	status: "ativo" | "pending" | "rejected"
+	status: PostStatus
 	category: string[]
 	types: string[]
 	image: string
@@ -27,21 +33,14 @@ export type TPostWithAuthor = TPost & {
 	author_obj: TAuthor
 }
 
-export enum PostType {
-	SITE = "site",
-	MURAL = "mural",
-}
-
 export type TPostToPublish = {
 	body: string
 	title: string
-	status: string
-	activationDate: Date
+	slug: string
+	description: string
 	expirationDate: Date
-	category: string[]
+	categories: string[]
 	types: PostType[]
-	// bannerHorizontal: string
-	// bannerVertical: string
-	// author_id: string
-	// description: string
+	horizontal_image: string
+	vertical_image: string
 }
