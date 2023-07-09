@@ -37,6 +37,12 @@ const sideNavList = [
 		icon: <AiFillClockCircle />,
 		isAdmin: true,
 	},
+	{
+		title: "Configurações",
+		href: "/settings",
+		icon: <FaCog />,
+		isAdmin: true,
+	},
 ]
 
 const sideNavListSecondary = [

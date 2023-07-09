@@ -23,6 +23,7 @@ import { useUserToken } from "@/utils/handleUserToken"
 export default function UsersNew() {
 	const { token } = useUserToken()
 	const { createUser } = useUser({
+		token,
 		adminOnlyPage: true,
 		redirectTo: "/dashboard",
 	})

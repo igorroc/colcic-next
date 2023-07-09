@@ -54,8 +54,6 @@ export default function usePosts() {
 		const homePostsIds = ["64aa1e197e1c99437ad22986"]
 		const posts = await getPosts(token)
 
-		console.log(posts)
-
 		if (!posts || posts.length === 0) {
 			console.error("COLCIC-ERR: No home posts found")
 			return []
