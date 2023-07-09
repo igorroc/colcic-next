@@ -3,7 +3,7 @@
 import useUser from "@/hooks/users"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import React, { useState, useEffect } from "react"
 
 import styles from "./delete.module.css"

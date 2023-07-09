@@ -10,7 +10,7 @@ import { Button } from "@/components/Button"
 import styles from "./posts.module.css"
 import Image from "next/image"
 import { AiFillEdit } from "react-icons/ai"
-import { BsFillEyeFill } from "react-icons/bs"
+import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
 import { TPost, TPostWithAuthorObj } from "@/types/post"
 import { TUser } from "@/types/user"
 
@@ -69,6 +69,12 @@ export default function Posts() {
 											className={styles.button}
 										>
 											<BsFillEyeFill />
+										</Link>
+										<Link
+											href={"/posts/" + post.slug + "/delete"}
+											className={styles.button}
+										>
+											<BsFillTrashFill />
 										</Link>
 									</div>
 								</div>

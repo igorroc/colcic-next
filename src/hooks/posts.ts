@@ -150,6 +150,10 @@ export default function usePosts() {
 		}
 	}
 
+	async function deletePost(slug: string, token: string) {
+		console.log(slug, token)
+	}
+
 	return {
 		getPosts,
 		getHomePosts,
@@ -158,5 +162,6 @@ export default function usePosts() {
 		getPostsWaitingForApproval,
 		getPostsWaitingForApprovalFromUser,
 		createPost,
+		deletePost,
 	}
 }
