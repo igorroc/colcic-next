@@ -24,6 +24,7 @@ import { PostType, TPostToPublish } from "@/types/post"
 import slugCleaner from "@/utils/slugCleaner"
 import useUser from "@/hooks/users"
 import { TUser } from "@/types/user"
+import { useRouter } from "next/navigation"
 
 const publishTypes: string[] = Object.values(PostType)
 
@@ -32,6 +33,7 @@ export default function Editor() {
 	const { token } = useUserToken()
 	const { getCurrentUser } = useUser({ token: token })
 	const [user, setUser] = useState<TUser>()
+	const router = useRouter()
 
 	const maxDescriptionLength = 300
 
@@ -98,6 +100,16 @@ export default function Editor() {
 
 		const res = await createPost(data, token)
 
+		if (res && res.slug) {
+			const confirmation = confirm("Postagem criada com sucesso! Deseja visualizar?")
+			if (confirmation) {
+				router.push(`/noticias/${res.slug}`)
+			} else {
+				router.push(`/posts/`)
+			}
+		} else {
+			alert("Erro ao criar postagem")
+		}
 		console.log("submit", res)
 	}
 
