@@ -3,6 +3,7 @@
 import usePosts from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
 
 import styles from "./delete.module.css"
@@ -14,6 +15,7 @@ interface PostDeleteProps {
 }
 
 export default function PostDelete(props: PostDeleteProps) {
+	const router = useRouter()
 	const { token } = useUserToken()
 	const { getPostBySlug, deletePost } = usePosts()
 
@@ -34,8 +36,15 @@ export default function PostDelete(props: PostDeleteProps) {
 	}, [props.params.slug])
 
 	async function handleDelete() {
-		deletePost(slug, token)
-		alert("Funcionalidade ainda não implementada")
+		const res = await deletePost(slug, token)
+
+		if (res) {
+			alert("Publicação deletada com sucesso")
+		} else {
+			alert("Erro ao deletar publicação")
+		}
+
+		router.push("/posts")
 	}
 
 	return (

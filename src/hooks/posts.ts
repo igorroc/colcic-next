@@ -149,7 +149,27 @@ export default function usePosts() {
 	}
 
 	async function deletePost(slug: string, token: string) {
-		console.log(slug, token)
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/delete/" + slug, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+
+			const deleteRes = res.ok
+
+			if (!deleteRes) {
+				console.error("COLCIC-ERR: No post deleted")
+				return null
+			}
+
+			return deleteRes
+		} catch (err) {
+			console.error(err)
+			return null
+		}
 	}
 
 	return {
