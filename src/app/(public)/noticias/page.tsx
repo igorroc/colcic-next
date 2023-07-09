@@ -10,19 +10,19 @@ import { formatToDate } from "@/utils/formatToDate"
 import styles from "./noticias.module.css"
 import usePosts from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
-import { TCategory, TPostWithAuthorObj } from "@/types/post"
+import { TCategory, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
 
 export default function Noticias() {
 	const { token } = useUserToken()
-	const { getPosts } = usePosts()
+	const { getSitePosts } = usePosts()
 
-	const [posts, setPosts] = useState<TPostWithAuthorObj[]>()
-	const [mainPost, setMainPost] = useState<TPostWithAuthorObj>()
+	const [posts, setPosts] = useState<TPostWithAuthorId[]>()
+	const [mainPost, setMainPost] = useState<TPostWithAuthorId>()
 	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
 		async function getData() {
-			const posts = await getPosts(token)
+			const posts = await getSitePosts()
 
 			if (posts) {
 				setPosts(posts)
@@ -70,20 +70,20 @@ export default function Noticias() {
 						</Link>
 						<p className={styles.postDescription}>{mainPost.description}</p>
 						<Link href={`/noticias/${mainPost.slug}`}>Ler mais</Link>
+
 						<div className={styles.postInfo}>
-							<div className={styles.postAuthorImage}>
-								{/* eslint-disable-next-line */}
+							{/* <div className={styles.postAuthorImage}>
 								<img
 									src={mainPost.author.profilePhoto}
 									alt={mainPost.author.name}
 									width={100}
 									height={100}
 								/>
-							</div>
+							</div> */}
 							<div className={styles.postAuthorInfo}>
-								<span className={styles.postAuthorName}>
+								{/* <span className={styles.postAuthorName}>
 									{mainPost.author.name}
-								</span>
+								</span> */}
 								<span className={styles.postDate}>
 									{formatToDate(mainPost.createdAt)}
 								</span>
@@ -120,19 +120,18 @@ export default function Noticias() {
 								<p className={styles.postDescription}>{post.description}</p>
 								<Link href={`/noticias/${post.slug}`}>Ler mais</Link>
 								<div className={styles.postInfo}>
-									<div className={styles.postAuthorImage}>
-										{/* eslint-disable-next-line */}
+									{/* <div className={styles.postAuthorImage}>
 										<img
 											src={post.author.profilePhoto}
 											alt={post.author.name}
 											width={100}
 											height={100}
 										/>
-									</div>
+									</div> */}
 									<div className={styles.postAuthorInfo}>
-										<span className={styles.postAuthorName}>
+										{/* <span className={styles.postAuthorName}>
 											{post.author.name}
-										</span>
+										</span> */}
 										<span className={styles.postDate}>
 											{formatToDate(post.createdAt)}
 										</span>

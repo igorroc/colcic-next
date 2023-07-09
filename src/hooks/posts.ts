@@ -50,6 +50,24 @@ export default function usePosts() {
 		}
 	}
 
+	async function getSitePosts(): Promise<TPostWithAuthorId[] | undefined> {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/site")
+
+			const postsRes: TPostWithAuthorId[] = await res.json()
+
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
+
+			return postsRes
+		} catch (err) {
+			console.error(err)
+			return []
+		}
+	}
+
 	async function getMuralPosts(): Promise<TPostWithAuthorId[] | undefined> {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/mural")
@@ -198,5 +216,6 @@ export default function usePosts() {
 		createPost,
 		deletePost,
 		getMuralPosts,
+		getSitePosts,
 	}
 }
