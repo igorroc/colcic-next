@@ -65,23 +65,41 @@ export default function usePosts() {
 	}
 
 	async function getPostBySlug(slug: string) {
-		return null as TPostWithAuthorObj | null
-		// const post = postList.find((post) => post.slug === slug)
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug)
 
-		// if (post) {
-		// 	let postWithAuthor: TPostWithAuthor
+			const postsRes: TPostWithAuthorId[] = await res.json()
 
-		// 	const author = await getUserById(post.author_id)
-		// 	if (author === null) return console.error("COLCIC-ERR: Author not found")
-		// 	postWithAuthor = { ...post, author }
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
 
-		// 	return {
-		// 		post: postWithAuthor,
-		// 		status: 200,
-		// 	}
-		// } else {
-		// 	return { error: "Post not found", status: 404 }
-		// }
+			let postsWithAuthors: TPostWithAuthorObj[] = []
+
+			return await Promise.all(
+				postsRes.map(async (post) => {
+					const author = await getUserById(post.author, token)
+					if (author === null) {
+						console.error("COLCIC-ERR: Author not found")
+						return null
+					}
+
+					const postWithAuthor: TPostWithAuthorObj = { ...post, author: author }
+					postsWithAuthors.push(postWithAuthor)
+				})
+			)
+				.then(() => {
+					return postsWithAuthors
+				})
+				.catch((err) => {
+					console.error(err)
+					return []
+				})
+		} catch (err) {
+			console.error(err)
+			return []
+		}
 	}
 
 	function getPostsByUser(userId: string) {
