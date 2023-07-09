@@ -19,6 +19,7 @@ import useUser from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
 import { redirect, useRouter } from "next/navigation"
 import { useUserToken } from "@/utils/handleUserToken"
+import { IoClose } from "react-icons/io5"
 
 interface UserEditProps {
 	params: {
@@ -38,6 +39,7 @@ export default function UserEdit({ params }: UserEditProps) {
 	const [username, setUsername] = useState("")
 	const [email, setEmail] = useState("")
 	const [photo, setPhoto] = useState("")
+	const [photoError, setPhotoError] = useState(false)
 
 	useEffect(() => {
 		async function getData() {
@@ -91,6 +93,10 @@ export default function UserEdit({ params }: UserEditProps) {
 		}
 	}
 
+	function handlePhotoError() {
+		setPhotoError(true)
+	}
+
 	return (
 		<div>
 			<h1>Editar usuário</h1>
@@ -139,14 +145,49 @@ export default function UserEdit({ params }: UserEditProps) {
 					}}
 					required
 				/>
-				<TextField
-					label="Foto de perfil"
-					type="url"
-					name="photo"
-					required
-					value={photo}
-					onChange={(event) => setPhoto(event.target.value)}
-				/>
+
+				<div className={styles.flexRow}>
+					{photo && (
+						<div className={styles.profilePhoto}>
+							{photoError ? (
+								<div className={styles.photoError} title="Erro ao carregar foto">
+									<IoClose size={32} />
+								</div>
+							) : (
+								<>
+									{/* eslint-disable-next-line  */}
+									<img
+										src={photo}
+										alt="Foto de perfil"
+										onError={handlePhotoError}
+									/>
+								</>
+							)}
+						</div>
+					)}
+					{/* <input
+						type="file"
+						name="photo"
+						id="photo"
+						value={photo}
+						onChange={(event) => {
+							setPhotoError(false)
+							setPhoto(event.target.value)
+						}}
+					/> */}
+					<TextField
+						label="Foto de perfil"
+						type="url"
+						name="photo"
+						required
+						value={photo}
+						className={styles.photoInput}
+						onChange={(event) => {
+							setPhotoError(false)
+							setPhoto(event.target.value)
+						}}
+					/>
+				</div>
 				<FormControl fullWidth required>
 					<InputLabel id="label-type">Tipo</InputLabel>
 					<Select labelId="label-type" value={type} label="Tipo" onChange={handleChange}>

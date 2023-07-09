@@ -4,3 +4,34 @@
 	width: 100%;
 	gap: 1em;
 }
+
+.flexRow {
+	display: flex;
+	gap: 1em;
+}
+
+.profilePhoto {
+	--size: 60px;
+	width: var(--size);
+	height: var(--size);
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.profilePhoto img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.photoError {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	background-color: #f44336;
+}
+
+.photoInput {
+	flex: 1;
+}
