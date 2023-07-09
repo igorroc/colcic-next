@@ -25,7 +25,7 @@ interface PostPageType {
 
 export const revalidate = 30
 
-export default async function Post({ params }: PostPageType) {
+export default function Post({ params }: PostPageType) {
 	const { getPostBySlug } = usePosts()
 	const [post, setPost] = useState<TPostWithAuthorObj>()
 	const [loading, setLoading] = useState(true)
@@ -33,16 +33,16 @@ export default async function Post({ params }: PostPageType) {
 	useEffect(() => {
 		async function loadPost() {
 			const p = await getPostBySlug(params.slug)
+
 			if (p) {
 				setPost(p)
 			}
+
 			setLoading(false)
 		}
 
 		loadPost()
 	}, [params.slug, getPostBySlug])
-
-	const response = await getPostBySlug(params.slug)
 
 	if (!post && !loading) {
 		return (
@@ -135,27 +135,29 @@ export default async function Post({ params }: PostPageType) {
 								styles.leftSideHeaderContainer,
 							].join(" ")}
 						>
-							<div className={styles.categories}>
-								{/* {post?.categories.map((category: TCategory, index: number) => (
-									<span className={styles.categoriesTag} key={index}>
-										{category.name}
-									</span>
-								))} */}
-							</div>
-							<h1 className={styles.postHeaderTitle}>{post?.title}</h1>
+							{post.categories && (
+								<div className={styles.categories}>
+									{post.categories.map((category: TCategory, index: number) => (
+										<span className={styles.categoriesTag} key={index}>
+											{category}
+										</span>
+									))}
+								</div>
+							)}
+							<h1 className={styles.postHeaderTitle}>{post.title}</h1>
 						</div>
 						<div className={styles.sideHeaderContainer}>
 							<div className={styles.avatarUserInfo}>
 								<Image
-									src={post.author_obj.profilePhoto}
-									alt={`Foto de perfil de ${post.author_obj.name}`}
+									src={post.author.profilePhoto}
+									alt={`Foto de perfil de ${post.author.name}`}
 									width={100}
 									height={100}
 								/>
 								<div>
-									<p className={styles.authorName}>{post?.author_obj.name}</p>
+									<p className={styles.authorName}>{post.author.name}</p>
 									<p className={styles.postDate}>
-										{formatToDate(post.created_at)}
+										{formatToDate(post.createdAt)}
 									</p>
 								</div>
 							</div>
@@ -164,7 +166,7 @@ export default async function Post({ params }: PostPageType) {
 						</div>
 					</div>
 					<div className={styles.postBanner}>
-						<Image src={post?.image} alt="post banner" width={767} />
+						<Image src={post.horizontal_image} alt="post banner" width={767} />
 					</div>
 					<div className={styles.bodyText}>
 						<MarkdownPrint text={post.body} />
