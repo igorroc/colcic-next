@@ -13,8 +13,8 @@ export type PostStatus = "ativo" | "pendente" | "deletado"
 
 export type TPost = {
 	_id: string
-	author: string
-	// slug: string
+	author: string | TAuthor
+	slug: string
 	title: string
 	body: string
 	created_at: string
@@ -29,9 +29,7 @@ export type TPost = {
 	__v: number
 }
 
-export type TPostWithAuthor = TPost & {
-	author_obj: TAuthor
-}
+export type TPostWithAuthor = TPost
 
 export type TPostToPublish = {
 	body: string
@@ -43,4 +41,5 @@ export type TPostToPublish = {
 	types: PostType[]
 	horizontal_image: string
 	vertical_image: string
+	author_id: string
 }

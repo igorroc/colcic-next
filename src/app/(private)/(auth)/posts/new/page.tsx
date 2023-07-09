@@ -22,31 +22,35 @@ import usePosts from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
 import { PostType, TPostToPublish } from "@/types/post"
 import slugCleaner from "@/utils/slugCleaner"
+import useUser from "@/hooks/users"
+import { TUser } from "@/types/user"
 
-const publishTypes = ["Site", "Mural"]
+const publishTypes: string[] = Object.values(PostType)
 
 export default function Editor() {
 	const { createPost } = usePosts()
 	const { token } = useUserToken()
+	const { getCurrentUser } = useUser({ token: token })
+	const [user, setUser] = useState<TUser>()
 
-	const maxDescriptionLength = 100
+	const maxDescriptionLength = 300
 
 	const [title, setTitle] = useState("")
 	const [slug, setSlug] = useState("")
 	const [hasEditedSlug, setHasEditedSlug] = useState(false)
 	const [description, setDescription] = useState("")
-	const [publiType, setPubliType] = useState<string[]>([])
+	const [publicationType, setPublicationType] = useState<string[]>([])
 	const [bannerH, setBannerH] = useState("")
 	const [bannerV, setBannerV] = useState("")
 	const [categories, setCategories] = useState("")
 	const [expirationDate, setExpirationDate] = useState<Date | null>(null)
 	const [body, setBody] = useState("")
 
-	const handleChange = (event: SelectChangeEvent<typeof publiType>) => {
+	const handleChange = (event: SelectChangeEvent<typeof publicationType>) => {
 		const {
 			target: { value },
 		} = event
-		setPubliType(
+		setPublicationType(
 			// On autofill we get a stringified value.
 			typeof value === "string" ? value.split(",") : value
 		)
@@ -60,30 +64,43 @@ export default function Editor() {
 		}
 		if (hasEditedSlug) return
 		setSlug(slugCleaner(title))
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [title, hasEditedSlug])
 
+	useEffect(() => {
+		async function getData() {
+			const user = await getCurrentUser(token)
+
+			if (!user) return
+
+			setUser(user)
+		}
+		getData()
+	}, [getCurrentUser, token])
+
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		if (!user) return
 
 		const data: TPostToPublish = {
 			title,
-			// slug,
-			// description,
-			// bannerH,
-			// bannerV,
-			category: categories.split(" "),
-			types: publiType as PostType[],
+			slug,
+			description,
+			horizontal_image: bannerH,
+			vertical_image: bannerV,
+			categories: categories.split(" "),
+			types: publicationType as PostType[],
 			expirationDate: expirationDate || new Date(),
 			body,
-			status: "pending",
-			activationDate: new Date(),
+			author_id: user._id,
 		}
 
 		const res = await createPost(data, token)
 
 		console.log("submit", res)
 	}
+
 	return (
 		<div>
 			<h1>Criar publicação</h1>
@@ -143,14 +160,14 @@ export default function Editor() {
 						labelId="demo-multiple-checkbox-label"
 						id="demo-multiple-checkbox"
 						multiple
-						value={publiType}
+						value={publicationType}
 						onChange={handleChange}
 						input={<OutlinedInput label="Tipo de Postagem" />}
 						renderValue={(selected) => selected.join(", ")}
 					>
 						{publishTypes.map((publishType) => (
 							<MenuItem key={publishType} value={publishType}>
-								<Checkbox checked={publiType.indexOf(publishType) > -1} />
+								<Checkbox checked={publicationType.indexOf(publishType) > -1} />
 								<ListItemText primary={publishType} />
 							</MenuItem>
 						))}
@@ -165,7 +182,7 @@ export default function Editor() {
 						onChange={(e) => setCategories(e.target.value)}
 					/>
 					<FormHelperText id="categories-text">
-						Categorias separadas por espaço
+						Categorias separadas por vírgula
 					</FormHelperText>
 				</FormControl>
 				<BasicDatePicker
@@ -184,17 +201,39 @@ export default function Editor() {
 							onChange={(e) => setBannerH(e.target.value)}
 						/>
 						<FormHelperText id="banner-H-text">
-							<p>
-								Você deve colocar um link para a imagem que ficará no topo da
-								publicação (exemplo: https://colcic.uesc.br/assets/banner.png)
-							</p>
-							<p>Recomendamos o tamanho (1920x1080)</p>
+							Você deve colocar um link para a imagem que ficará no topo da publicação
+							(exemplo: https://colcic.uesc.br/assets/banner.png)
+							<br />
+							Recomendamos o tamanho (1920x1080)
 						</FormHelperText>
 					</FormControl>
 					{bannerH && (
 						<div className={styles.bannerPreview}>
 							{/* eslint-disable-next-line  */}
 							<img src={bannerH} alt="Banner" />
+						</div>
+					)}
+				</div>
+				<div className={styles.bannerPreview}>
+					<FormControl variant="outlined" required>
+						<InputLabel htmlFor="banner-V">Banner Vertical</InputLabel>
+						<OutlinedInput
+							id="banner-V"
+							value={bannerV}
+							label="Banner Vertical"
+							onChange={(e) => setBannerV(e.target.value)}
+						/>
+						<FormHelperText id="banner-V-text">
+							Você deve colocar um link para a imagem que ficará na lateral da
+							publicação (exemplo: https://colcic.uesc.br/assets/banner.png)
+							<br />
+							Recomendamos o tamanho (1000X1500)
+						</FormHelperText>
+					</FormControl>
+					{bannerV && (
+						<div className={styles.bannerPreview}>
+							{/* eslint-disable-next-line  */}
+							<img src={bannerV} alt="Banner" />
 						</div>
 					)}
 				</div>
