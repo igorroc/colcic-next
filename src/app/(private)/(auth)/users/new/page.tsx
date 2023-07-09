@@ -30,17 +30,13 @@ export default function UsersNew() {
 	const router = useRouter()
 
 	const [type, setType] = useState("")
-	const [showPassword, setShowPassword] = useState(false)
 	const [creating, setCreating] = useState(false)
+	const [created, setCreated] = useState(false)
+	const [email, setEmail] = useState("")
+	const [accessToken, setAccessToken] = useState("")
 
 	const handleChange = (event: SelectChangeEvent) => {
 		setType(event.target.value as string)
-	}
-
-	const handleClickShowPassword = () => setShowPassword((show) => !show)
-
-	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault()
 	}
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -49,22 +45,27 @@ export default function UsersNew() {
 
 		const form = event.currentTarget
 
-		const data: TUserSimple = {
-			name: form.fullName.value,
-			username: form.username.value,
-			email: form.email.value,
-			password: form.password.value,
-			type: type,
-			profilePhoto: "https://img.freepik.com/free-icon/user_318-563642.jpg?w=360",
-		}
+		try {
+			const data: TUserSimple = {
+				name: form.fullName.value,
+				username: form.username.value,
+				email: form.email.value,
+				type: type,
+				profilePhoto: "https://img.freepik.com/free-icon/user_318-563642.jpg?w=360",
+			}
 
-		const newUser = await createUser(data, token)
+			const newUser = await createUser(data, token)
 
-		if (newUser) {
-			alert("Usuário criado com sucesso!")
-			form.reset()
-			router.push("/users")
-		} else {
+			if (newUser) {
+				setAccessToken(newUser.accessToken)
+				setCreated(true)
+				setEmail(data.email)
+				form.reset()
+			} else {
+				alert("Erro ao criar usuário!")
+			}
+		} catch (err) {
+			console.error("COLCIC-ERR", err)
 			alert("Erro ao criar usuário!")
 		}
 		setCreating(false)
@@ -72,45 +73,51 @@ export default function UsersNew() {
 
 	return (
 		<div>
-			<h1>Novo usuário</h1>
-			<form action="" id={styles.form} onSubmit={handleSubmit}>
-				<TextField label="Nome" type="text" name="fullName" required />
-				<TextField label="Username" type="text" name="username" required />
-				<TextField label="Email" type="email" name="email" required />
-				<TextField
-					label="Senha"
-					type={showPassword ? "text" : "password"}
-					name="password"
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<IconButton
-									aria-label="toggle password visibility"
-									onClick={handleClickShowPassword}
-									onMouseDown={handleMouseDownPassword}
-									edge="end"
-								>
-									{showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-								</IconButton>
-							</InputAdornment>
-						),
-					}}
-					required
-				/>
-				<FormControl fullWidth required>
-					<InputLabel id="label-type">Tipo</InputLabel>
-					<Select labelId="label-type" value={type} label="Tipo" onChange={handleChange}>
-						<MenuItem value={"user"}>Normal</MenuItem>
-						<MenuItem value={"admin"}>Admin</MenuItem>
-					</Select>
-				</FormControl>
+			{created ? (
+				<>
+					<h1>Usuário criado!</h1>
+					<p>
+						Agora você pode compartilhar o token de acesso, juntamente com o email, para
+						o usuário para que ele possa acessar o sistema.
+					</p>
+					<p>
+						<strong>Token de acesso: </strong>
+						{accessToken}
+						<br />
+						<strong>Email: </strong>
+						{email}
+					</p>
+					<Button label="Voltar" type="primary" onClick={() => router.push("/users")} />
+				</>
+			) : (
+				<>
+					<h1>Novo usuário</h1>
 
-				{creating ? (
-					<p>Criando usuário...</p>
-				) : (
-					<Button label="Criar usuário" type="primary" />
-				)}
-			</form>
+					<form action="" id={styles.form} onSubmit={handleSubmit}>
+						<TextField label="Nome" type="text" name="fullName" required />
+						<TextField label="Username" type="text" name="username" required />
+						<TextField label="Email" type="email" name="email" required />
+						<FormControl fullWidth required>
+							<InputLabel id="label-type">Tipo</InputLabel>
+							<Select
+								labelId="label-type"
+								value={type}
+								label="Tipo"
+								onChange={handleChange}
+							>
+								<MenuItem value={"user"}>Normal</MenuItem>
+								<MenuItem value={"admin"}>Admin</MenuItem>
+							</Select>
+						</FormControl>
+
+						{creating ? (
+							<p>Criando usuário...</p>
+						) : (
+							<Button label="Criar usuário" type="primary" />
+						)}
+					</form>
+				</>
+			)}
 		</div>
 	)
 }

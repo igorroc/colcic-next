@@ -17,7 +17,6 @@ export type TUserSimple = {
 	name: string
 	email: string
 	username: string
-	password: string
 	type: string
 	profilePhoto: string
 }
