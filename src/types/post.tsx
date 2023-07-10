@@ -1,6 +1,8 @@
-import { TUser } from "./user"
-
-export type TAuthor = TUser
+export type TAuthor = {
+	_id: string
+	name: string
+	profilePhoto: string
+}
 
 export type TCategory = string | null
 
