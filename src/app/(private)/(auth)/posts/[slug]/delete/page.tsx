@@ -58,7 +58,7 @@ export default function PostDelete(props: PostDeleteProps) {
 			alert("Erro ao deletar publicação")
 		}
 
-		router.push("/posts")
+		router.push("/posts/all")
 	}
 
 	return (
