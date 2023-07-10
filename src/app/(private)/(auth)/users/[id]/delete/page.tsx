@@ -19,7 +19,11 @@ export default function DeleteUser({ params }: DeleteUserProps) {
 	const [fullName, setFullName] = useState("")
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(true)
-	const { getUserById, deleteUser } = useUser()
+	const { getUserById, deleteUser, user } = useUser({
+		token,
+		adminOnlyPage: true,
+		redirectTo: "/dashboard",
+	})
 	const router = useRouter()
 
 	useEffect(() => {
@@ -60,9 +64,22 @@ export default function DeleteUser({ params }: DeleteUserProps) {
 				</>
 			) : (
 				<>
-					<p>
-						Você tem certeza que deseja deletar o usuário <strong>{fullName}</strong>?
-					</p>
+					{user?._id == params.id ? (
+						<>
+							<p>
+								Você tem certeza que deseja deletar <strong>VOCÊ MESMO?</strong>
+							</p>
+							<p>
+								Isso irá deletar sua conta permanentemente, e você não poderá
+								recuperá-la.
+							</p>
+						</>
+					) : (
+						<p>
+							Você tem certeza que deseja deletar o usuário{" "}
+							<strong>{fullName}</strong>?
+						</p>
+					)}
 
 					<div className={styles.actions}>
 						<button onClick={handleDelete} className={styles.delete}>
