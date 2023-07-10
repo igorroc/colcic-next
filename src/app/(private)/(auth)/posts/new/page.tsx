@@ -16,8 +16,8 @@ import {
 } from "@mui/material"
 
 import styles from "./page.module.css"
-import previewSiteStyles from "../../../../(public)/noticias/[slug]/page.module.css"
-import previewMuralStyles from "../../../../../components/MuralPostList/MuralPost/muralPost.module.css"
+import previewSiteStyles from "@/app/(public)/noticias/[slug]/page.module.css"
+import previewMuralStyles from "@/components/MuralPostList/MuralPost/muralPost.module.css"
 
 import { Button } from "@/components/Button"
 import BasicDatePicker from "@/components/DatePicker"
@@ -34,7 +34,7 @@ import { formatToDate } from "@/utils/formatToDate"
 import MarkdownPrint from "@/components/MarkdownPrint"
 import QRCode from "@/components/QRCode"
 
-const publishTypes: string[] = Object.values(PostType)
+const publishTypes: PostType[] = ["site", "mural"]
 
 export default function Editor() {
 	const { createPost } = usePosts()
@@ -56,6 +56,7 @@ export default function Editor() {
 	const [expirationDate, setExpirationDate] = useState<Date | null>(null)
 	const [body, setBody] = useState("")
 	const [isPreview, setIsPreview] = useState(false)
+	const [previewPage, setPreviewPage] = useState("site")
 
 	const handleChange = (event: SelectChangeEvent<typeof publicationType>) => {
 		const {
@@ -137,145 +138,155 @@ export default function Editor() {
 		setIsPreview(!isPreview)
 	}
 
+	function handlePreviewChange() {
+		setPreviewPage(previewPage === "site" ? "mural" : "site")
+	}
+
 	if (isPreview) {
 		return (
 			<div>
-				<h1>Pré-visualizar</h1>
-				{publicationType.includes("mural") && <h2>Visualização no site</h2>}
-
-				<div>
-					<div className={previewSiteStyles.postHeader}>
-						<div
-							className={[
-								previewSiteStyles.sideHeaderContainer,
-								previewSiteStyles.leftSideHeaderContainer,
-							].join(" ")}
-						>
-							{categories && (
-								<div className={previewSiteStyles.categories}>
-									{categories
-										.split(",")
-										.map((category: TCategory, index: number) => (
-											<span
-												className={previewSiteStyles.categoriesTag}
-												key={index}
-											>
-												{category}
-											</span>
-										))}
-								</div>
-							)}
-							<h1 className={previewSiteStyles.postHeaderTitle}>{title}</h1>
-						</div>
-						<div className={previewSiteStyles.sideHeaderContainer}>
-							{user && (
-								<div className={previewSiteStyles.avatarUserInfo}>
-									{/* eslint-disable-next-line */}
-									<img
-										src={user.profilePhoto}
-										alt={`Foto de perfil de ${user.name}`}
-										width={100}
-										height={100}
-									/>
-									<div>
-										<p className={previewSiteStyles.authorName}>{user.name}</p>
-										<p className={previewSiteStyles.postDate}>
-											{new Date().toDateString()}
-										</p>
-									</div>
-								</div>
-							)}
-							<SharableLinks />
-							<LikeButton isPreview />
-						</div>
-					</div>
-					<div className={previewSiteStyles.postBanner}>
-						{/* eslint-disable-next-line */}
-						<img src={bannerH} alt="post banner" />
-					</div>
-					<div className={[previewSiteStyles.bodyText, styles.body].join(" ")}>
-						<MarkdownPrint text={body} />
-					</div>
-					<p className={styles.continue}>
-						O resto do seu post será exibido aqui. Você pode usar{" "}
-						<a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">
-							Markdown
-						</a>{" "}
-						para formatar o texto.
-					</p>
+				<div className={styles.rowTitle}>
+					<h1>Pré-visualizar</h1>
+					{publicationType.includes("mural") && (
+						<Button
+							onClick={handlePreviewChange}
+							label={`Visualizar no ${previewPage === "site" ? "mural" : "site"}`}
+							type="secondary"
+						/>
+					)}
 				</div>
-
-				{publicationType.includes("mural") && (
-					<>
-						<h2>Visualização no mural</h2>
-						<div>
-							<div className={styles.postMural}>
-								<div className={previewMuralStyles.postBanner}>
-									{/* eslint-disable-next-line */}
-									<img src={bannerV} alt="Banner do post" />
+				
+				{previewPage === "site" && (
+					<div>
+						<div className={previewSiteStyles.postHeader}>
+							<div
+								className={[
+									previewSiteStyles.sideHeaderContainer,
+									previewSiteStyles.leftSideHeaderContainer,
+								].join(" ")}
+							>
+								{categories && (
+									<div className={previewSiteStyles.categories}>
+										{categories
+											.split(",")
+											.map((category: TCategory, index: number) => (
+												<span
+													className={previewSiteStyles.categoriesTag}
+													key={index}
+												>
+													{category}
+												</span>
+											))}
+									</div>
+								)}
+								<h1 className={previewSiteStyles.postHeaderTitle}>{title}</h1>
+							</div>
+							<div className={previewSiteStyles.sideHeaderContainer}>
+								{user && (
+									<div className={previewSiteStyles.avatarUserInfo}>
+										{/* eslint-disable-next-line */}
+										<img
+											src={user.profilePhoto}
+											alt={`Foto de perfil de ${user.name}`}
+											width={100}
+											height={100}
+										/>
+										<div>
+											<p className={previewSiteStyles.authorName}>
+												{user.name}
+											</p>
+											<p className={previewSiteStyles.postDate}>
+												{new Date().toDateString()}
+											</p>
+										</div>
+									</div>
+								)}
+								<SharableLinks />
+								<LikeButton isPreview />
+							</div>
+						</div>
+						<div className={previewSiteStyles.postBanner}>
+							{/* eslint-disable-next-line */}
+							<img src={bannerH} alt="post banner" />
+						</div>
+						<div className={[previewSiteStyles.bodyText, styles.body].join(" ")}>
+							<MarkdownPrint text={body} />
+						</div>
+						<p className={styles.continue}>
+							O resto do seu post será exibido aqui. Você pode usar{" "}
+							<a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">
+								Markdown
+							</a>{" "}
+							para formatar o texto.
+						</p>
+					</div>
+				)}
+				{previewPage === "mural" && publicationType.includes("mural") && (
+					<div>
+						<div className={styles.postMural}>
+							<div className={previewMuralStyles.postBanner}>
+								{/* eslint-disable-next-line */}
+								<img src={bannerV} alt="Banner do post" />
+							</div>
+							<div className={previewMuralStyles.postContent}>
+								{categories && (
+									<div className={previewMuralStyles.postCategoryList}>
+										{categories
+											.split(",")
+											.map((category: TCategory, index_c) => (
+												<div
+													className={previewMuralStyles.postCategory}
+													key={index_c}
+												>
+													<span>{category}</span>
+												</div>
+											))}
+									</div>
+								)}
+								<div className={previewMuralStyles.postTitle}>
+									<a>
+										<h1>{title}</h1>
+									</a>
 								</div>
-								<div className={previewMuralStyles.postContent}>
-									{categories && (
-										<div className={previewMuralStyles.postCategoryList}>
-											{categories
-												.split(",")
-												.map((category: TCategory, index_c) => (
-													<div
-														className={previewMuralStyles.postCategory}
-														key={index_c}
-													>
-														<span>{category}</span>
-													</div>
-												))}
+								<div className={previewMuralStyles.postDescription}>
+									<p>{description}</p>
+								</div>
+
+								<div className={previewMuralStyles.bottomInfo}>
+									{user && (
+										<div className={previewMuralStyles.postAuthor}>
+											<div className={previewMuralStyles.authorPicture}>
+												{/* eslint-disable-next-line */}
+												<img
+													src={user.profilePhoto}
+													alt={`Foto de ${user.name}`}
+													width={100}
+													height={100}
+												/>
+											</div>
+											<div className={previewMuralStyles.authorInfo}>
+												<span className={previewMuralStyles.authorName}>
+													{user.name}
+												</span>
+												<span className={previewMuralStyles.authorDate}>
+													{new Date().toDateString()}
+												</span>
+											</div>
 										</div>
 									)}
-									<div className={previewMuralStyles.postTitle}>
-										<a>
-											<h1>{title}</h1>
-										</a>
-									</div>
-									<div className={previewMuralStyles.postDescription}>
-										<p>{description}</p>
-									</div>
 
-									<div className={previewMuralStyles.bottomInfo}>
-										{user && (
-											<div className={previewMuralStyles.postAuthor}>
-												<div className={previewMuralStyles.authorPicture}>
-													{/* eslint-disable-next-line */}
-													<img
-														src={user.profilePhoto}
-														alt={`Foto de ${user.name}`}
-														width={100}
-														height={100}
-													/>
-												</div>
-												<div className={previewMuralStyles.authorInfo}>
-													<span className={previewMuralStyles.authorName}>
-														{user.name}
-													</span>
-													<span className={previewMuralStyles.authorDate}>
-														{new Date().toDateString()}
-													</span>
-												</div>
-											</div>
-										)}
-
-										<div className={previewMuralStyles.continue}>
-											<span>Continue no QR Code</span>
-											<QRCode
-												text={
-													process.env.NEXT_PUBLIC_URL +
-													`/noticias/${slug}`
-												}
-											/>
-										</div>
+									<div className={previewMuralStyles.continue}>
+										<span>Continue no QR Code</span>
+										<QRCode
+											text={process.env.NEXT_PUBLIC_URL + `/noticias/${slug}`}
+										/>
 									</div>
 								</div>
 							</div>
 						</div>
-					</>
+					</div>
 				)}
+
 				<form onSubmit={handleSubmit}>
 					<div className={styles.actions}>
 						<Button label="Voltar" type="secondary" onClick={handlePreview} />
