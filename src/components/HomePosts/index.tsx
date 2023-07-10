@@ -40,7 +40,11 @@ export default function HomePosts() {
 			{loading ? (
 				<div>Carregando...</div>
 			) : !posts || posts.length == 0 ? (
-				<div>Não existem publicações.</div>
+				<div>
+					<p>
+						Veja as últimas notícias do colegiado <Link href="/noticias">aqui</Link>
+					</p>
+				</div>
 			) : (
 				<div className={styles.noticias}>
 					{posts.map((post, index: number) => (
