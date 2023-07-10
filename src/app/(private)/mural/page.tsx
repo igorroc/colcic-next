@@ -19,7 +19,7 @@ import { useUserToken } from "@/utils/handleUserToken"
 export default function Mural() {
 	const { token } = useUserToken()
 	const searchParams = useSearchParams()
-	const delay = Number(searchParams.get("delay")) || 10000
+	const delay = Number(searchParams.get("delay")) * 1000 || 10000
 	const revalidateDelay = Number(searchParams.get("revalidate")) || 30 * 60
 
 	const [loading, setLoading] = useState(true)
