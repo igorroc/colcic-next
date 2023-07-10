@@ -13,7 +13,6 @@ import SharableLinks from "@/components/SharableLinks"
 import { Button } from "@/components/Button"
 
 import { TCategory, TPost } from "@/types/post"
-import usePosts from "@/hooks/posts"
 import LikeButton from "@/components/LikeButton"
 import { TUser } from "@/types/user"
 
@@ -30,7 +29,7 @@ type Props = {
 	searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const slug = params.slug
 
 	const post: TPost = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug).then(
