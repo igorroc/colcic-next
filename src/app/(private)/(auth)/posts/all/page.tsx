@@ -8,13 +8,25 @@ import Link from "next/link"
 import { Button } from "@/components/Button"
 
 import styles from "./posts.module.css"
-import { AiFillCheckCircle, AiFillClockCircle, AiFillCloseCircle, AiFillEdit } from "react-icons/ai"
-import { BsCheckCircleFill, BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
+import {
+	AiFillCheckCircle,
+	AiFillClockCircle,
+	AiFillCloseCircle,
+	AiFillEdit,
+	AiFillStar,
+} from "react-icons/ai"
+import {
+	BsFillEyeFill,
+	BsFillTrashFill,
+	BsFillTvFill,
+} from "react-icons/bs"
 import { TPost } from "@/types/post"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
 import Loading from "@/components/Loading"
 import { formatToDate } from "@/utils/formatToDate"
+import { FaMouse } from "react-icons/fa"
+import { toCapitalCase } from "@/utils/formatText"
 
 export default function Posts() {
 	const router = useRouter()
@@ -94,7 +106,29 @@ export default function Posts() {
 											/>
 										)}
 									</th>
-									<th>{post.types ? post.types.join(",") : "?"}</th>
+									<th>
+										{post.types &&
+											post.types.map((type, index) =>
+												type == "destaque" ? (
+													<AiFillStar
+														key={index}
+														title={toCapitalCase(type)}
+													/>
+												) : type == "mural" ? (
+													<BsFillTvFill
+														key={index}
+														title={toCapitalCase(type)}
+													/>
+												) : type == "site" ? (
+													<FaMouse
+														key={index}
+														title={toCapitalCase(type)}
+													/>
+												) : (
+													"?"
+												)
+											)}
+									</th>
 									<th>{formatToDate(post.createdAt)}</th>
 									<th>
 										{post.author && (post.author as TUser).name
