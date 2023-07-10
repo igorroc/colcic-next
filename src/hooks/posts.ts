@@ -1,6 +1,14 @@
 "use client"
 
-import { TAuthor, TPost, TPostToPublish, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import {
+	PostStatus,
+	TAuthor,
+	TPost,
+	TPostToPublish,
+	TPostWithAuthorId,
+	TPostWithAuthorObj,
+	TPostWithAuthorUser,
+} from "@/types/post"
 import useUser from "./users"
 
 export default function usePosts() {
@@ -115,7 +123,7 @@ export default function usePosts() {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug)
 
 			if (res.ok) {
-				const postRes: TPostWithAuthorId = await res.json()
+				const postRes: TPostWithAuthorUser = await res.json()
 
 				if (!postRes) {
 					console.error("COLCIC-ERR: Post not found")
@@ -140,18 +148,58 @@ export default function usePosts() {
 		// return posts
 	}
 
-	function getPostsWaitingForApproval() {
-		return [] as TPostWithAuthorObj[]
-		// const posts = postList.filter((post) => post.status === "pending")
-		// let postsWithAuthors: TPostWithAuthor[] = []
+	async function getPostsWaitingForApproval(token: string) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/pending", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
-		// posts.map(async (post) => {
-		// 	const author = await getUserById(post.author_id)
-		// 	if (author === null) return console.error("COLCIC-ERR: Author not found")
-		// 	postsWithAuthors.push({ ...post, author })
-		// })
+			const postsRes: TPostWithAuthorId[] = await res.json()
 
-		// return postsWithAuthors
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
+
+			let postsWithAuthors: TPostWithAuthorObj[] = []
+
+			await Promise.all(
+				postsRes.map(async (post) => {
+					const authorRes = await getUserById(post.author, token)
+					let author =
+						authorRes ||
+						({
+							_id: "",
+							name: "",
+							profilePhoto: "",
+						} as TAuthor)
+
+					if (!author) {
+						console.error("COLCIC-ERR: Author not found")
+					}
+
+					const postWithAuthor: TPostWithAuthorObj = { ...post, author: author }
+
+					postsWithAuthors.push(postWithAuthor)
+				})
+			)
+				.then((posts) => {
+					return posts
+				})
+				.catch((err) => {
+					console.error(err)
+					return []
+				})
+
+			return postsWithAuthors
+		} catch (err) {
+			console.error(err)
+			return []
+		}
 	}
 
 	function getPostsWaitingForApprovalFromUser(userId: string) {
@@ -244,6 +292,31 @@ export default function usePosts() {
 		}
 	}
 
+	async function approvePost(slug: string, token: string, status: PostStatus) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/approve/" + slug, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify({ status: status }),
+			})
+
+			const postRes = res.ok
+
+			if (!postRes) {
+				console.error("COLCIC-ERR: Post approve error")
+				return null
+			}
+
+			return postRes
+		} catch (err) {
+			console.error(err)
+			return null
+		}
+	}
+
 	return {
 		getPosts,
 		getHomePosts,
@@ -254,6 +327,7 @@ export default function usePosts() {
 		createPost,
 		editPost,
 		deletePost,
+		approvePost,
 		getMuralPosts,
 		getSitePosts,
 	}

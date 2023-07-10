@@ -1,0 +1,49 @@
+.rowTitle {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1em;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em;
+	padding: 0.3em;
+}
+
+.table {
+	font-weight: normal;
+	text-align: left;
+}
+
+.post th {
+	font-weight: normal;
+}
+
+.post .status {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.post .button {
+	--size: 1em;
+
+	font-size: 1.5em;
+	width: var(--size);
+	height: var(--size);
+	padding: 0.3em;
+	border-radius: 0.3em;
+	background: var(--primary-color);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: var(--transition);
+}
+
+.post .button:hover {
+	background: var(--primary-color-hover);
+}

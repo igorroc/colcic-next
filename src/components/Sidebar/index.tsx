@@ -33,7 +33,7 @@ const sideNavList = [
 	},
 	{
 		title: "Aprovar Publicações",
-		href: "/posts/approve",
+		href: "/approve",
 		icon: <AiFillClockCircle />,
 		isAdmin: true,
 	},

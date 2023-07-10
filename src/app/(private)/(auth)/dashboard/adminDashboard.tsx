@@ -7,7 +7,7 @@ import { useUserToken } from "@/utils/handleUserToken"
 import styles from "./dashboard.module.css"
 import { Button } from "@/components/Button"
 import { TUser } from "@/types/user"
-import { TPostWithAuthorObj } from "@/types/post"
+import { TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
 import Loading from "@/components/Loading"
 
 export default function AdminDashboard() {
@@ -21,7 +21,7 @@ export default function AdminDashboard() {
 	useEffect(() => {
 		async function fetchData() {
 			const usersRes = await getAllUsers()
-			const waitingPostsRes = await getPostsWaitingForApproval()
+			const waitingPostsRes = await getPostsWaitingForApproval(token)
 			const postsRes = await getPosts(token)
 
 			if (usersRes) setUsers(usersRes)
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
 						<div className={styles.card}>
 							<b>{postsWaitingForApproval.length}</b>
 							<p>Aguardando aprovação</p>
-							<Button href={"/posts/approve"} label="Verificar" type="secondary" />
+							<Button href={"/approve"} label="Verificar" type="secondary" />
 						</div>
 					) : (
 						<div className={styles.card}>

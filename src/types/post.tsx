@@ -1,3 +1,5 @@
+import { TUser } from "./user"
+
 export type TAuthor = {
 	_id: string
 	name: string
@@ -29,6 +31,10 @@ export type TPost = {
 
 export type TPostWithAuthorObj = TPost & {
 	author: TAuthor
+}
+
+export type TPostWithAuthorUser = TPost & {
+	author: TUser
 }
 
 export type TPostWithAuthorId = TPost & {
