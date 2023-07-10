@@ -10,7 +10,7 @@ import { Button } from "@/components/Button"
 import styles from "./posts.module.css"
 import { AiFillCheckCircle, AiFillClockCircle, AiFillCloseCircle, AiFillEdit } from "react-icons/ai"
 import { BsCheckCircleFill, BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
-import { TPostWithAuthorObj } from "@/types/post"
+import { TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
 import Loading from "@/components/Loading"
@@ -41,7 +41,7 @@ export default function Posts() {
 
 			if (!posts) return
 
-			setPosts(posts)
+			setPosts(posts.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1)))
 		}
 
 		getData()
@@ -94,7 +94,7 @@ export default function Posts() {
 										)}
 									</th>
 									<th>{formatToDate(post.createdAt)}</th>
-									<th>{post.author.name}</th>
+									<th>{post.author.name ? post.author.name : "?"}</th>
 									<th>{post.title}</th>
 									<th className={styles.row}>
 										<Link
