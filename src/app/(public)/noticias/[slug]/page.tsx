@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { AiOutlineHeart } from "react-icons/ai"
+import { Metadata } from "next"
 
 import img404 from "/public/404.png"
 import styles from "./page.module.css"
@@ -25,6 +26,28 @@ interface PostPageType {
 }
 
 export const revalidate = 30
+
+type Props = {
+	params: { slug: string }
+	searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+	const slug = params.slug
+
+	const post: TPost = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug).then(
+		(res) => res.json()
+	)
+
+	return {
+		title: post.title,
+		openGraph: {
+			images: [post.horizontal_image],
+		},
+		description: post.description,
+		keywords: post.categories.join(", "),
+	}
+}
 
 export default function Post({ params }: PostPageType) {
 	const { getPostBySlug } = usePosts()

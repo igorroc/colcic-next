@@ -13,6 +13,10 @@ import { useUserToken } from "@/utils/handleUserToken"
 import { TCategory, TPost } from "@/types/post"
 import Loading from "@/components/Loading"
 
+export const metadata = {
+	title: "Notícias",
+}
+
 export default function Noticias() {
 	const { token } = useUserToken()
 	const { getSitePosts } = usePosts()
