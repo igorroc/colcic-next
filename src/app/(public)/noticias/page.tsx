@@ -10,15 +10,15 @@ import { formatToDate } from "@/utils/formatToDate"
 import styles from "./noticias.module.css"
 import usePosts from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
-import { TCategory, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import { TCategory, TPost } from "@/types/post"
 import Loading from "@/components/Loading"
 
 export default function Noticias() {
 	const { token } = useUserToken()
 	const { getSitePosts } = usePosts()
 
-	const [posts, setPosts] = useState<TPostWithAuthorId[]>()
-	const [mainPost, setMainPost] = useState<TPostWithAuthorId>()
+	const [posts, setPosts] = useState<TPost[]>()
+	const [mainPost, setMainPost] = useState<TPost>()
 	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {

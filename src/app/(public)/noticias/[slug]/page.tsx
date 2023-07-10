@@ -13,7 +13,7 @@ import MarkdownPrint from "@/components/MarkdownPrint"
 import SharableLinks from "@/components/SharableLinks"
 import { Button } from "@/components/Button"
 
-import { TCategory, TPostWithAuthorId, TPostWithAuthorObj, TPostWithAuthorUser } from "@/types/post"
+import { TCategory, TPost } from "@/types/post"
 import usePosts from "@/hooks/posts"
 import LikeButton from "@/components/LikeButton"
 
@@ -27,7 +27,7 @@ export const revalidate = 30
 
 export default function Post({ params }: PostPageType) {
 	const { getPostBySlug } = usePosts()
-	const [post, setPost] = useState<TPostWithAuthorUser>()
+	const [post, setPost] = useState<TPost>()
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {

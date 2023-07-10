@@ -96,7 +96,14 @@ export default function PostEdit({ params }: PostEditProps) {
 				setBody(post.body)
 
 				if (post.author) {
-					setAuthor(post.author)
+					if (typeof post.author === "string") {
+						const author = await getUserById(post.author, token)
+						if (author) {
+							setAuthor(author)
+						}
+					} else {
+						setAuthor(post.author as TUser)
+					}
 				}
 			}
 

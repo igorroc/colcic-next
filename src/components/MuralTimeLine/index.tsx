@@ -1,12 +1,12 @@
 "use client"
 
-import { TPost, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import { TPost } from "@/types/post"
 import React, { useEffect, useState } from "react"
 import styles from "./mural_timeline.module.css"
 
 type MuralTimeLineProps = {
 	delay: number
-	posts: TPostWithAuthorObj[] | TPostWithAuthorId[]
+	posts: TPost[] | TPost[]
 }
 
 export default function MuralTimeLine(props: MuralTimeLineProps) {

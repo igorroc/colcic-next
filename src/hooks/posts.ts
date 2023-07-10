@@ -1,20 +1,12 @@
 "use client"
 
-import {
-	PostStatus,
-	TAuthor,
-	TPost,
-	TPostToPublish,
-	TPostWithAuthorId,
-	TPostWithAuthorObj,
-	TPostWithAuthorUser,
-} from "@/types/post"
+import { PostStatus, TAuthor, TPost, TPostToPublish } from "@/types/post"
 import useUser from "./users"
 
 export default function usePosts() {
 	const { getUserById } = useUser()
 
-	async function getPosts(token: string): Promise<TPostWithAuthorObj[] | []> {
+	async function getPosts(token: string): Promise<TPost[] | []> {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts", {
 				method: "GET",
@@ -24,18 +16,28 @@ export default function usePosts() {
 				},
 			})
 
-			const postsRes: TPostWithAuthorId[] = await res.json()
+			const postsRes: TPost[] = await res.json()
 
 			if (!postsRes || postsRes.length == 0) {
 				console.error("COLCIC-ERR: No posts found")
 				return []
 			}
 
-			let postsWithAuthors: TPostWithAuthorObj[] = []
+			let postsWithAuthors: TPost[] = []
 
 			await Promise.all(
 				postsRes.map(async (post) => {
-					const authorRes = await getUserById(post.author, token)
+					let authorId: string
+					if (!post.author) {
+						return post
+					}
+					if (typeof post.author === "string") {
+						authorId = post.author
+					} else {
+						authorId = post.author._id
+					}
+
+					const authorRes = await getUserById(authorId, token)
 					let author =
 						authorRes ||
 						({
@@ -48,7 +50,7 @@ export default function usePosts() {
 						console.error("COLCIC-ERR: Author not found")
 					}
 
-					const postWithAuthor: TPostWithAuthorObj = { ...post, author: author }
+					const postWithAuthor: TPost = { ...post, author: author }
 
 					postsWithAuthors.push(postWithAuthor)
 				})
@@ -68,11 +70,11 @@ export default function usePosts() {
 		}
 	}
 
-	async function getSitePosts(): Promise<TPostWithAuthorId[] | undefined> {
+	async function getSitePosts(): Promise<TPost[] | undefined> {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/site")
 
-			const postsRes: TPostWithAuthorId[] = await res.json()
+			const postsRes: TPost[] = await res.json()
 
 			if (!postsRes || postsRes.length == 0) {
 				console.error("COLCIC-ERR: No posts found")
@@ -86,11 +88,11 @@ export default function usePosts() {
 		}
 	}
 
-	async function getMuralPosts(): Promise<TPostWithAuthorId[] | undefined> {
+	async function getMuralPosts(): Promise<TPost[] | undefined> {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/mural")
 
-			const postsRes: TPostWithAuthorId[] = await res.json()
+			const postsRes: TPost[] = await res.json()
 
 			if (!postsRes || postsRes.length == 0) {
 				console.error("COLCIC-ERR: No posts found")
@@ -123,7 +125,7 @@ export default function usePosts() {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug)
 
 			if (res.ok) {
-				const postRes: TPostWithAuthorUser = await res.json()
+				const postRes: TPost = await res.json()
 
 				if (!postRes) {
 					console.error("COLCIC-ERR: Post not found")
@@ -140,7 +142,7 @@ export default function usePosts() {
 	}
 
 	function getPostsByUser(userId: string) {
-		return [] as TPostWithAuthorObj[]
+		return [] as TPost[]
 		// const posts = postList.filter(
 		// 	(post) => post.author_id === userId && post.status === "approved"
 		// )
@@ -158,18 +160,28 @@ export default function usePosts() {
 				},
 			})
 
-			const postsRes: TPostWithAuthorId[] = await res.json()
+			const postsRes: TPost[] = await res.json()
 
 			if (!postsRes || postsRes.length == 0) {
 				console.error("COLCIC-ERR: No posts found")
 				return []
 			}
 
-			let postsWithAuthors: TPostWithAuthorObj[] = []
+			let postsWithAuthors: TPost[] = []
 
 			await Promise.all(
 				postsRes.map(async (post) => {
-					const authorRes = await getUserById(post.author, token)
+					let authorId: string
+					if (!post.author) {
+						return post
+					}
+					if (typeof post.author === "string") {
+						authorId = post.author
+					} else {
+						authorId = post.author._id
+					}
+
+					const authorRes = await getUserById(authorId, token)
 					let author =
 						authorRes ||
 						({
@@ -182,7 +194,7 @@ export default function usePosts() {
 						console.error("COLCIC-ERR: Author not found")
 					}
 
-					const postWithAuthor: TPostWithAuthorObj = { ...post, author: author }
+					const postWithAuthor: TPost = { ...post, author: author }
 
 					postsWithAuthors.push(postWithAuthor)
 				})
@@ -203,7 +215,7 @@ export default function usePosts() {
 	}
 
 	function getPostsWaitingForApprovalFromUser(userId: string) {
-		return [] as TPostWithAuthorObj[]
+		return [] as TPost[]
 		// const posts = postList.filter(
 		// 	(post) => post.status === "pending" && post.author_id === userId
 		// )

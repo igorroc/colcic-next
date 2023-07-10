@@ -11,7 +11,7 @@ import styles from "./posts.module.css"
 import Image from "next/image"
 import { AiFillEdit } from "react-icons/ai"
 import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
-import { TPost, TPostWithAuthorObj } from "@/types/post"
+import { TPost } from "@/types/post"
 import { TUser } from "@/types/user"
 import Loading from "@/components/Loading"
 
@@ -35,7 +35,8 @@ export default function Posts() {
 			if (!posts) return
 
 			const filteredPosts = posts.filter(
-				(post) => post.author._id === user._id && post.status == "ativo"
+				(post) =>
+					post.author && (post.author as TUser)._id === user._id && post.status == "ativo"
 			)
 
 			setPosts(filteredPosts)

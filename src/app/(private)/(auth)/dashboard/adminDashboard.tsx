@@ -7,16 +7,16 @@ import { useUserToken } from "@/utils/handleUserToken"
 import styles from "./dashboard.module.css"
 import { Button } from "@/components/Button"
 import { TUser } from "@/types/user"
-import { TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import { TPost } from "@/types/post"
 import Loading from "@/components/Loading"
 
 export default function AdminDashboard() {
 	const { token } = useUserToken()
 	const { user, getAllUsers } = useUser({ token })
 	const { getPostsWaitingForApproval, getPosts } = usePosts()
-	const [postsWaitingForApproval, setPostsWaitingForApproval] = useState<TPostWithAuthorObj[]>()
+	const [postsWaitingForApproval, setPostsWaitingForApproval] = useState<TPost[]>()
 	const [users, setUsers] = useState<TUser[]>()
-	const [posts, setPosts] = useState<TPostWithAuthorObj[]>()
+	const [posts, setPosts] = useState<TPost[]>()
 
 	useEffect(() => {
 		async function fetchData() {

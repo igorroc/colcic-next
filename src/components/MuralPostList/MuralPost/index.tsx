@@ -2,14 +2,14 @@ import React from "react"
 
 import styles from "./muralPost.module.css"
 
-import { TCategory, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import { TCategory, TPost } from "@/types/post"
 import { formatToDate } from "@/utils/formatToDate"
 
 import Link from "next/link"
 import QRCode from "@/components/QRCode"
 
 type MuralPostProps = {
-	post: TPostWithAuthorObj | TPostWithAuthorId
+	post: TPost | TPost
 	activeItem: number
 	index: number
 }
@@ -47,26 +47,32 @@ export default function MuralPost(props: MuralPostProps) {
 				</div>
 
 				<div className={styles.bottomInfo}>
-					{typeof props.post.author === "string" ? (
-						<></>
+					{props.post.author ? (
+						typeof props.post.author === "string" ? (
+							<></>
+						) : (
+							<div className={styles.postAuthor}>
+								<div className={styles.authorPicture}>
+									{/* eslint-disable-next-line */}
+									<img
+										src={props.post.author.profilePhoto}
+										alt={`Foto de ${props.post.author.name}`}
+										width={100}
+										height={100}
+									/>
+								</div>
+								<div className={styles.authorInfo}>
+									<span className={styles.authorName}>
+										{props.post.author.name}
+									</span>
+									<span className={styles.authorDate}>
+										{formatToDate(props.post.createdAt)}
+									</span>
+								</div>
+							</div>
+						)
 					) : (
-						<div className={styles.postAuthor}>
-							<div className={styles.authorPicture}>
-								{/* eslint-disable-next-line */}
-								<img
-									src={props.post.author.profilePhoto}
-									alt={`Foto de ${props.post.author.name}`}
-									width={100}
-									height={100}
-								/>
-							</div>
-							<div className={styles.authorInfo}>
-								<span className={styles.authorName}>{props.post.author.name}</span>
-								<span className={styles.authorDate}>
-									{formatToDate(props.post.createdAt)}
-								</span>
-							</div>
-						</div>
+						<></>
 					)}
 
 					<div className={styles.continue}>

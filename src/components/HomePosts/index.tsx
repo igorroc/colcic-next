@@ -11,13 +11,14 @@ import usePosts from "@/hooks/posts"
 
 import styles from "./homePosts.module.css"
 import { Button } from "../Button"
-import { TPostWithAuthorObj } from "@/types/post"
+import { TPost } from "@/types/post"
 import { useUserToken } from "@/utils/handleUserToken"
+import { TUser } from "@/types/user"
 
 export default function HomePosts() {
 	const { token } = useUserToken()
 	const { getHomePosts } = usePosts()
-	const [posts, setPosts] = useState<TPostWithAuthorObj[]>()
+	const [posts, setPosts] = useState<TPost[]>()
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
@@ -50,19 +51,25 @@ export default function HomePosts() {
 					{posts.map((post, index: number) => (
 						<div key={index} className={styles.card}>
 							<div className={styles.postInfo}>
-								<div className={styles.postAuthorImage}>
-									{/* eslint-disable-next-line  */}
-									<img
-										src={post.author.profilePhoto}
-										alt={post.author.name}
-										width={100}
-										height={100}
-									/>
-								</div>
+								{post.author && (
+									<div className={styles.postAuthorImage}>
+										{/* eslint-disable-next-line  */}
+										<img
+											src={(post.author as TUser).profilePhoto}
+											alt={(post.author as TUser).name}
+											width={100}
+											height={100}
+										/>
+									</div>
+								)}
+
 								<div className={styles.postAuthorInfo}>
-									<span className={styles.postAuthorName}>
-										{post.author.name}
-									</span>
+									{post.author && (
+										<span className={styles.postAuthorName}>
+											{(post.author as TUser).name}
+										</span>
+									)}
+
 									<span className={styles.postDate}>
 										{formatToDate(post.createdAt)}
 									</span>

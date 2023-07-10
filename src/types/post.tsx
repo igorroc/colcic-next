@@ -26,19 +26,8 @@ export type TPost = {
 	vertical_image: string
 	createdAt: string
 	updatedAt: string
+	author: string | TAuthor | TUser | null
 	__v: number
-}
-
-export type TPostWithAuthorObj = TPost & {
-	author: TAuthor
-}
-
-export type TPostWithAuthorUser = TPost & {
-	author: TUser
-}
-
-export type TPostWithAuthorId = TPost & {
-	author: string
 }
 
 export type TPostToPublish = {

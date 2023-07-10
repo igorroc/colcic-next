@@ -10,7 +10,7 @@ import { Button } from "@/components/Button"
 import styles from "./posts.module.css"
 import { AiFillCheckCircle, AiFillClockCircle, AiFillCloseCircle, AiFillEdit } from "react-icons/ai"
 import { BsCheckCircleFill, BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
-import { TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import { TPost } from "@/types/post"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
 import Loading from "@/components/Loading"
@@ -21,7 +21,7 @@ export default function Posts() {
 	const { token } = useUserToken()
 	const { getCurrentUser } = useUser({ token })
 	const { getPostsByUser, getPosts } = usePosts()
-	const [posts, setPosts] = useState<TPostWithAuthorObj[]>([])
+	const [posts, setPosts] = useState<TPost[]>([])
 	const [user, setUser] = useState<TUser>()
 
 	useEffect(() => {
@@ -94,7 +94,11 @@ export default function Posts() {
 										)}
 									</th>
 									<th>{formatToDate(post.createdAt)}</th>
-									<th>{post.author.name ? post.author.name : "?"}</th>
+									<th>
+										{post.author && (post.author as TUser).name
+											? (post.author as TUser).name
+											: "?"}
+									</th>
 									<th>{post.title}</th>
 									<th className={styles.row}>
 										<Link

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import { TPost } from "@/types/post"
 
 import styles from "./mural_post_list.module.css"
 
@@ -10,7 +10,7 @@ import MuralPost from "./MuralPost"
 
 type MuralPostsListProps = {
 	delay: number
-	posts: TPostWithAuthorObj[] | TPostWithAuthorId[]
+	posts: TPost[] | TPost[]
 }
 export default function MuralPostList(props: MuralPostsListProps) {
 	const [activeItem, setActiveItem] = useState(0)

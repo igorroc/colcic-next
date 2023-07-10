@@ -2,6 +2,7 @@
 
 import usePosts from "@/hooks/posts"
 import useUser from "@/hooks/users"
+import { TUser } from "@/types/user"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -34,7 +35,7 @@ export default function PostDelete(props: PostDeleteProps) {
 			if (!post) return
 			setPostTitle(post.title)
 
-			setPostAuthor(post.author.name)
+			if (post.author) setPostAuthor((post.author as TUser).name)
 		}
 
 		getData()
