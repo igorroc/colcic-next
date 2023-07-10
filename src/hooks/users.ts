@@ -131,7 +131,11 @@ export default function useUser(options: IUserHook | undefined = {}) {
 
 			const usersRes: TUser[] = await res.json()
 
-			return usersRes
+			if (usersRes) {
+				return usersRes
+			} else {
+				return []
+			}
 		} catch (err) {
 			console.error(err)
 			return []

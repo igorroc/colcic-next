@@ -18,13 +18,21 @@ export default function Users() {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
 	const { token } = useUserToken()
-	const { getAllUsers } = useUser({ token, adminOnlyPage: true, redirectTo: "/dashboard" })
+	const { getAllUsers, getCurrentUser } = useUser({
+		token,
+		adminOnlyPage: true,
+		redirectTo: "/dashboard",
+	})
+	const [currentUser, setCurrentUser] = useState<TUser>()
 
 	useEffect(() => {
 		async function getData() {
 			const userRes = await getAllUsers()
+			const currentUserRes = await getCurrentUser(token)
 
 			setUsers(userRes)
+
+			if (currentUserRes) setCurrentUser(currentUserRes)
 
 			setIsLoading(false)
 		}
@@ -58,32 +66,34 @@ export default function Users() {
 							{users &&
 								users.map((user) => (
 									<tr key={user._id}>
-										<th>
+										<th className={styles.flexRow}>
 											{user.type === "admin" && (
 												<AiOutlineStar title="Administrador" />
 											)}
 											{!user.password && <FiClock title="Novo usuário" />}
 										</th>
-										<th className={styles.flexRow}>
-											<span>{user.name}</span>
-										</th>
+										<th>{user.name}</th>
 										<th>{user.username}</th>
 										<th>{user.email}</th>
 										<th className={styles.flexRow}>
-											<Link
-												href={`/users/${user._id}`}
-												className={styles.actionButton}
-												title="Editar usuário"
-											>
-												<AiFillEdit />
-											</Link>
-											<Link
-												href={`/users/${user._id}/delete`}
-												className={styles.actionButton}
-												title="Excluir usuário"
-											>
-												<FaTrash />
-											</Link>
+											{users.length > 1 && (
+												<>
+													<Link
+														href={`/users/${user._id}`}
+														className={styles.actionButton}
+														title="Editar usuário"
+													>
+														<AiFillEdit />
+													</Link>
+													<Link
+														href={`/users/${user._id}/delete`}
+														className={styles.actionButton}
+														title="Excluir usuário"
+													>
+														<FaTrash />
+													</Link>
+												</>
+											)}
 										</th>
 									</tr>
 								))}
