@@ -23,7 +23,7 @@ export default function HomePosts() {
 
 	useEffect(() => {
 		async function getData() {
-			const p = await getHomePosts(token)
+			const p = await getHomePosts()
 
 			if (p && p.length > 0) {
 				setPosts(p)

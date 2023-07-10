@@ -8,7 +8,7 @@ export type TAuthor = {
 
 export type TCategory = string | null
 
-export type PostType = "site" | "mural"
+export type PostType = "site" | "mural" | "destaque"
 
 export type PostStatus = "ativo" | "pendente" | "deletado"
 

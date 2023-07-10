@@ -5,96 +5,124 @@ import useUser from "@/hooks/users"
 import { TPost } from "@/types/post"
 import { useUserToken } from "@/utils/handleUserToken"
 
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import Select, { SelectChangeEvent } from "@mui/material/Select"
+import MenuItem from "@mui/material/MenuItem"
+import OutlinedInput from "@mui/material/OutlinedInput"
 import InputLabel from "@mui/material/InputLabel"
 import FormControl from "@mui/material/FormControl"
 import { Button } from "@/components/Button"
+import { Checkbox, ListItemText } from "@mui/material"
+import Loading from "@/components/Loading"
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-	PaperProps: {
-		style: {
-			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-			width: 250,
-		},
-	},
-};
+import styles from "./settings.module.css"
 
 export default function Settings() {
 	const { token } = useUserToken()
-	const { user } = useUser({ token, adminOnlyPage: true, redirectTo: '/dashboard' })
-	const { getPosts } = usePosts()
+	const { user } = useUser({ token, adminOnlyPage: true, redirectTo: "/dashboard" })
+	const { getActivePosts, getHomePosts, saveHomePosts } = usePosts()
+
 	const [posts, setPosts] = useState<TPost[]>([])
-	const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
+	const [selectedPosts, setSelectedPosts] = useState<string[]>([])
+	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		async function getData() {
-			const posts = await getPosts(token)
+			const posts = await getActivePosts()
+			const homePosts = await getHomePosts()
 
-			if (!posts) return
+			if (posts) {
+				setPosts(posts)
+			}
 
-			setPosts(posts)
+			if (homePosts) {
+				homePosts.map((post) => {
+					setSelectedPosts((selectedPosts) => [...selectedPosts, post.slug])
+				})
+			}
+
+			setLoading(false)
 		}
 
 		getData()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	function handleSelectPosts(event: SelectChangeEvent<any>) {
-		const { target: { value } } = event;
+	const handleChange = (event: SelectChangeEvent<typeof selectedPosts>) => {
+		const {
+			target: { value },
+		} = event
 		setSelectedPosts(
 			// On autofill we get a stringified value.
-			typeof value === 'string' ? value.split(',') : value,
-		);
+			typeof value === "string" ? value.split(",") : value
+		)
 	}
 
-	function handleSavePosts() {
-		// TODO salvar no back o selectedPost sendo um array de string
+	async function handleSavePosts() {
 		try {
-			alert("Posts de destaque salvos com sucesso!")
+			if (selectedPosts.length <= 5) {
+				const res = await saveHomePosts(selectedPosts, token)
+				if (res) {
+					alert("Posts salvos com sucesso!")
+				} else {
+					alert("Erro ao salvar posts!")
+				}
+			} else {
+				alert("Você só pode selecionar até 5 posts!")
+			}
 		} catch (error) {
 			alert("Erro ao salvar posts!")
-
 		}
 	}
-
 
 	return (
 		<div>
 			<h1>Configurações</h1>
-			<p>Melhores posts</p>
-			<h2>Posts para destaque:</h2>
-			{posts.length > 0 ?
-				<FormControl sx={{ m: 1, width: 600 }} >
-					<InputLabel id="best-posts-select">Posts destaque</InputLabel>
-					<Select
-						labelId="best-posts-select"
-						id="best-posts-select"
-						multiple
-						value={selectedPosts}
-						onChange={handleSelectPosts}
-						input={<OutlinedInput label="Posts destaque" placeholder="Selecione os posts" />}
-						MenuProps={MenuProps}
-						style={{ marginBottom: 20 }}
-					>
-						{posts.map((post) => (
-							<MenuItem
-								key={post.slug}
-								value={post.slug}
-							>
-								{post.title}
-							</MenuItem>
-						))}
-					</Select>
-					<Button label="Salvar post para home" type="primary" onClick={handleSavePosts} />
-				</FormControl>
-				:
-				<div>Carregando...</div>
-			}
-
+			{loading ? (
+				<Loading />
+			) : (
+				<div className={styles.flex}>
+					<h3>Posts para destaque:</h3>
+					{posts.length > 0 ? (
+						<>
+							<FormControl required>
+								<InputLabel id="demo-multiple-checkbox-label">
+									Publicações destaque
+								</InputLabel>
+								<Select
+									labelId="demo-multiple-checkbox-label"
+									id="demo-multiple-checkbox"
+									multiple
+									value={selectedPosts}
+									onChange={handleChange}
+									input={<OutlinedInput label="Publicações destaque" />}
+									renderValue={(selected) => {
+										return posts
+											.map((post) => {
+												if (selected.includes(post.slug)) {
+													return post.title.split(" ")[0] + "..."
+												}
+											})
+											.filter(Boolean)
+											.join(", ")
+									}}
+								>
+									{posts.map((post, index) => (
+										<MenuItem key={index} value={post.slug}>
+											<Checkbox
+												checked={selectedPosts.indexOf(post.slug) > -1}
+											/>
+											<ListItemText primary={post.title} />
+										</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+							<Button label="Salvar" type="primary" onClick={handleSavePosts} />
+						</>
+					) : (
+						<div>Carregando...</div>
+					)}
+				</div>
+			)}
 		</div>
 	)
 }

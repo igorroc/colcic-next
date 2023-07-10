@@ -70,6 +70,24 @@ export default function usePosts() {
 		}
 	}
 
+	async function getActivePosts(): Promise<TPost[] | undefined> {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/active")
+
+			const postsRes: TPost[] = await res.json()
+
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
+
+			return postsRes
+		} catch (err) {
+			console.error(err)
+			return []
+		}
+	}
+
 	async function getSitePosts(): Promise<TPost[] | undefined> {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/site")
@@ -106,18 +124,47 @@ export default function usePosts() {
 		}
 	}
 
-	async function getHomePosts(token: string) {
-		const homePostsIds = ["64aa1e197e1c99437ad22986"]
-		const posts = await getPosts(token)
+	async function getHomePosts() {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/home")
 
-		if (!posts || posts.length === 0) {
-			console.error("COLCIC-ERR: No home posts found")
+			const postsRes: TPost[] = await res.json()
+
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
+
+			return postsRes
+		} catch (err) {
+			console.error(err)
 			return []
 		}
+	}
 
-		const filteredPosts = posts.filter((post) => homePostsIds.includes(post._id))
+	async function saveHomePosts(posts: string[], token: string) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/home", {
+				method: "PUT",
+				body: JSON.stringify(posts),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
-		return filteredPosts
+			const postRes = res.ok
+
+			if (!postRes) {
+				console.error("COLCIC-ERR: No posts save")
+				return null
+			}
+
+			return postRes
+		} catch (err) {
+			console.error(err)
+			return null
+		}
 	}
 
 	async function getPostBySlug(slug: string) {
@@ -332,6 +379,7 @@ export default function usePosts() {
 	return {
 		getPosts,
 		getHomePosts,
+		saveHomePosts,
 		getPostBySlug,
 		getPostsByUser,
 		getPostsWaitingForApproval,
@@ -342,5 +390,6 @@ export default function usePosts() {
 		approvePost,
 		getMuralPosts,
 		getSitePosts,
+		getActivePosts,
 	}
 }
