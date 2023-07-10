@@ -23,13 +23,13 @@ export function Button(props: ButtonProps) {
 		if (props.href.startsWith("#")) {
 			return (
 				<a href={props.href} className={[styles[props.type], props.className].join(" ")}>
-					{props.label}
+					<span>{props.label}</span>
 				</a>
 			)
 		} else {
 			return (
 				<Link href={props.href} className={[styles[props.type], props.className].join(" ")}>
-					{props.label}
+					<span>{props.label}</span>
 				</Link>
 			)
 		}
@@ -39,7 +39,7 @@ export function Button(props: ButtonProps) {
 				className={[styles[props.type], props.className].join(" ")}
 				onClick={props.onClick}
 			>
-				{props.label}
+				<span>{props.label}</span>
 			</button>
 		)
 	}

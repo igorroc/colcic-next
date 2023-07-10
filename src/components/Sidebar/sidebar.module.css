@@ -36,7 +36,7 @@
 	border-radius: 50%;
 }
 
-.button {
+.actions .button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -49,19 +49,19 @@
 	transition: all 0.3s ease-in-out;
 }
 
-.button:hover {
+.actions .button:hover {
 	background-color: #fff1;
 	color: #fff;
 	opacity: 0.8;
 }
 
-.button[data-active="true"] {
+.actions .button[data-active="true"] {
 	background-color: #fff3;
 	color: #fff;
 	opacity: 1;
 }
 
-.button[data-inside="true"] {
+.actions .button[data-inside="true"] {
 	border: 2px solid #fff6;
 	color: #fff;
 	opacity: 1;

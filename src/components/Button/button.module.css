@@ -23,6 +23,10 @@
 	color: #fff;
 }
 
+.primary span {
+	color: #fff;
+}
+
 .primary:disabled {
 	cursor: not-allowed;
 	opacity: 0.5;
@@ -51,6 +55,10 @@
 	color: var(--text-color);
 }
 
+.secondary span {
+	color: var(--text-color);
+}
+
 .secondary:disabled {
 	cursor: not-allowed;
 	opacity: 0.5;
@@ -76,5 +84,9 @@
 
 .danger:hover {
 	background: var(--cancel-color-hover);
+	color: #fff;
+}
+
+.dangen span {
 	color: #fff;
 }
