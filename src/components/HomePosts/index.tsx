@@ -51,7 +51,7 @@ export default function HomePosts() {
 					{posts.map((post, index: number) => (
 						<div key={index} className={styles.card}>
 							<div className={styles.postInfo}>
-								{post.author && (
+								{post.author && (post.author as TUser).name && (
 									<div className={styles.postAuthorImage}>
 										{/* eslint-disable-next-line  */}
 										<img
@@ -64,7 +64,7 @@ export default function HomePosts() {
 								)}
 
 								<div className={styles.postAuthorInfo}>
-									{post.author && (
+									{post.author && (post.author as TUser).name && (
 										<span className={styles.postAuthorName}>
 											{(post.author as TUser).name}
 										</span>
