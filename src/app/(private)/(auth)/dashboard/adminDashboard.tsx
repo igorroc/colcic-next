@@ -12,21 +12,27 @@ import Loading from "@/components/Loading"
 
 export default function AdminDashboard() {
 	const { token } = useUserToken()
-	const { user, getAllUsers } = useUser({ token })
+	const { getCurrentUser, getAllUsers } = useUser({ token, adminOnlyPage: true })
 	const { getPostsWaitingForApproval, getPosts } = usePosts()
 	const [postsWaitingForApproval, setPostsWaitingForApproval] = useState<TPost[]>()
+	const [currentUser, setCurrentUser] = useState<TUser>()
 	const [users, setUsers] = useState<TUser[]>()
 	const [posts, setPosts] = useState<TPost[]>()
+	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
 		async function fetchData() {
 			const usersRes = await getAllUsers(token)
 			const waitingPostsRes = await getPostsWaitingForApproval(token)
 			const postsRes = await getPosts(token)
+			const userRes = await getCurrentUser(token)
 
 			if (usersRes) setUsers(usersRes)
 			if (waitingPostsRes) setPostsWaitingForApproval(waitingPostsRes)
 			if (postsRes) setPosts(postsRes)
+			if (userRes) setCurrentUser(userRes)
+
+			setLoading(false)
 		}
 
 		fetchData()
@@ -36,11 +42,11 @@ export default function AdminDashboard() {
 	return (
 		<div>
 			<h1>Dashboard de Admin</h1>
-			{!user ? (
+			{loading ? (
 				<Loading />
-			) : (
+			) : currentUser ? (
 				<>
-					<p>Olá, {user.name}!</p>
+					<p>Olá, {currentUser.name}!</p>
 					<h2>Publicações</h2>
 					{postsWaitingForApproval && postsWaitingForApproval.length > 0 ? (
 						<div className={styles.card}>
@@ -65,6 +71,8 @@ export default function AdminDashboard() {
 						</div>
 					</div>
 				</>
+			) : (
+				<p>Erro ao carregar dados do usuário. Por favor, tente novamente mais tarde.</p>
 			)}
 		</div>
 	)
