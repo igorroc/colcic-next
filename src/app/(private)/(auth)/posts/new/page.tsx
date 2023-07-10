@@ -101,7 +101,6 @@ export default function Editor() {
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		console.log("submit")
 
 		if (!user) return
 
@@ -131,7 +130,6 @@ export default function Editor() {
 		} else {
 			alert("Erro ao criar postagem")
 		}
-		console.log("submit", res)
 	}
 
 	function handlePreview() {
@@ -155,7 +153,7 @@ export default function Editor() {
 						/>
 					)}
 				</div>
-				
+
 				{previewPage === "site" && (
 					<div>
 						<div className={previewSiteStyles.postHeader}>

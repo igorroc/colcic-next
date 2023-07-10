@@ -30,8 +30,6 @@ export default function Noticias() {
 				setMainPost(posts[0])
 			}
 
-			console.log(posts)
-
 			setLoading(false)
 		}
 		getData()

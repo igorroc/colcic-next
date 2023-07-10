@@ -194,8 +194,6 @@ export default function useUser(options: IUserHook | undefined = {}) {
 
 			const newUser: TUser = await res.json()
 
-			console.log(newUser)
-
 			return newUser
 		} catch (err) {
 			console.error(err)
@@ -212,8 +210,6 @@ export default function useUser(options: IUserHook | undefined = {}) {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-
-			console.log(res)
 
 			const deleted = res.ok
 
