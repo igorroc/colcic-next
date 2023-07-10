@@ -114,14 +114,17 @@ export default function usePosts() {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug)
 
-			const postRes: TPostWithAuthorId = await res.json()
+			if (res.ok) {
+				const postRes: TPostWithAuthorId = await res.json()
 
-			if (!postRes) {
-				console.error("COLCIC-ERR: Post not found")
-				return null
+				if (!postRes) {
+					console.error("COLCIC-ERR: Post not found")
+					return null
+				}
+
+				return postRes
 			}
-
-			return postRes
+			return null
 		} catch (err) {
 			console.error(err)
 			return null
