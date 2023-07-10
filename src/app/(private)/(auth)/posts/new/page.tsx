@@ -120,7 +120,8 @@ export default function Editor() {
 		const res = await createPost(data, token)
 
 		if (res && res.slug) {
-			const confirmation = confirm("Postagem criada com sucesso! Deseja visualizar?")
+			const confirmation = await confirm("Postagem criada com sucesso! Deseja visualizar?")
+
 			if (confirmation) {
 				router.push(`/noticias/${res.slug}`)
 			} else {

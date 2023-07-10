@@ -8,12 +8,13 @@ import Link from "next/link"
 import { Button } from "@/components/Button"
 
 import styles from "./posts.module.css"
-import { AiFillEdit } from "react-icons/ai"
-import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
+import { AiFillCheckCircle, AiFillClockCircle, AiFillCloseCircle, AiFillEdit } from "react-icons/ai"
+import { BsCheckCircleFill, BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
 import { TPostWithAuthorObj } from "@/types/post"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
 import Loading from "@/components/Loading"
+import { formatToDate } from "@/utils/formatToDate"
 
 export default function Posts() {
 	const router = useRouter()
@@ -56,26 +57,46 @@ export default function Posts() {
 			</div>
 			<div className={styles.content}>
 				{posts.length > 0 ? (
-					<div className={styles.row}>
-						{posts.map((post, index) => (
-							<div key={index} className={styles.post}>
-								<div className={styles.image}>
-									{/* eslint-disable-next-line */}
-									<img src={post.vertical_image} alt={post.title} />
-								</div>
-								<div className={styles.content}>
-									<div className={styles.author}>
-										<div className={styles.authorPhoto}>
-											{/* eslint-disable-next-line */}
-											<img
-												src={post.author.profilePhoto}
-												alt={post.author.name}
+					<table className={styles.table}>
+						<thead>
+							<tr>
+								<th>Status</th>
+								<th>Criação</th>
+								<th>Autor</th>
+								<th>Titulo</th>
+								<th>Ações</th>
+							</tr>
+						</thead>
+						<tbody>
+							{posts.map((post) => (
+								<tr key={post._id} className={styles.post}>
+									<th className={styles.status}>
+										{post.status == "ativo" && (
+											<AiFillCheckCircle
+												size={20}
+												title="Ativo"
+												color="var(--primary-color)"
 											/>
-										</div>
-										<span className={styles.author}>{post.author.name}</span>
-									</div>
-									<b className={styles.title}>{post.title}</b>
-									<div className={styles.row}>
+										)}
+										{post.status == "pendente" && (
+											<AiFillClockCircle
+												size={20}
+												title="Pendente"
+												color="var(--text-color)"
+											/>
+										)}
+										{post.status == "deletado" && (
+											<AiFillCloseCircle
+												size={20}
+												title="Deletado"
+												color="var(--cancel-color)"
+											/>
+										)}
+									</th>
+									<th>{formatToDate(post.createdAt)}</th>
+									<th>{post.author.name}</th>
+									<th>{post.title}</th>
+									<th className={styles.row}>
 										<Link
 											href={"/posts/" + post.slug + "/edit"}
 											className={styles.button}
@@ -94,11 +115,11 @@ export default function Posts() {
 										>
 											<BsFillTrashFill />
 										</Link>
-									</div>
-								</div>
-							</div>
-						))}
-					</div>
+									</th>
+								</tr>
+							))}
+						</tbody>
+					</table>
 				) : (
 					<>
 						<p>Não existem publicações</p>
