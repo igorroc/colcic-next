@@ -20,11 +20,12 @@ export default function PostDelete(props: PostDeleteProps) {
 	const router = useRouter()
 	const { token } = useUserToken()
 	const { getPostBySlug, deletePost } = usePosts()
-	const { getUserById } = useUser()
+	const { getCurrentUser } = useUser()
 
 	const [postTitle, setPostTitle] = useState("")
-	const [postAuthor, setPostAuthor] = useState("")
+	const [postAuthor, setPostAuthor] = useState<TUser>()
 	const [slug, setSlug] = useState("")
+	const [currentUser, setCurrentUser] = useState<TUser>()
 
 	useEffect(() => {
 		async function getData() {
@@ -35,7 +36,13 @@ export default function PostDelete(props: PostDeleteProps) {
 			if (!post) return
 			setPostTitle(post.title)
 
-			if (post.author) setPostAuthor((post.author as TUser).name)
+			if (post.author) setPostAuthor(post.author as TUser)
+
+			const user = await getCurrentUser(token)
+
+			if (user) {
+				setCurrentUser(user)
+			}
 		}
 
 		getData()
@@ -59,10 +66,29 @@ export default function PostDelete(props: PostDeleteProps) {
 			<h1>Deletar publicação</h1>
 
 			<>
-				<p>
-					Você tem certeza que deseja deletar a publicação <strong>{postTitle}</strong>,
-					criada por <strong>{postAuthor}</strong>?
-				</p>
+				{postAuthor?._id == currentUser?._id ? (
+					<p>
+						Você tem certeza que deseja deletar a publicação{" "}
+						<strong>{postTitle}</strong>, criada por você?
+					</p>
+				) : (
+					<p>
+						Você tem certeza que deseja deletar a publicação{" "}
+						<strong>{postTitle}</strong>, criada por{" "}
+						{postAuthor ? (
+							<strong>{postAuthor.name}</strong>
+						) : (
+							<i
+								style={{
+									textDecoration: "line-through",
+								}}
+							>
+								Usuário deletado
+							</i>
+						)}
+						?
+					</p>
+				)}
 
 				<div className={styles.actions}>
 					<button onClick={handleDelete} className={styles.delete}>
