@@ -30,6 +30,8 @@ export default function Noticias() {
 				setMainPost(posts[0])
 			}
 
+			console.log(posts)
+
 			setLoading(false)
 		}
 		getData()
@@ -55,7 +57,7 @@ export default function Noticias() {
 				<section className={[styles.mainPost, "MaxWidthWrapper"].join(" ")}>
 					<Link href={`/noticias/${mainPost.slug}`} className={styles.mainPostImage}>
 						{/* eslint-disable-next-line */}
-						<img src={mainPost.vertical_image} alt={mainPost.title} />
+						<img src={mainPost.horizontal_image} alt={mainPost.title} />
 						<div className={styles.arrowLink}>
 							<FiArrowUpRight size={28} />
 						</div>
@@ -104,7 +106,7 @@ export default function Noticias() {
 						<div key={index} className={styles.postItem}>
 							<Link href={`/noticias/${post.slug}`} className={styles.postImage}>
 								{/* eslint-disable-next-line */}
-								<img src={post.vertical_image} alt={post.title} />
+								<img src={post.horizontal_image} alt={post.title} />
 								<div className={styles.arrowLink}>
 									<FiArrowUpRight size={28} />
 								</div>
@@ -112,9 +114,9 @@ export default function Noticias() {
 							<div className={styles.postContent}>
 								{post.categories && (
 									<div className={styles.postCategories}>
-										{post.categories.map((category: any, index: number) => (
+										{post.categories.map((category: TCategory, index: number) => (
 											<Link href="#" key={index} className={styles.category}>
-												{category.name}
+												{category}
 											</Link>
 										))}
 									</div>
