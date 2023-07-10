@@ -93,7 +93,7 @@ export default function Posts() {
 					</table>
 				) : (
 					<>
-						<p>Não existem publicações</p>
+						<p>Não existem publicações para aprovar</p>
 					</>
 				)}
 			</div>
