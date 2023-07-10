@@ -26,6 +26,15 @@ export default function Noticias() {
 			const posts = await getSitePosts()
 
 			if (posts) {
+				posts.sort((a, b) => {
+					if (a.createdAt > b.createdAt) {
+						return -1
+					}
+					if (a.createdAt < b.createdAt) {
+						return 1
+					}
+					return 0
+				})
 				setPosts(posts)
 				setMainPost(posts[0])
 			}
@@ -112,11 +121,17 @@ export default function Noticias() {
 							<div className={styles.postContent}>
 								{post.categories && (
 									<div className={styles.postCategories}>
-										{post.categories.map((category: TCategory, index: number) => (
-											<Link href="#" key={index} className={styles.category}>
-												{category}
-											</Link>
-										))}
+										{post.categories.map(
+											(category: TCategory, index: number) => (
+												<Link
+													href="#"
+													key={index}
+													className={styles.category}
+												>
+													{category}
+												</Link>
+											)
+										)}
 									</div>
 								)}
 								<Link className={styles.postTitle} href={`/noticias/${post.slug}`}>
