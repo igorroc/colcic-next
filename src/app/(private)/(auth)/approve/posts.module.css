@@ -46,4 +46,5 @@
 
 .post .button:hover {
 	background: var(--primary-color-hover);
+	color: #fff;
 }
