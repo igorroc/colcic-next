@@ -57,6 +57,7 @@ export default function PostEdit({ params }: PostEditProps) {
 
 	const [title, setTitle] = useState("")
 	const [slug, setSlug] = useState("")
+	const [oldSlug, setOldSlug] = useState("")
 	const [hasEditedSlug, setHasEditedSlug] = useState(false)
 	const [description, setDescription] = useState("")
 	const [publicationType, setPublicationType] = useState<string[]>([])
@@ -84,7 +85,10 @@ export default function PostEdit({ params }: PostEditProps) {
 
 			if (post) {
 				if (post.title) setTitle(post.title)
-				if (post.slug) setSlug(post.slug)
+				if (post.slug) {
+					setSlug(post.slug)
+					setOldSlug(post.slug)
+				}
 				if (post.description) setDescription(post.description)
 				if (post.types) setPublicationType(post.types)
 				if (post.horizontal_image) setBannerH(post.horizontal_image)
@@ -147,7 +151,7 @@ export default function PostEdit({ params }: PostEditProps) {
 			author_id: user._id,
 		}
 
-		const res = await editPost(data, token)
+		const res = await editPost(data, token, oldSlug)
 
 		if (res && res.slug) {
 			const confirmation = await confirm("Postagem editada com sucesso! Deseja visualizar?")

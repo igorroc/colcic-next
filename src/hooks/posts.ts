@@ -300,9 +300,9 @@ export default function usePosts() {
 		}
 	}
 
-	async function editPost(post: TPostToPublish, token: string) {
+	async function editPost(post: TPostToPublish, token: string, slug: string) {
 		try {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + post.slug, {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug, {
 				method: "PUT",
 				body: JSON.stringify(post),
 				headers: {
