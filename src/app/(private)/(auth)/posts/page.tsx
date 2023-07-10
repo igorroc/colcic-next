@@ -21,25 +21,30 @@ export default function Posts() {
 	const { getPostsByUser, getPosts } = usePosts()
 	const [posts, setPosts] = useState<TPost[]>([])
 	const [user, setUser] = useState<TUser>()
+	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
 		async function getData() {
 			const user = await getCurrentUser(token)
 
-			if (!user) return
+			if (user) {
+				setUser(user)
 
-			setUser(user)
+				const posts = await getPosts(token)
 
-			const posts = await getPosts(token)
+				if (posts) {
+					const filteredPosts = posts.filter(
+						(post) =>
+							post.author &&
+							(post.author as TUser)._id === user._id &&
+							post.status == "ativo"
+					)
 
-			if (!posts) return
+					setPosts(filteredPosts)
+				}
+			}
 
-			const filteredPosts = posts.filter(
-				(post) =>
-					post.author && (post.author as TUser)._id === user._id && post.status == "ativo"
-			)
-
-			setPosts(filteredPosts)
+			setLoading(false)
 		}
 
 		getData()
@@ -56,7 +61,9 @@ export default function Posts() {
 				)}
 			</div>
 			<div className={styles.content}>
-				{posts.length > 0 ? (
+				{loading ? (
+					<Loading />
+				) : posts.length > 0 ? (
 					<div className={styles.row}>
 						{posts.map((post, index) => (
 							<div key={index} className={styles.post}>

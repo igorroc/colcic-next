@@ -15,11 +15,7 @@ import {
 	AiFillEdit,
 	AiFillStar,
 } from "react-icons/ai"
-import {
-	BsFillEyeFill,
-	BsFillTrashFill,
-	BsFillTvFill,
-} from "react-icons/bs"
+import { BsFillEyeFill, BsFillTrashFill, BsFillTvFill } from "react-icons/bs"
 import { TPost } from "@/types/post"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
@@ -32,28 +28,31 @@ export default function Posts() {
 	const router = useRouter()
 	const { token } = useUserToken()
 	const { getCurrentUser } = useUser({ token })
-	const { getPostsByUser, getPosts } = usePosts()
+	const { getPosts } = usePosts()
 	const [posts, setPosts] = useState<TPost[]>([])
 	const [user, setUser] = useState<TUser>()
+	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
 		async function getData() {
 			const user = await getCurrentUser(token)
 
-			if (!user) return
+			if (user) {
+				if (user.type != "admin") {
+					router.push("/posts")
+					return
+				}
 
-			if (user.type != "admin") {
-				router.push("/posts")
-				return
+				setUser(user)
 			}
-
-			setUser(user)
 
 			const posts = await getPosts(token)
 
-			if (!posts) return
+			if (posts) {
+				setPosts(posts.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1)))
+			}
 
-			setPosts(posts.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1)))
+			setLoading(false)
 		}
 
 		getData()
@@ -68,7 +67,9 @@ export default function Posts() {
 				{user.type == "admin" && <Button label="Voltar" type="secondary" href={"/posts"} />}
 			</div>
 			<div className={styles.content}>
-				{posts.length > 0 ? (
+				{loading ? (
+					<Loading />
+				) : posts.length > 0 ? (
 					<table className={styles.table}>
 						<thead>
 							<tr>
