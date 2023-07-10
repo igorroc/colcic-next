@@ -136,9 +136,7 @@ export default function PostEdit({ params }: PostEditProps) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [bannerH, publicationType])
 
-	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault()
-
+	async function handleEdit() {
 		if (!author) return
 
 		const data: TPostToPublish = {
@@ -154,18 +152,18 @@ export default function PostEdit({ params }: PostEditProps) {
 			author_id: author._id,
 		}
 
-		const res = await editPost(data, token, oldSlug)
+		const confirmation = await confirm("Deseja editar a postagem?")
 
-		if (res && res.slug) {
-			const confirmation = await confirm("Postagem editada com sucesso! Deseja visualizar?")
+		if (confirmation) {
+			const res = await editPost(data, token, oldSlug)
 
-			if (confirmation) {
-				router.push(`/noticias/${res.slug}`)
+			if (res && res.slug) {
+				alert("Postagem editada com sucesso!")
+
+				handleApprove()
 			} else {
-				router.push(`/posts/`)
+				alert("Erro ao editar postagem")
 			}
-		} else {
-			alert("Erro ao editar postagem")
 		}
 	}
 
@@ -178,13 +176,17 @@ export default function PostEdit({ params }: PostEditProps) {
 	}
 
 	async function handleCancel() {
-		const res = await approvePost(params.slug, token, "deletado")
+		const confirmation = await confirm("Deseja deletar a postagem?")
 
-		if (res) {
-			alert("Postagem deletada com sucesso!")
-			router.push(`/approve`)
-		} else {
-			alert("Erro ao deletar postagem")
+		if (confirmation) {
+			const res = await approvePost(params.slug, token, "deletado")
+
+			if (res) {
+				alert("Postagem deletada com sucesso!")
+				router.push(`/approve`)
+			} else {
+				alert("Erro ao deletar postagem")
+			}
 		}
 	}
 
@@ -198,15 +200,6 @@ export default function PostEdit({ params }: PostEditProps) {
 				router.push(`/approve`)
 			} else {
 				alert("Erro ao aprovar postagem")
-			}
-		} else {
-			const res = await approvePost(params.slug, token, "deletado")
-
-			if (res) {
-				alert("Postagem deletada com sucesso!")
-				router.push(`/approve`)
-			} else {
-				alert("Erro ao deletar postagem")
 			}
 		}
 	}
@@ -364,7 +357,7 @@ export default function PostEdit({ params }: PostEditProps) {
 	return (
 		<div>
 			<h1>Editar publicação</h1>
-			<form action="" id={styles.form} onSubmit={handleSubmit}>
+			<div id={styles.form}>
 				<TextField
 					label="Título"
 					value={title}
@@ -496,9 +489,9 @@ export default function PostEdit({ params }: PostEditProps) {
 				<div className={styles.actions}>
 					<Button label="Negar" type="danger" onClick={handleCancel} />
 					<Button label="Pré-visualizar" type="secondary" onClick={handlePreview} />
-					<Button label="Aprovar" type="primary" />
+					<Button label="Editar" type="primary" onClick={handleEdit} />
 				</div>
-			</form>
+			</div>
 		</div>
 	)
 }
