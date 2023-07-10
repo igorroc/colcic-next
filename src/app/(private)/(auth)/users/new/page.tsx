@@ -19,6 +19,7 @@ import useUser from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
 import { useRouter } from "next/navigation"
 import { useUserToken } from "@/utils/handleUserToken"
+import Link from "next/link"
 
 export default function UsersNew() {
 	const { token } = useUserToken()
@@ -29,28 +30,37 @@ export default function UsersNew() {
 	})
 	const router = useRouter()
 
-	const [type, setType] = useState("")
 	const [creating, setCreating] = useState(false)
 	const [created, setCreated] = useState(false)
-	const [email, setEmail] = useState("")
-	const [accessToken, setAccessToken] = useState("")
+	const [form, setForm] = useState({
+		name: "",
+		username: "",
+		email: "",
+		type: "",
+	})
+	const [accessToken, setAccessToken] = useState("#")
 
-	const handleChange = (event: SelectChangeEvent) => {
-		setType(event.target.value as string)
+	const handleSelect = (event: SelectChangeEvent) => {
+		setForm({ ...form, type: event.target.value })
+	}
+
+	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+		const { name, value } = event.target
+		setForm({ ...form, [name]: value })
 	}
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 		setCreating(true)
 
-		const form = event.currentTarget
+		const eventForm = event.currentTarget
 
 		try {
 			const data: TUserSimple = {
-				name: form.fullName.value,
-				username: form.username.value,
-				email: form.email.value,
-				type: type,
+				name: form.name,
+				username: form.username,
+				email: form.email,
+				type: form.type,
 				profilePhoto: "https://img.freepik.com/free-icon/user_318-563642.jpg?w=360",
 			}
 
@@ -58,12 +68,11 @@ export default function UsersNew() {
 
 			if (newUser) {
 				setAccessToken(newUser.accessToken)
-				setCreated(true)
-				setEmail(data.email)
-				form.reset()
+				eventForm.reset()
 			} else {
 				alert("Erro ao criar usuário!")
 			}
+			setCreated(true)
 		} catch (err) {
 			console.error("COLCIC-ERR", err)
 			alert("Erro ao criar usuário!")
@@ -77,15 +86,36 @@ export default function UsersNew() {
 				<>
 					<h1>Usuário criado!</h1>
 					<p>
-						Agora você pode compartilhar o token de acesso, juntamente com o email, para
-						o usuário para que ele possa acessar o sistema.
+						Agora você pode compartilhar a mensagem abaixo, para que o usuário possa
+						entrar no sistema:
 					</p>
-					<p>
+					<p className={styles.copy}>
+						Olá, <b>{form.name}</b>
+						<br />
+						Bem vindo(a) ao COLCIC! <br />
+						Para entrar no sistema, use as seguintes credenciais: <br />
+						<br />
+						<strong>Nome de usuário: </strong>
+						{form.username}
+						<br />
+						<strong>Email: </strong>
+						{form.email}
+						<br />
 						<strong>Token de acesso: </strong>
 						{accessToken}
 						<br />
-						<strong>Email: </strong>
-						{email}
+						<br />
+						Acesse o link abaixo, crie sua senha e comece a criar publicações!
+						<br />
+						<Link href="/primeiro-acesso">
+							{process.env.NEXT_PUBLIC_URL}/primeiro-acesso
+						</Link>
+					</p>
+					<p>
+						<i>
+							Obs: O token de acesso é <b>único e não pode ser recuperado</b>. Caso o
+							usuário perca o token, será necessário criar um novo usuário.
+						</i>
 					</p>
 					<Button label="Voltar" type="primary" onClick={() => router.push("/users")} />
 				</>
@@ -94,16 +124,37 @@ export default function UsersNew() {
 					<h1>Novo usuário</h1>
 
 					<form action="" id={styles.form} onSubmit={handleSubmit}>
-						<TextField label="Nome" type="text" name="fullName" required />
-						<TextField label="Username" type="text" name="username" required />
-						<TextField label="Email" type="email" name="email" required />
+						<TextField
+							label="Nome"
+							type="text"
+							name="name"
+							required
+							value={form.name}
+							onChange={handleChange}
+						/>
+						<TextField
+							label="Username"
+							type="text"
+							name="username"
+							required
+							value={form.username}
+							onChange={handleChange}
+						/>
+						<TextField
+							label="Email"
+							type="email"
+							name="email"
+							value={form.email}
+							onChange={handleChange}
+							required
+						/>
 						<FormControl fullWidth required>
 							<InputLabel id="label-type">Tipo</InputLabel>
 							<Select
 								labelId="label-type"
-								value={type}
+								value={form.type}
 								label="Tipo"
-								onChange={handleChange}
+								onChange={handleSelect}
 							>
 								<MenuItem value={"user"}>Normal</MenuItem>
 								<MenuItem value={"admin"}>Admin</MenuItem>

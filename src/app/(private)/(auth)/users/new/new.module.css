@@ -4,3 +4,9 @@
 	width: 100%;
 	gap: 1em;
 }
+
+.copy {
+	background: #fff;
+	padding: 2em;
+	border-radius: 1em;
+}
