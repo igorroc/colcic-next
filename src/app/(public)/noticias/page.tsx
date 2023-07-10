@@ -11,6 +11,7 @@ import styles from "./noticias.module.css"
 import usePosts from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
 import { TCategory, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import Loading from "@/components/Loading"
 
 export default function Noticias() {
 	const { token } = useUserToken()
@@ -44,7 +45,11 @@ export default function Noticias() {
 
 			{/* <section className="MaxWidthWrapper">filter</section> */}
 
-			{loading && <div>Carregando...</div>}
+			{loading && (
+				<div className={styles.loadingWrapper}>
+					<Loading />
+				</div>
+			)}
 
 			{mainPost && (
 				<section className={[styles.mainPost, "MaxWidthWrapper"].join(" ")}>

@@ -1,3 +1,7 @@
+.loadingWrapper {
+	padding: 5em 0;
+}
+
 .hero {
 	width: calc(90% - 10em);
 	max-width: calc(var(--max-width) - 10em);
