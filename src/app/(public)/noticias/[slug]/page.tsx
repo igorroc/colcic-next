@@ -32,13 +32,27 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const slug = params.slug
 
-	const post: TPost = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug).then(
-		(res) => res.json()
+	const postRes = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + slug).then((res) =>
+		res.json()
 	)
+
+	if (postRes.error) return { title: "Notícia não encontrada" }
+
+	const post: TPost = postRes
+	const author = post.author as TUser
 
 	return {
 		title: post.title,
 		openGraph: {
+			images: [post.horizontal_image],
+		},
+		authors: [
+			{
+				name: author.name,
+			},
+		],
+		twitter: {
+			card: "summary_large_image",
 			images: [post.horizontal_image],
 		},
 		description: post.description,
