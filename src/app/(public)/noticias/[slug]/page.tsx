@@ -163,7 +163,7 @@ export default function Post({ params }: PostPageType) {
 									</p>
 								</div>
 							</div> */}
-							<SharableLinks />
+							<SharableLinks slug={params.slug} />
 							<LikeButton post={post} />
 						</div>
 					</div>

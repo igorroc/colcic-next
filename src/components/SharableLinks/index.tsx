@@ -7,10 +7,14 @@ import { FiLink2 } from "react-icons/fi"
 
 import styles from "./sharableLinks.module.css"
 
-export default function SharableLinks() {
-	
+type SharableLinksProps = {
+	slug?: string
+}
+
+export default function SharableLinks(props: SharableLinksProps) {
 	function copy(type: string) {
-		const url = window.location.href
+		const url = process.env.NEXT_PUBLIC_SITE_URL + "/noticias/" + props.slug
+		const mensagem = ``
 		switch (type) {
 			case "link":
 				navigator.clipboard.writeText(url)
