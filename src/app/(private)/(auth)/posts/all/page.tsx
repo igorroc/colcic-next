@@ -61,6 +61,7 @@ export default function Posts() {
 						<thead>
 							<tr>
 								<th>Status</th>
+								<th>Tipo</th>
 								<th>Criação</th>
 								<th>Autor</th>
 								<th>Titulo</th>
@@ -93,6 +94,7 @@ export default function Posts() {
 											/>
 										)}
 									</th>
+									<th>{post.types ? post.types.join(",") : "?"}</th>
 									<th>{formatToDate(post.createdAt)}</th>
 									<th>
 										{post.author && (post.author as TUser).name
@@ -101,24 +103,37 @@ export default function Posts() {
 									</th>
 									<th>{post.title}</th>
 									<th className={styles.row}>
-										<Link
-											href={"/posts/" + post.slug + "/edit"}
-											className={styles.button}
-										>
-											<AiFillEdit />
-										</Link>
-										<Link
-											href={"/noticias/" + post.slug}
-											className={styles.button}
-										>
-											<BsFillEyeFill />
-										</Link>
-										<Link
-											href={"/posts/" + post.slug + "/delete"}
-											className={styles.button}
-										>
-											<BsFillTrashFill />
-										</Link>
+										{post.status != "deletado" ? (
+											<>
+												<Link
+													href={"/posts/" + post.slug + "/edit"}
+													className={styles.button}
+												>
+													<AiFillEdit />
+												</Link>
+												<Link
+													href={"/noticias/" + post.slug}
+													className={styles.button}
+												>
+													<BsFillEyeFill />
+												</Link>
+												<Link
+													href={"/posts/" + post.slug + "/delete"}
+													className={styles.button}
+												>
+													<BsFillTrashFill />
+												</Link>
+											</>
+										) : (
+											<>
+												<Link
+													href={"/noticias/" + post.slug}
+													className={styles.button}
+												>
+													<BsFillEyeFill />
+												</Link>
+											</>
+										)}
 									</th>
 								</tr>
 							))}
