@@ -13,6 +13,7 @@ import { FaCog, FaNewspaper, FaUserAlt, FaUserFriends } from "react-icons/fa"
 import { MdDashboard, MdLogout } from "react-icons/md"
 
 import styles from "./sidebar.module.css"
+import { TUser } from "@/types/user"
 
 const sideNavList = [
 	{
@@ -66,7 +67,8 @@ const sideNavListSecondary = [
 export default function SideBar() {
 	const pathname = usePathname()
 	const { token } = useUserToken()
-	const { user } = useUser({ token })
+	const { user, getCurrentUser } = useUser({ token })
+	const [currentUser, setCurrentUser] = useState<TUser>()
 
 	useEffect(() => {
 		if (!token) {
@@ -76,13 +78,24 @@ export default function SideBar() {
 		if (sideNavList.find((item) => item.href == pathname)?.isAdmin && user?.type != "admin") {
 			redirect("/dashboard")
 		}
+
+		async function fetchData() {
+			const user = await getCurrentUser(token)
+
+			if (user) {
+				setCurrentUser(user)
+			}
+		}
+
+		fetchData()
+		// eslint-disable-next-line
 	}, [token, pathname, user?.type])
 
 	return (
 		<aside className={styles.side}>
 			<div className={styles.actions}>
 				{sideNavList.map((item, index) =>
-					item.isAdmin && user?.type != "admin" ? null : (
+					item.isAdmin && currentUser?.type != "admin" ? null : (
 						<Link
 							href={item.href}
 							className={styles.button}
@@ -97,11 +110,11 @@ export default function SideBar() {
 				)}
 			</div>
 			<div className={styles.actions}>
-				{user?.profilePhoto && (
-					<div className={styles.userPhoto} title={user.name}>
+				{currentUser?.profilePhoto && (
+					<div className={styles.userPhoto} title={currentUser.name}>
 						{/* eslint-disable-next-line */}
 						<img
-							src={user?.profilePhoto}
+							src={currentUser?.profilePhoto}
 							alt={"Foto de perfil"}
 							width={100}
 							height={100}
