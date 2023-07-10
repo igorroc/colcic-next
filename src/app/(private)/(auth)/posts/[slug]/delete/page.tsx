@@ -34,10 +34,7 @@ export default function PostDelete(props: PostDeleteProps) {
 			if (!post) return
 			setPostTitle(post.title)
 
-			const author = await getUserById(post.author, token)
-
-			if (!author) return
-			setPostAuthor(author.name)
+			setPostAuthor(post.author.name)
 		}
 
 		getData()
