@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
 import { AiOutlineHeart } from "react-icons/ai"
@@ -49,28 +47,11 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 	}
 }
 
-export default function Post({ params }: PostPageType) {
+export default async function Post({ params }: PostPageType) {
 	const { getPostBySlug } = usePosts()
-	const [post, setPost] = useState<TPost>()
-	const [loading, setLoading] = useState(true)
+	const post = await getPostBySlug(params.slug)
 
-	useEffect(() => {
-		async function loadPost() {
-			const p = await getPostBySlug(params.slug)
-
-			if (p) {
-				setPost(p)
-			}
-
-			setLoading(false)
-		}
-
-		loadPost()
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
-
-	if (!post && !loading) {
+	if (!post) {
 		return (
 			<div className={styles.mainContainer}>
 				<div className={styles.error}>
