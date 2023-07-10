@@ -13,6 +13,7 @@ import { AiFillEdit } from "react-icons/ai"
 import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
 import { TPost, TPostWithAuthorObj } from "@/types/post"
 import { TUser } from "@/types/user"
+import Loading from "@/components/Loading"
 
 export default function Posts() {
 	const { token } = useUserToken()
@@ -42,7 +43,7 @@ export default function Posts() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	if (!user) return <div>Loading...</div>
+	if (!user) return <Loading />
 	return (
 		<div>
 			<div className={styles.rowTitle}>

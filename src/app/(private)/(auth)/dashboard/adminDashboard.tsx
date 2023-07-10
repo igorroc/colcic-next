@@ -8,6 +8,7 @@ import styles from "./dashboard.module.css"
 import { Button } from "@/components/Button"
 import { TUser } from "@/types/user"
 import { TPostWithAuthorObj } from "@/types/post"
+import Loading from "@/components/Loading"
 
 export default function AdminDashboard() {
 	const { token } = useUserToken()
@@ -32,35 +33,39 @@ export default function AdminDashboard() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	if (!user) return <div>Loading...</div>
-
 	return (
 		<div>
 			<h1>Dashboard de Admin</h1>
-			<p>Olá, {user.name}!</p>
-			<h2>Publicações</h2>
-			{postsWaitingForApproval && postsWaitingForApproval.length > 0 ? (
-				<div className={styles.card}>
-					<b>{postsWaitingForApproval.length}</b>
-					<p>Aguardando aprovação</p>
-					<Button href={"/posts/approve"} label="Verificar" type="secondary" />
-				</div>
+			{!user ? (
+				<Loading />
 			) : (
-				<div className={styles.card}>
-					<p>Nenhuma publicação aguardando aprovação</p>
-				</div>
+				<>
+					<p>Olá, {user.name}!</p>
+					<h2>Publicações</h2>
+					{postsWaitingForApproval && postsWaitingForApproval.length > 0 ? (
+						<div className={styles.card}>
+							<b>{postsWaitingForApproval.length}</b>
+							<p>Aguardando aprovação</p>
+							<Button href={"/posts/approve"} label="Verificar" type="secondary" />
+						</div>
+					) : (
+						<div className={styles.card}>
+							<p>Nenhuma publicação aguardando aprovação</p>
+						</div>
+					)}
+					<h2>Dados</h2>
+					<div className={styles.row}>
+						<div className={styles.card}>
+							<p>Usuários</p>
+							{users ? <b>{users.length}</b> : <Loading />}
+						</div>
+						<div className={styles.card}>
+							<p>Publicações</p>
+							{posts ? <b>{posts.length}</b> : <Loading />}
+						</div>
+					</div>
+				</>
 			)}
-			<h2>Dados</h2>
-			<div className={styles.row}>
-				<div className={styles.card}>
-					<p>Usuários</p>
-					<b>{users?.length}</b>
-				</div>
-				<div className={styles.card}>
-					<p>Publicações</p>
-					<b>{posts?.length}</b>
-				</div>
-			</div>
 		</div>
 	)
 }

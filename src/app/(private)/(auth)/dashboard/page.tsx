@@ -6,6 +6,7 @@ import { useUserToken } from "@/utils/handleUserToken"
 import { useRouter } from "next/navigation"
 import AdminDashboard from "./adminDashboard"
 import UserDashboard from "./userDashboard"
+import Loading from "@/components/Loading"
 
 export default function Dashboard() {
 	const { token } = useUserToken()
@@ -33,7 +34,7 @@ export default function Dashboard() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user])
 
-	if (loading) return <div>Loading...</div>
+	if (loading) return <Loading />
 	if (state == "admin") return <AdminDashboard />
 	if (state == "user") return <UserDashboard />
 	if (state == "error") {

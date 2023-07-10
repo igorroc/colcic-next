@@ -13,6 +13,7 @@ import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
 import { TPostWithAuthorObj } from "@/types/post"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
+import Loading from "@/components/Loading"
 
 export default function Posts() {
 	const router = useRouter()
@@ -46,7 +47,7 @@ export default function Posts() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	if (!user) return <div>Loading...</div>
+	if (!user) return <Loading />
 	return (
 		<div>
 			<div className={styles.rowTitle}>

@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/Button"
+import Loading from "@/components/Loading"
 import useUser from "@/hooks/users"
 import { TUser } from "@/types/user"
 import { useUserToken } from "@/utils/handleUserToken"
@@ -40,7 +41,7 @@ export default function Users() {
 			</div>
 			{isError && <p>Erro ao carregar usuários</p>}
 			{isLoading ? (
-				<p>Carregando...</p>
+				<Loading />
 			) : (
 				!isError && (
 					<table className={styles.table}>
