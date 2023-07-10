@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import Image from "next/image"
 import { AiOutlineHeart } from "react-icons/ai"
 import { Metadata } from "next"
@@ -48,10 +48,11 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 }
 
 export default async function Post({ params }: PostPageType) {
-	const { getPostBySlug } = usePosts()
-	const post = await getPostBySlug(params.slug)
+	const post = await (
+		await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + params.slug)
+	).json()
 
-	if (!post) {
+	if (post.error) {
 		return (
 			<div className={styles.mainContainer}>
 				<div className={styles.error}>

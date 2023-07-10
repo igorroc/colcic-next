@@ -1,5 +1,3 @@
-"use client"
-
 import { PostStatus, TAuthor, TPost, TPostToPublish } from "@/types/post"
 import useUser from "./users"
 
