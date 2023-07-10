@@ -84,11 +84,10 @@ export default function PostEdit({ params }: PostEditProps) {
 			setTitle(post.title)
 			setSlug(post.slug)
 			setDescription(post.description)
-			console.log(post.types)
-			// setPublicationType(post.types)
+			setPublicationType(post.types)
 			setBannerH(post.horizontal_image)
 			setBannerV(post.vertical_image)
-			setCategories(post.categories.join(", "))
+			setCategories(post.categories.join(","))
 			setBody(post.body)
 		}
 
@@ -163,7 +162,7 @@ export default function PostEdit({ params }: PostEditProps) {
 	function handlePreview() {
 		setIsPreview(!isPreview)
 	}
-	
+
 	function handlePreviewChange() {
 		setPreviewPage(previewPage === "site" ? "mural" : "site")
 	}
