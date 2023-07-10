@@ -72,11 +72,14 @@ export default function Noticias() {
 					<div className={styles.postContent}>
 						{mainPost.categories && (
 							<div className={styles.postCategories}>
-								{mainPost.categories.map((category: TCategory, index: number) => (
-									<Link href="#" key={index} className={styles.category}>
-										{category}
-									</Link>
-								))}
+								{mainPost.categories.map(
+									(category: TCategory, index: number) =>
+										category && (
+											<Link href="#" key={index} className={styles.category}>
+												{category}
+											</Link>
+										)
+								)}
 							</div>
 						)}
 						<Link className={styles.postTitle} href={`/noticias/${mainPost.slug}`}>
