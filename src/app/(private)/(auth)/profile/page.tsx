@@ -174,7 +174,7 @@ export default function Profile() {
 				{creating ? (
 					<p>Editando perfil...</p>
 				) : (
-					<Button label="Editar usuário" type="primary" />
+					<Button label="Editar perfil" type="primary" />
 				)}
 			</form>
 		</div>

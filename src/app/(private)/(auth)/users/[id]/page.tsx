@@ -20,6 +20,7 @@ import { TUserSimple } from "@/types/user"
 import { redirect, useRouter } from "next/navigation"
 import { useUserToken } from "@/utils/handleUserToken"
 import { IoClose } from "react-icons/io5"
+import Loading from "@/components/Loading"
 
 interface UserEditProps {
 	params: {
@@ -29,12 +30,18 @@ interface UserEditProps {
 
 export default function UserEdit({ params }: UserEditProps) {
 	const { token } = useUserToken()
-	const { getUserById, editUser } = useUser()
+	const { getUserById, editUser, getCurrentUser } = useUser({
+		token,
+		adminOnlyPage: true,
+		redirectTo: "/dashboard",
+	})
 	const router = useRouter()
+
+	const [currentUser, setCurrentUser] = useState<TUserSimple>()
 
 	const [type, setType] = useState("")
 	const [showPassword, setShowPassword] = useState(false)
-	const [creating, setCreating] = useState(false)
+	const [editing, setEditing] = useState(false)
 	const [fullName, setFullName] = useState("")
 	const [username, setUsername] = useState("")
 	const [email, setEmail] = useState("")
@@ -50,6 +57,12 @@ export default function UserEdit({ params }: UserEditProps) {
 				setEmail(user.email)
 				setType(user.type)
 				setPhoto(user.profilePhoto)
+			}
+
+			const currentU = await getCurrentUser(token)
+
+			if (currentU) {
+				setCurrentUser(currentU)
 			}
 		}
 
@@ -69,7 +82,7 @@ export default function UserEdit({ params }: UserEditProps) {
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault()
-		setCreating(true)
+		setEditing(true)
 
 		const form = event.currentTarget
 
@@ -89,8 +102,10 @@ export default function UserEdit({ params }: UserEditProps) {
 			form.reset()
 			router.push("/users")
 		} else {
-			alert("Erro ao criar usuário!")
+			alert("Erro ao editar usuário!")
 		}
+
+		setEditing(false)
 	}
 
 	function handlePhotoError() {
@@ -100,72 +115,76 @@ export default function UserEdit({ params }: UserEditProps) {
 	return (
 		<div>
 			<h1>Editar usuário</h1>
-			<form action="" id={styles.form} onSubmit={handleSubmit}>
-				<TextField
-					label="Nome"
-					type="text"
-					name="fullName"
-					required
-					value={fullName}
-					onChange={(event) => setFullName(event.target.value)}
-				/>
-				<TextField
-					label="Username"
-					type="text"
-					name="username"
-					required
-					value={username}
-					onChange={(event) => setUsername(event.target.value)}
-				/>
-				<TextField
-					label="Email"
-					type="email"
-					name="email"
-					required
-					value={email}
-					onChange={(event) => setEmail(event.target.value)}
-				/>
-				<TextField
-					label="Senha"
-					type={showPassword ? "text" : "password"}
-					name="password"
-					InputProps={{
-						endAdornment: (
-							<InputAdornment position="end">
-								<IconButton
-									aria-label="toggle password visibility"
-									onClick={handleClickShowPassword}
-									onMouseDown={handleMouseDownPassword}
-									edge="end"
-								>
-									{showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-								</IconButton>
-							</InputAdornment>
-						),
-					}}
-					required
-				/>
+			{currentUser?.type === "admin" ? (
+				<form action="" id={styles.form} onSubmit={handleSubmit}>
+					<TextField
+						label="Nome"
+						type="text"
+						name="fullName"
+						required
+						value={fullName}
+						onChange={(event) => setFullName(event.target.value)}
+					/>
+					<TextField
+						label="Username"
+						type="text"
+						name="username"
+						required
+						value={username}
+						onChange={(event) => setUsername(event.target.value)}
+					/>
+					<TextField
+						label="Email"
+						type="email"
+						name="email"
+						required
+						value={email}
+						onChange={(event) => setEmail(event.target.value)}
+					/>
+					<TextField
+						label="Nova senha"
+						type={showPassword ? "text" : "password"}
+						name="password"
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<IconButton
+										aria-label="toggle password visibility"
+										onClick={handleClickShowPassword}
+										onMouseDown={handleMouseDownPassword}
+										edge="end"
+									>
+										{showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+									</IconButton>
+								</InputAdornment>
+							),
+						}}
+						required
+					/>
 
-				<div className={styles.flexRow}>
-					{photo && (
-						<div className={styles.profilePhoto}>
-							{photoError ? (
-								<div className={styles.photoError} title="Erro ao carregar foto">
-									<IoClose size={32} />
-								</div>
-							) : (
-								<>
-									{/* eslint-disable-next-line  */}
-									<img
-										src={photo}
-										alt="Foto de perfil"
-										onError={handlePhotoError}
-									/>
-								</>
-							)}
-						</div>
-					)}
-					{/* <input
+					<div className={styles.flexRow}>
+						{photo && (
+							<div className={styles.profilePhoto}>
+								{photoError ? (
+									<div
+										className={styles.photoError}
+										title="Erro ao carregar foto"
+									>
+										<IoClose size={32} />
+									</div>
+								) : (
+									<>
+										{/* eslint-disable-next-line  */}
+										<img
+											src={photo}
+											alt="Foto de perfil"
+											onError={handlePhotoError}
+										/>
+									</>
+								)}
+							</div>
+						)}
+						{/* <input
 						type="file"
 						name="photo"
 						id="photo"
@@ -175,33 +194,41 @@ export default function UserEdit({ params }: UserEditProps) {
 							setPhoto(event.target.value)
 						}}
 					/> */}
-					<TextField
-						label="Foto de perfil"
-						type="url"
-						name="photo"
-						required
-						value={photo}
-						className={styles.photoInput}
-						onChange={(event) => {
-							setPhotoError(false)
-							setPhoto(event.target.value)
-						}}
-					/>
-				</div>
-				<FormControl fullWidth required>
-					<InputLabel id="label-type">Tipo</InputLabel>
-					<Select labelId="label-type" value={type} label="Tipo" onChange={handleChange}>
-						<MenuItem value={"user"}>Normal</MenuItem>
-						<MenuItem value={"admin"}>Admin</MenuItem>
-					</Select>
-				</FormControl>
+						<TextField
+							label="Foto de perfil"
+							type="url"
+							name="photo"
+							required
+							value={photo}
+							className={styles.photoInput}
+							onChange={(event) => {
+								setPhotoError(false)
+								setPhoto(event.target.value)
+							}}
+						/>
+					</div>
+					<FormControl fullWidth required>
+						<InputLabel id="label-type">Tipo</InputLabel>
+						<Select
+							labelId="label-type"
+							value={type}
+							label="Tipo"
+							onChange={handleChange}
+						>
+							<MenuItem value={"user"}>Normal</MenuItem>
+							<MenuItem value={"admin"}>Admin</MenuItem>
+						</Select>
+					</FormControl>
 
-				{creating ? (
-					<p>Criando usuário...</p>
-				) : (
-					<Button label="Editar usuário" type="primary" />
-				)}
-			</form>
+					{editing ? (
+						<p>Criando usuário...</p>
+					) : (
+						<Button label="Editar usuário" type="primary" />
+					)}
+				</form>
+			) : (
+				<Loading />
+			)}
 		</div>
 	)
 }
