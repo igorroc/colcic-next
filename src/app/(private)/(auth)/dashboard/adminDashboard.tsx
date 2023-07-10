@@ -20,7 +20,7 @@ export default function AdminDashboard() {
 
 	useEffect(() => {
 		async function fetchData() {
-			const usersRes = await getAllUsers()
+			const usersRes = await getAllUsers(token)
 			const waitingPostsRes = await getPostsWaitingForApproval(token)
 			const postsRes = await getPosts(token)
 

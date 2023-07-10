@@ -14,20 +14,20 @@ import { FiClock } from "react-icons/fi"
 import styles from "./users.module.css"
 
 export default function Users() {
-	const [users, setUsers] = useState<TUser[]>()
-	const [isLoading, setIsLoading] = useState(true)
-	const [isError, setIsError] = useState(false)
 	const { token } = useUserToken()
 	const { getAllUsers, getCurrentUser } = useUser({
 		token,
 		adminOnlyPage: true,
 		redirectTo: "/dashboard",
 	})
+	const [users, setUsers] = useState<TUser[]>()
+	const [isLoading, setIsLoading] = useState(true)
+	const [isError, setIsError] = useState(false)
 	const [currentUser, setCurrentUser] = useState<TUser>()
 
 	useEffect(() => {
 		async function getData() {
-			const userRes = await getAllUsers()
+			const userRes = await getAllUsers(token)
 			const currentUserRes = await getCurrentUser(token)
 
 			setUsers(userRes)

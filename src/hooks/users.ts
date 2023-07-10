@@ -125,9 +125,15 @@ export default function useUser(options: IUserHook | undefined = {}) {
 		}
 	}
 
-	async function getAllUsers() {
+	async function getAllUsers(token: string) {
 		try {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users")
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
 			const usersRes: TUser[] = await res.json()
 
