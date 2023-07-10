@@ -1,12 +1,12 @@
 "use client"
 
-import { TPost, TPostToPublish, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
+import { TAuthor, TPost, TPostToPublish, TPostWithAuthorId, TPostWithAuthorObj } from "@/types/post"
 import useUser from "./users"
 
 export default function usePosts() {
 	const { getUserById } = useUser()
 
-	async function getPosts(token: string): Promise<TPostWithAuthorObj[] | undefined> {
+	async function getPosts(token: string): Promise<TPostWithAuthorObj[] | []> {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts", {
 				method: "GET",
@@ -25,25 +25,35 @@ export default function usePosts() {
 
 			let postsWithAuthors: TPostWithAuthorObj[] = []
 
-			return await Promise.all(
+			await Promise.all(
 				postsRes.map(async (post) => {
-					const author = await getUserById(post.author, token)
-					if (author === null) {
+					const authorRes = await getUserById(post.author, token)
+					let author =
+						authorRes ||
+						({
+							_id: "",
+							name: "",
+							profilePhoto: "",
+						} as TAuthor)
+
+					if (!author) {
 						console.error("COLCIC-ERR: Author not found")
-						return null
 					}
 
 					const postWithAuthor: TPostWithAuthorObj = { ...post, author: author }
+
 					postsWithAuthors.push(postWithAuthor)
 				})
 			)
-				.then(() => {
-					return postsWithAuthors
+				.then((posts) => {
+					return posts
 				})
 				.catch((err) => {
 					console.error(err)
 					return []
 				})
+
+			return postsWithAuthors
 		} catch (err) {
 			console.error(err)
 			return []
