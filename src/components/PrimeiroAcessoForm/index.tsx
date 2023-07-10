@@ -45,6 +45,8 @@ export default function PrimeiroAcessoForm() {
 		}
 	}
 
+	const error = values.accessCode.length != 8 || !values.accessCode.startsWith("#")
+
 	return (
 		<form action="" id={styles.form} onSubmit={handleSubmit}>
 			<TextField
@@ -62,6 +64,12 @@ export default function PrimeiroAcessoForm() {
 				value={values.accessCode}
 				onChange={handleChange("accessCode")}
 				required
+				helperText={
+					values.accessCode != "" &&
+					error &&
+					"Código inválido: deve começar com # e ter 8 caracteres"
+				}
+				error={values.accessCode != "" && error}
 			/>
 			<TextField
 				id="password"
