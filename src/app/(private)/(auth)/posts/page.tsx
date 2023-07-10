@@ -34,7 +34,9 @@ export default function Posts() {
 
 			if (!posts) return
 
-			const filteredPosts = posts.filter((post) => post.author._id === user._id)
+			const filteredPosts = posts.filter(
+				(post) => post.author._id === user._id && post.status == "ativo"
+			)
 
 			setPosts(filteredPosts)
 		}
