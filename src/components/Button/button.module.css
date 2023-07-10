@@ -59,3 +59,22 @@
 .secondary:disabled:hover {
 	background: var(--secondary-color);
 }
+
+.danger {
+	display: block;
+	background: var(--cancel-color);
+	width: max-content;
+	color: #fff;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	cursor: pointer;
+	transition: all 300ms ease-out;
+	text-decoration: none;
+}
+
+.danger:hover {
+	background: var(--cancel-color-hover);
+	color: #fff;
+}

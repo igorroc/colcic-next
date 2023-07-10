@@ -5,7 +5,7 @@ interface ButtonProps {
 	/** Button label */
 	label: string
 	/** Button type */
-	type: "primary" | "secondary"
+	type: "primary" | "secondary" | "danger"
 	/** Button size */
 	size?: "small" | "medium" | "large"
 	/** Button onClick handler */
