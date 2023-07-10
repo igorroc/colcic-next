@@ -6,10 +6,7 @@ export type TAuthor = {
 
 export type TCategory = string | null
 
-export enum PostType {
-	SITE = "site",
-	MURAL = "mural",
-}
+export type PostType = "site" | "mural"
 
 export type PostStatus = "ativo" | "pendente" | "deletado"
 

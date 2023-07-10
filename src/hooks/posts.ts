@@ -195,6 +195,31 @@ export default function usePosts() {
 		}
 	}
 
+	async function editPost(post: TPostToPublish, token: string) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/" + post.slug, {
+				method: "PUT",
+				body: JSON.stringify(post),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+
+			const postRes: TPost = await res.json()
+
+			if (!postRes) {
+				console.error("COLCIC-ERR: No post created")
+				return null
+			}
+
+			return postRes
+		} catch (err) {
+			console.error(err)
+			return null
+		}
+	}
+
 	async function deletePost(slug: string, token: string) {
 		try {
 			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/delete/" + slug, {
@@ -227,6 +252,7 @@ export default function usePosts() {
 		getPostsWaitingForApproval,
 		getPostsWaitingForApprovalFromUser,
 		createPost,
+		editPost,
 		deletePost,
 		getMuralPosts,
 		getSitePosts,
