@@ -186,13 +186,28 @@ export default function usePosts() {
 		}
 	}
 
-	function getPostsByUser(userId: string) {
-		return [] as TPost[]
-		// const posts = postList.filter(
-		// 	(post) => post.author_id === userId && post.status === "approved"
-		// )
+	async function getMyPosts(token: string): Promise<TPost[] | undefined> {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/my-active-posts", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
-		// return posts
+			const postsRes: TPost[] = await res.json()
+
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
+
+			return postsRes
+		} catch (err) {
+			console.error(err)
+			return []
+		}
 	}
 
 	async function getPostsWaitingForApproval(token: string) {
@@ -259,20 +274,28 @@ export default function usePosts() {
 		}
 	}
 
-	function getPostsWaitingForApprovalFromUser(userId: string) {
-		return [] as TPost[]
-		// const posts = postList.filter(
-		// 	(post) => post.status === "pending" && post.author_id === userId
-		// )
-		// let postsWithAuthors: TPostWithAuthor[] = []
+	async function getMyPostsWaitingForApproval(token: string) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/my-pending-posts", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
 
-		// posts.map(async (post) => {
-		// 	const author = await getUserById(post.author_id)
-		// 	if (author === null) return console.error("COLCIC-ERR: Author not found")
-		// 	postsWithAuthors.push({ ...post, author })
-		// })
+			const postsRes: TPost[] = await res.json()
 
-		// return postsWithAuthors
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
+
+			return postsRes
+		} catch (err) {
+			console.error(err)
+			return []
+		}
 	}
 
 	async function createPost(post: TPostToPublish, token: string) {
@@ -379,9 +402,9 @@ export default function usePosts() {
 		getHomePosts,
 		saveHomePosts,
 		getPostBySlug,
-		getPostsByUser,
+		getMyPosts,
+		getMyPostsWaitingForApproval,
 		getPostsWaitingForApproval,
-		getPostsWaitingForApprovalFromUser,
 		createPost,
 		editPost,
 		deletePost,

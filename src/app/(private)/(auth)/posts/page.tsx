@@ -18,7 +18,7 @@ import Loading from "@/components/Loading"
 export default function Posts() {
 	const { token } = useUserToken()
 	const { getCurrentUser } = useUser({ token })
-	const { getPostsByUser, getPosts } = usePosts()
+	const { getMyPosts, getPosts } = usePosts()
 	const [posts, setPosts] = useState<TPost[]>([])
 	const [user, setUser] = useState<TUser>()
 	const [loading, setLoading] = useState<boolean>(true)
@@ -30,17 +30,10 @@ export default function Posts() {
 			if (user) {
 				setUser(user)
 
-				const posts = await getPosts(token)
+				const posts = await getMyPosts(token)
 
 				if (posts) {
-					const filteredPosts = posts.filter(
-						(post) =>
-							post.author &&
-							(post.author as TUser)._id === user._id &&
-							post.status == "ativo"
-					)
-
-					setPosts(filteredPosts)
+					setPosts(posts)
 				}
 			}
 
