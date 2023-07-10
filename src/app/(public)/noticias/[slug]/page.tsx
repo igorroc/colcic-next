@@ -16,6 +16,7 @@ import { Button } from "@/components/Button"
 import { TCategory, TPost } from "@/types/post"
 import usePosts from "@/hooks/posts"
 import LikeButton from "@/components/LikeButton"
+import { TUser } from "@/types/user"
 
 interface PostPageType {
 	params: {
@@ -149,20 +150,29 @@ export default function Post({ params }: PostPageType) {
 							<h1 className={styles.postHeaderTitle}>{post.title}</h1>
 						</div>
 						<div className={styles.sideHeaderContainer}>
-							{/* <div className={styles.avatarUserInfo}>
-								<Image
-									src={post.author.profilePhoto}
-									alt={`Foto de perfil de ${post.author.name}`}
-									width={100}
-									height={100}
-								/>
+							<div className={styles.avatarUserInfo}>
+								{post.author && (
+									// eslint-disable-next-line @next/next/no-img-element
+									<img
+										src={(post.author as TUser).profilePhoto}
+										alt={`Foto de perfil de ${(post.author as TUser).name}`}
+										width={100}
+										height={100}
+									/>
+								)}
+
 								<div>
-									<p className={styles.authorName}>{post.author.name}</p>
+									{post.author && (
+										<p className={styles.authorName}>
+											{(post.author as TUser).name}
+										</p>
+									)}
 									<p className={styles.postDate}>
 										{formatToDate(post.createdAt)}
 									</p>
 								</div>
-							</div> */}
+							</div>
+
 							<SharableLinks slug={params.slug} />
 							<LikeButton post={post} />
 						</div>
