@@ -88,7 +88,8 @@ export default function SideBar() {
 							className={styles.button}
 							title={item.title}
 							key={index}
-							data-active={pathname.includes(item.href)}
+							data-active={pathname == item.href}
+							data-inside={pathname.includes(item.href)}
 						>
 							{item.icon}
 						</Link>

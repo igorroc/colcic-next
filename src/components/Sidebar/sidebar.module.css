@@ -60,3 +60,9 @@
 	color: #fff;
 	opacity: 1;
 }
+
+.button[data-inside="true"] {
+	border: 2px solid #fff6;
+	color: #fff;
+	opacity: 1;
+}
