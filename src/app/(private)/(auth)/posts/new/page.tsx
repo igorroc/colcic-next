@@ -120,12 +120,22 @@ export default function Editor() {
 		const res = await createPost(data, token)
 
 		if (res && res.slug) {
-			const confirmation = await confirm("Postagem criada com sucesso! Deseja visualizar?")
+			if (user.type != "admin") {
+				alert(
+					"Postagem criada com sucesso! Agora basta esperar que algum administrador aprove, para que ela seja publicada. Você pode acompanhar o status da sua postagem na página inicial. Indo para lá agora!"
+				)
 
-			if (confirmation) {
-				router.push(`/noticias/${res.slug}`)
+				router.push(`/dashboard`)
 			} else {
-				router.push(`/posts/`)
+				const confirmation = await confirm(
+					"Postagem criada com sucesso! Deseja visualizar?"
+				)
+
+				if (confirmation) {
+					router.push(`/noticias/${res.slug}`)
+				} else {
+					router.push(`/posts/`)
+				}
 			}
 		} else {
 			alert("Erro ao criar postagem")
