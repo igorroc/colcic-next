@@ -100,3 +100,7 @@ body {
 .displayNone {
 	display: none !important;
 }
+
+#markdown-preview img {
+	background-color: transparent;
+}

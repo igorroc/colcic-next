@@ -41,6 +41,7 @@ export default function MarkdownPrint(props: MarkdownPrintProps) {
 			source={props.text}
 			wrapperElement={{
 				"data-color-mode": "light",
+				id: "markdown-preview",
 			}}
 			style={{
 				backgroundColor: "transparent",
