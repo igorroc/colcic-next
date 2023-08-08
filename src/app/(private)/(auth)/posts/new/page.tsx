@@ -33,7 +33,6 @@ import SharableLinks from "@/components/SharableLinks"
 import { formatToDate } from "@/utils/formatToDate"
 import MarkdownPrint from "@/components/MarkdownPrint"
 import QRCode from "@/components/QRCode"
-import { MDEditor } from "@/components/MarkdownEditor"
 
 const publishTypes: PostType[] = ["site", "mural"]
 
@@ -350,7 +349,15 @@ export default function Editor() {
 						Caracteres restantes: {maxDescriptionLength - description.length}
 					</FormHelperText>
 				</FormControl>
-				<MDEditor value={body} onChange={(val) => setBody(val!)} preview="edit" />
+				<TextField
+					label="Conteúdo"
+					multiline
+					minRows={5}
+					maxRows={10}
+					value={body}
+					onChange={(e) => setBody(e.target.value)}
+					required
+				/>
 				<FormControl required>
 					<InputLabel id="demo-multiple-checkbox-label">Tipo de Postagem</InputLabel>
 					<Select
