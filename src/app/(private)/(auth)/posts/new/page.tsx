@@ -33,6 +33,7 @@ import SharableLinks from "@/components/SharableLinks"
 import { formatToDate } from "@/utils/formatToDate"
 import MarkdownPrint from "@/components/MarkdownPrint"
 import QRCode from "@/components/QRCode"
+import { MDEditor } from "@/components/MarkdownEditor"
 
 const publishTypes: PostType[] = ["site", "mural"]
 
@@ -217,11 +218,11 @@ export default function Editor() {
 							{/* eslint-disable-next-line */}
 							<img src={bannerH} alt="post banner" />
 						</div>
-						<div className={[previewSiteStyles.bodyText, styles.body].join(" ")}>
+						<div className={[previewSiteStyles.bodyText].join(" ")}>
 							<MarkdownPrint text={body} />
 						</div>
 						<p className={styles.continue}>
-							O resto do seu post será exibido aqui. Você pode usar{" "}
+							Você pode usar{" "}
 							<a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">
 								Markdown
 							</a>{" "}
@@ -349,15 +350,7 @@ export default function Editor() {
 						Caracteres restantes: {maxDescriptionLength - description.length}
 					</FormHelperText>
 				</FormControl>
-				<TextField
-					label="Conteúdo"
-					multiline
-					minRows={5}
-					maxRows={10}
-					value={body}
-					onChange={(e) => setBody(e.target.value)}
-					required
-				/>
+				<MDEditor value={body} onChange={(val) => setBody(val!)} preview="edit" />
 				<FormControl required>
 					<InputLabel id="demo-multiple-checkbox-label">Tipo de Postagem</InputLabel>
 					<Select

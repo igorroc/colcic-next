@@ -250,12 +250,12 @@ export default function PostEdit({ params }: PostEditProps) {
 									<img src={bannerH} alt="post banner" />
 								</div>
 								<div
-									className={[previewSiteStyles.bodyText, styles.body].join(" ")}
+									className={[previewSiteStyles.bodyText].join(" ")}
 								>
 									<MarkdownPrint text={body} />
 								</div>
 								<p className={styles.continue}>
-									O resto do seu post será exibido aqui. Você pode usar{" "}
+									Você pode usar{" "}
 									<a
 										href="https://www.markdownguide.org/cheat-sheet/"
 										target="_blank"
