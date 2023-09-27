@@ -5,5 +5,8 @@ export function formatToDate(date: string) {
 	if (month < 10) month = `0${month}`
 	if (day < 10) day = `0${day}`
 	let year = dateObject.getFullYear()
-	return `${day}/${month}/${year}`.replaceAll(" ", "")
+
+	const formatted = `${day}/${month}/${year}`.replaceAll(" ", "")
+
+	return formatted
 }
