@@ -1,20 +1,19 @@
 .noticias {
 	width: 100%;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	flex-wrap: wrap;
 	gap: 1em;
 	margin: 1em 0;
 }
 
 .noticias .card {
 	position: relative;
-	max-width: 20em;
+	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-direction: column;
 	gap: 1em;
 	text-decoration: none;
 	padding: 0.625rem;
@@ -30,10 +29,13 @@
 	position: relative;
 	flex: 1;
 	width: 100%;
-	height: 100%;
-	max-height: 40vh;
 	border-radius: 1em;
 	overflow: hidden;
+}
+
+.imageWrapper {
+	width: 100%;
+	height: 220px;
 }
 
 .noticias .card .postImage img {
@@ -83,11 +85,6 @@
 
 .noticias .card .postImage:hover .arrowLink:hover {
 	transform: translate(-50%, -50%) scale(1.2);
-}
-
-.noticias .card .postImage {
-	width: 100%;
-	max-height: 30vh;
 }
 
 .noticias .card .postContent {
@@ -165,4 +162,10 @@
 	font-size: 0.8em;
 	opacity: 0.8;
 	font-style: italic;
+}
+
+@media (max-width: 700px) {
+	.noticias .card {
+		flex-direction: column;
+	}
 }

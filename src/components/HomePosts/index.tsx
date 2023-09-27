@@ -76,8 +76,10 @@ export default function HomePosts() {
 								</div>
 							</div>
 							<Link href={`/noticias/${post.slug}`} className={styles.postImage}>
-								{/* eslint-disable-next-line */}
-								<img src={post.horizontal_image} alt={post.title} />
+								<div className={styles.imageWrapper}>
+									{/* eslint-disable-next-line */}
+									<img src={post.horizontal_image} alt={post.title} />
+								</div>
 								<div className={styles.arrowLink}>
 									<FiArrowUpRight size={28} />
 								</div>
