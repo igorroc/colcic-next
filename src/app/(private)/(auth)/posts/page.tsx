@@ -14,6 +14,7 @@ import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
 import { TPost } from "@/types/post"
 import { TUser } from "@/types/user"
 import Loading from "@/components/Loading"
+import { formatToDate } from "@/utils/formatToDate"
 
 export default function Posts() {
 	const { token } = useUserToken()
@@ -33,7 +34,8 @@ export default function Posts() {
 				const posts = await getMyPosts(token)
 
 				if (posts) {
-					setPosts(posts)
+					setPosts(posts.reverse())
+					console.log(posts)
 				}
 			}
 
@@ -46,7 +48,7 @@ export default function Posts() {
 
 	if (!user) return <Loading />
 	return (
-		<div>
+		<div className={styles.wrapper}>
 			<div className={styles.rowTitle}>
 				<h1>Minhas Publicações</h1>
 				{user.type == "admin" && (
@@ -57,33 +59,34 @@ export default function Posts() {
 				{loading ? (
 					<Loading />
 				) : posts.length > 0 ? (
-					<div className={styles.row}>
+					<div className={styles.postList}>
 						{posts.map((post, index) => (
 							<div key={index} className={styles.post}>
 								<div className={styles.image}>
 									{/* eslint-disable-next-line */}
-									<img src={post.vertical_image} alt={post.title} />
+									<img src={post.horizontal_image} alt={post.title} />
 								</div>
 								<div className={styles.content}>
+									<span>{formatToDate(post.createdAt)}</span>
 									<b className={styles.title}>{post.title}</b>
 									<div className={styles.row}>
 										<Link
 											href={"/posts/" + post.slug + "/edit"}
 											className={styles.button}
 										>
-											<AiFillEdit />
+											<AiFillEdit size={16} />
 										</Link>
 										<Link
 											href={"/noticias/" + post.slug}
 											className={styles.button}
 										>
-											<BsFillEyeFill />
+											<BsFillEyeFill size={16} />
 										</Link>
 										<Link
 											href={"/posts/" + post.slug + "/delete"}
 											className={styles.button}
 										>
-											<BsFillTrashFill />
+											<BsFillTrashFill size={16} />
 										</Link>
 									</div>
 								</div>
@@ -98,7 +101,7 @@ export default function Posts() {
 				)}
 			</div>
 
-			<Button href={"/posts/new"} label="Criar publicação" type="primary" />
+			<Button href={"/posts/new"} label="Criar publicação" type="primary" className={styles.createNew} />
 		</div>
 	)
 }
