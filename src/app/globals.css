@@ -32,6 +32,10 @@ ul {
 	list-style: none;
 }
 
+#markdown-preview ul {
+	list-style: disc;
+}
+
 html {
 	scroll-behavior: smooth;
 	scroll-padding-top: 100px;

@@ -16,6 +16,19 @@
 	animation: var(--skeleton-animation);
 }
 
+#markdown-preview ul {
+	list-style: disc;
+}
+
+#markdown-preview ol {
+	list-style: decimal;
+}
+
+#markdown-preview li{
+	list-style: inherit;
+}
+
+
 @keyframes skeletonLoading {
 	0% {
 		background-position: -100%;
