@@ -9,7 +9,7 @@
 .row {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 1em;
+	gap: 0.2rem;
 	padding: 0.3em;
 }
 
@@ -31,7 +31,6 @@
 .post .button {
 	--size: 1em;
 
-	font-size: 1.5em;
 	width: var(--size);
 	height: var(--size);
 	padding: 0.3em;

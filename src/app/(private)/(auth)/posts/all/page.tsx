@@ -75,9 +75,9 @@ export default function Posts() {
 							<tr>
 								<th>Status</th>
 								<th>Tipo</th>
-								<th>Criação</th>
+								<th>Data</th>
 								<th>Autor</th>
-								<th>Titulo</th>
+								<th>Título</th>
 								<th>Ações</th>
 							</tr>
 						</thead>
@@ -144,19 +144,19 @@ export default function Posts() {
 													href={"/posts/" + post.slug + "/edit"}
 													className={styles.button}
 												>
-													<AiFillEdit />
+													<AiFillEdit size={16}/>
 												</Link>
 												<Link
 													href={"/noticias/" + post.slug}
 													className={styles.button}
 												>
-													<BsFillEyeFill />
+													<BsFillEyeFill size={16}/>
 												</Link>
 												<Link
 													href={"/posts/" + post.slug + "/delete"}
 													className={styles.button}
 												>
-													<BsFillTrashFill />
+													<BsFillTrashFill size={16}/>
 												</Link>
 											</>
 										) : (
