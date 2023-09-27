@@ -115,7 +115,7 @@
 }
 
 .noticias .card .postInfo {
-	top: 0;
+	bottom: 0;
 	right: 0;
 	z-index: 2;
 	margin: 1em;
@@ -167,5 +167,9 @@
 @media (max-width: 700px) {
 	.noticias .card {
 		flex-direction: column;
+	}
+	.noticias .card .postInfo {
+		top: 0;
+		bottom: unset;
 	}
 }
