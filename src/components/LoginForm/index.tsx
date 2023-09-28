@@ -20,13 +20,13 @@ export default function LoginForm() {
 	const router = useRouter()
 	const [userName, setUserName] = React.useState("")
 	const [password, setPassword] = React.useState("")
-	const { token, setUserToken } = useUserToken()
+	const { token } = useUserToken()
 	const { handleUserLogin } = useUsers()
 	const [loading, setLoading] = React.useState(false)
 
 	useEffect(() => {
 		if (token) {
-			resetAuth()
+			resetAuth(token)
 			setLoading(true)
 			router.push("/dashboard")
 		}
@@ -39,8 +39,7 @@ export default function LoginForm() {
 
 		if (userIsLogged && "token" in userIsLogged) {
 			toast.success("Login efetuado com sucesso")
-			resetAuth()
-			setUserToken(userIsLogged.token)
+			resetAuth(userIsLogged.token)
 			router.push("/dashboard")
 		} else {
 			toast.error("Usuário ou senha incorretos")

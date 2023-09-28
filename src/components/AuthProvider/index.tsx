@@ -10,20 +10,24 @@ export type TUserError = {
 
 const AuthContext = createContext({
 	authUser: null as TUser | null | TUserError,
-	resetAuth: () => {},
+	resetAuth: (token: string) => {},
 })
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const { token } = useUserToken()
+	const { token, setUserToken } = useUserToken()
 
 	const [authUser, setAuthUser] = useState<TUser | null | TUserError>(null)
 
-	const resetAuth = () => {
+	const resetAuth = (token: string) => {
 		setAuthUser(null)
+		if (token) {
+			setUserToken(token)
+		}
 	}
 
 	useEffect(() => {
 		async function get() {
+			if (!token) return { error: true }
 			try {
 				const res = await fetch(process.env.NEXT_PUBLIC_API_URL + `/users/auth/${token}`, {
 					method: "GET",
