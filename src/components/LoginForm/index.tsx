@@ -13,8 +13,10 @@ import { Button } from "../Button"
 import { useUserToken } from "@/utils/handleUserToken"
 
 import { toast } from "react-hot-toast"
+import { useAuth } from "../AuthProvider"
 
 export default function LoginForm() {
+	const { resetAuth } = useAuth()
 	const router = useRouter()
 	const [userName, setUserName] = React.useState("")
 	const [password, setPassword] = React.useState("")
@@ -24,11 +26,11 @@ export default function LoginForm() {
 
 	useEffect(() => {
 		if (token) {
+			resetAuth()
 			setLoading(true)
 			router.push("/dashboard")
-			toast.success("Entrando...")
 		}
-	}, [token, router])
+	}, [token, router, resetAuth])
 
 	async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
 		setLoading(true)
@@ -37,6 +39,7 @@ export default function LoginForm() {
 
 		if (userIsLogged && "token" in userIsLogged) {
 			toast.success("Login efetuado com sucesso")
+			resetAuth()
 			setUserToken(userIsLogged.token)
 			router.push("/dashboard")
 		} else {

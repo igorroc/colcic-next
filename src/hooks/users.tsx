@@ -31,6 +31,25 @@ export const UsersContext = createContext({
 			resolve(null)
 		})
 	},
+	createUser: (
+		user: TUserSimple,
+		token: string
+	): Promise<{
+		accessToken: string
+	} | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
+	handleFirstAccess: (
+		identifier: string,
+		password: string,
+		accessCode: string
+	): Promise<TUser | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
 })
 
 export function UsersProvider({ children }: { children: ReactNode }) {
@@ -77,6 +96,8 @@ export function UsersProvider({ children }: { children: ReactNode }) {
 				getUserById,
 				handleUserLogin,
 				editUser,
+				createUser,
+				handleFirstAccess,
 			}}
 		>
 			{children}
@@ -136,7 +157,7 @@ async function handleFirstAccess(identifier: string, password: string, accessCod
 		}
 	} catch (err) {
 		console.error(err)
-		return false
+		return null
 	}
 }
 
@@ -174,7 +195,9 @@ async function createUser(user: TUserSimple, token: string) {
 		})
 
 		if (res.ok) {
-			const accessToken = await res.json()
+			const accessToken = (await res.json()) as {
+				accessToken: string
+			}
 
 			return accessToken
 		} else {

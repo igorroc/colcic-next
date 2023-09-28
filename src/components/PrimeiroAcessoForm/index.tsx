@@ -5,12 +5,14 @@ import { Button } from "../Button"
 import Link from "next/link"
 
 import styles from "./primeiro-acesso-form.module.css"
-import useUser from "@/hooks/users"
+import { useUsers } from "@/hooks/users"
 import { useRouter } from "next/navigation"
+import { toast } from "react-hot-toast"
 
 export default function PrimeiroAcessoForm() {
-	const { handleFirstAccess } = useUser()
 	const router = useRouter()
+	const { handleFirstAccess } = useUsers()
+	const [loggingIn, setLoggingIn] = React.useState(false)
 
 	const [values, setValues] = React.useState({
 		identifier: "",
@@ -24,6 +26,7 @@ export default function PrimeiroAcessoForm() {
 		}
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+		setLoggingIn(true)
 		event.preventDefault()
 
 		const userIsLogged = await handleFirstAccess(
@@ -33,16 +36,18 @@ export default function PrimeiroAcessoForm() {
 		)
 
 		if (userIsLogged) {
-			alert("Agora você pode fazer login!")
+			toast.success("Agora você pode fazer login!")
 			router.push("/login")
 		} else {
-			alert("Erro entrar, tente novamente")
+			toast.error("Erro entrar, tente novamente")
 			setValues({
 				identifier: "",
 				accessCode: "",
 				password: "",
 			})
 		}
+
+		setLoggingIn(false)
 	}
 
 	const error = values.accessCode.length != 8 || !values.accessCode.startsWith("#")
@@ -81,7 +86,12 @@ export default function PrimeiroAcessoForm() {
 				onChange={handleChange("password")}
 			/>
 			<Link href={"/login"}>Já tenho acesso</Link>
-			<Button label="Entrar" type="primary" className={styles.submit} />
+			<Button
+				label={loggingIn ? "Entrando..." : "Entrar"}
+				type="primary"
+				className={styles.submit}
+				disabled={loggingIn}
+			/>
 		</form>
 	)
 }

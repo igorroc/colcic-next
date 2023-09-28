@@ -4,8 +4,6 @@ import React, { useState } from "react"
 import { Button } from "@/components/Button"
 import {
 	FormControl,
-	IconButton,
-	InputAdornment,
 	InputLabel,
 	MenuItem,
 	Select,
@@ -14,20 +12,16 @@ import {
 } from "@mui/material"
 
 import styles from "./new.module.css"
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
-import useUser from "@/hooks/users"
+import { useUsers } from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
 import { useRouter } from "next/navigation"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
+import { toast } from "react-hot-toast"
 
 export default function UsersNew() {
 	const { token } = useUserToken()
-	const { createUser } = useUser({
-		token,
-		adminOnlyPage: true,
-		redirectTo: "/dashboard",
-	})
+	const { createUser } = useUsers()
 	const router = useRouter()
 
 	const [creating, setCreating] = useState(false)
@@ -67,15 +61,16 @@ export default function UsersNew() {
 			const newUser = await createUser(data, token)
 
 			if (newUser) {
+				toast.success(`Usuário ${data.name} criado com sucesso!`)
 				setAccessToken(newUser.accessToken)
 				eventForm.reset()
 			} else {
-				alert("Erro ao criar usuário!")
+				toast.error("Erro ao criar usuário!")
 			}
 			setCreated(true)
 		} catch (err) {
 			console.error("COLCIC-ERR", err)
-			alert("Erro ao criar usuário!")
+			toast.error("Erro ao criar usuário!")
 		}
 		setCreating(false)
 	}
@@ -161,11 +156,11 @@ export default function UsersNew() {
 							</Select>
 						</FormControl>
 
-						{creating ? (
-							<p>Criando usuário...</p>
-						) : (
-							<Button label="Criar usuário" type="primary" />
-						)}
+						<Button
+							label={creating ? "Criando usuário..." : "Criar usuário"}
+							type="primary"
+							disabled={creating}
+						/>
 					</form>
 				</>
 			)}
