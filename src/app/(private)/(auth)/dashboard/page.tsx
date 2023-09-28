@@ -7,24 +7,26 @@ import { useRouter } from "next/navigation"
 import AdminDashboard from "./adminDashboard"
 import UserDashboard from "./userDashboard"
 import Loading from "@/components/Loading"
+import { useAuth } from "@/components/AuthProvider"
 
 export default function Dashboard() {
-	const { token } = useUserToken()
-	const { user, getCurrentUser } = useUser({ token })
+	const { authUser } = useAuth();
+
 	const [loading, setLoading] = useState(true)
-	const [state, setState] = useState("")
+	const [state, setState] = useState("" as "admin" | "user" | "error")
 	const router = useRouter()
 
 	useEffect(() => {
 		async function checkUser() {
-			const user = await getCurrentUser(token)
+			if (authUser) {
+				if ('error' in authUser) {
+					setState("error")
+					router.push("/logout")
+					return
+				}
+				if (authUser.type == "admin") setState("admin")
+				else if (authUser.type == "user") setState("user")
 
-			if (!user) {
-				setState("Usuário inválido")
-				router.push("/logout")
-			} else {
-				if (user.type == "admin") setState("admin")
-				else if (user.type == "user") setState("user")
 			}
 			setLoading(false)
 		}
@@ -32,12 +34,10 @@ export default function Dashboard() {
 		checkUser()
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [user])
+	}, [authUser])
 
 	if (loading) return <Loading />
-	if (state == "admin") return <AdminDashboard />
-	if (state == "user") return <UserDashboard />
-	if (state == "error") {
-		return <div>ERRO</div>
-	}
+	else if (state == "admin") return <AdminDashboard />
+	else if (state == "user") return <UserDashboard />
+
 }

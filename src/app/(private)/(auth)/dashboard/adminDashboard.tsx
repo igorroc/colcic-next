@@ -1,52 +1,24 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 
-import usePosts from "@/hooks/posts"
-import useUser from "@/hooks/users"
-import { useUserToken } from "@/utils/handleUserToken"
+import { usePostsDb } from "@/hooks/posts"
+import { useUsers } from "@/hooks/users"
 
 import styles from "./dashboard.module.css"
 import { Button } from "@/components/Button"
-import { TUser } from "@/types/user"
-import { TPost } from "@/types/post"
 import Loading from "@/components/Loading"
+import { useAuth } from "@/components/AuthProvider"
 
 export default function AdminDashboard() {
-	const { token } = useUserToken()
-	const { getCurrentUser, getAllUsers } = useUser({ token, adminOnlyPage: true })
-	const { getPostsWaitingForApproval, getPosts } = usePosts()
-	const [postsWaitingForApproval, setPostsWaitingForApproval] = useState<TPost[]>()
-	const [currentUser, setCurrentUser] = useState<TUser>()
-	const [users, setUsers] = useState<TUser[]>()
-	const [posts, setPosts] = useState<TPost[]>()
-	const [loading, setLoading] = useState<boolean>(true)
-
-	useEffect(() => {
-		async function fetchData() {
-			const usersRes = await getAllUsers(token)
-			const waitingPostsRes = await getPostsWaitingForApproval(token)
-			const postsRes = await getPosts(token)
-			const userRes = await getCurrentUser(token)
-
-			if (usersRes) setUsers(usersRes)
-			if (waitingPostsRes) setPostsWaitingForApproval(waitingPostsRes)
-			if (postsRes) setPosts(postsRes)
-			if (userRes) setCurrentUser(userRes)
-
-			setLoading(false)
-		}
-
-		fetchData()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	const { authUser } = useAuth()
+	const { allUsers } = useUsers()
+	const { posts, postsWaitingForApproval } = usePostsDb()
 
 	return (
 		<div>
 			<h1>Dashboard de Admin</h1>
-			{loading ? (
-				<Loading />
-			) : currentUser ? (
+			{authUser && !('error' in authUser) ? (
 				<>
-					<p>Olá, {currentUser.name}!</p>
+					<p>Olá, {authUser.name}!</p>
 					<h2>Publicações</h2>
 					{postsWaitingForApproval && postsWaitingForApproval.length > 0 ? (
 						<div className={styles.card}>
@@ -62,11 +34,11 @@ export default function AdminDashboard() {
 					<h2>Dados</h2>
 					<div className={styles.row}>
 						<div className={styles.card}>
-							<p>Usuários</p>
-							{users ? <b>{users.length}</b> : <Loading />}
+							<span>Usuários</span>
+							{allUsers ? <b>{allUsers.length}</b> : <Loading />}
 						</div>
 						<div className={styles.card}>
-							<p>Publicações</p>
+							<span>Publicações</span>
 							{posts ? <b>{posts.length}</b> : <Loading />}
 						</div>
 					</div>

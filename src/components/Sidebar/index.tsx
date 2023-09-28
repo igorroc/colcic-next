@@ -14,6 +14,7 @@ import { MdDashboard, MdLogout } from "react-icons/md"
 
 import styles from "./sidebar.module.css"
 import { TUser } from "@/types/user"
+import { useAuth } from "../AuthProvider"
 
 const sideNavList = [
 	{
@@ -66,36 +67,27 @@ const sideNavListSecondary = [
 
 export default function SideBar() {
 	const pathname = usePathname()
-	const { token } = useUserToken()
-	const { user, getCurrentUser } = useUser({ token })
-	const [currentUser, setCurrentUser] = useState<TUser>()
+	const { authUser } = useAuth();
 
 	useEffect(() => {
-		if (!token) {
-			redirect("/login")
-		}
+		if (authUser) {
+			if ('error' in authUser) {
+				redirect("/logout")
+			}
 
-		if (sideNavList.find((item) => item.href == pathname)?.isAdmin && user?.type != "admin") {
-			redirect("/dashboard")
-		}
-
-		async function fetchData() {
-			const user = await getCurrentUser(token)
-
-			if (user) {
-				setCurrentUser(user)
+			if (sideNavList.find((item) => item.href == pathname)?.isAdmin && authUser.type != "admin") {
+				redirect("/dashboard")
 			}
 		}
+	}, [pathname, authUser])
 
-		fetchData()
-		// eslint-disable-next-line
-	}, [token, pathname, user?.type])
+	if(authUser && 'error' in authUser) return null
 
 	return (
 		<aside className={styles.side}>
 			<div className={styles.actions}>
 				{sideNavList.map((item, index) =>
-					item.isAdmin && currentUser?.type != "admin" ? null : (
+					item.isAdmin && authUser?.type != "admin" ? null : (
 						<Link
 							href={item.href}
 							className={styles.button}
@@ -110,11 +102,11 @@ export default function SideBar() {
 				)}
 			</div>
 			<div className={styles.actions}>
-				{currentUser?.profilePhoto && (
-					<div className={styles.userPhoto} title={currentUser.name}>
+				{authUser?.profilePhoto && (
+					<div className={styles.userPhoto} title={authUser.name}>
 						{/* eslint-disable-next-line */}
 						<img
-							src={currentUser?.profilePhoto}
+							src={authUser?.profilePhoto}
 							alt={"Foto de perfil"}
 							width={100}
 							height={100}

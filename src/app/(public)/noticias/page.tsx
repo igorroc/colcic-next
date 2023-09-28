@@ -8,40 +8,32 @@ import { FiArrowUpRight } from "react-icons/fi"
 import { formatToDate } from "@/utils/formatToDate"
 
 import styles from "./noticias.module.css"
-import usePosts from "@/hooks/posts"
-import { useUserToken } from "@/utils/handleUserToken"
 import { TCategory, TPost } from "@/types/post"
 import Loading from "@/components/Loading"
+import { usePosts } from "@/hooks/posts"
 
 export default function Noticias() {
-	const { token } = useUserToken()
-	const { getSitePosts } = usePosts()
+	const { sitePosts } = usePosts()
 
 	const [posts, setPosts] = useState<TPost[]>()
 	const [mainPost, setMainPost] = useState<TPost>()
 	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
-		async function getData() {
-			const posts = await getSitePosts()
-
-			if (posts) {
-				posts.sort((a, b) => {
-					if (a.createdAt > b.createdAt) {
-						return -1
-					}
-					if (a.createdAt < b.createdAt) {
-						return 1
-					}
-					return 0
-				})
-				setPosts(posts)
-				setMainPost(posts[0])
-			}
-
+		if (sitePosts) {
+			const sortedPosts = sitePosts.sort((a, b) => {
+				if (a.createdAt > b.createdAt) {
+					return -1
+				}
+				if (a.createdAt < b.createdAt) {
+					return 1
+				}
+				return 0
+			})
+			setPosts(sortedPosts)
+			setMainPost(sortedPosts[0])
 			setLoading(false)
 		}
-		getData()
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])

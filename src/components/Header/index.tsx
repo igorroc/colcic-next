@@ -10,9 +10,7 @@ import styles from "./header.module.css"
 
 import ColcicLogo from "/public/logo.png"
 import Link from "next/link"
-import { useUserToken } from "@/utils/handleUserToken"
-import useUser from "@/hooks/users"
-import { TUser } from "@/types/user"
+import { useAuth } from "../AuthProvider"
 
 const navList = [
 	{
@@ -123,11 +121,10 @@ const navList = [
 ]
 
 export function Header() {
+	const { authUser } = useAuth()
+
 	const [showNavList, setShowNavList] = useState(false)
 	const pathname = usePathname()
-
-	const { token } = useUserToken()
-	const { user } = useUser({ token })
 
 	function toggleNavList() {
 		setShowNavList(!showNavList)
@@ -161,7 +158,7 @@ export function Header() {
 							</div>
 						</button>
 
-						{user && (
+						{authUser && !('error' in authUser) && (
 							<Link
 								href="/dashboard"
 								className={styles.userPhoto}
@@ -169,7 +166,7 @@ export function Header() {
 							>
 								{/* eslint-disable-next-line */}
 								<img
-									src={user.profilePhoto}
+									src={authUser.profilePhoto}
 									alt="Foto de perfil do usuário"
 									width={100}
 									height={100}
@@ -227,7 +224,7 @@ export function Header() {
 						</ul>
 					</nav>
 
-					{user && (
+					{authUser && !('error' in authUser) && (
 						<Link
 							href="/dashboard"
 							className={[styles.userPhoto, styles.userPhotoDesktop].join(" ")}
@@ -235,7 +232,7 @@ export function Header() {
 						>
 							{/* eslint-disable-next-line */}
 							<img
-								src={user.profilePhoto}
+								src={authUser.profilePhoto}
 								alt="Foto de perfil do usuário"
 								width={100}
 								height={100}

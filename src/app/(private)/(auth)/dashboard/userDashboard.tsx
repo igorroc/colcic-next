@@ -1,52 +1,30 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Button } from "@/components/Button"
 import Loading from "@/components/Loading"
-import usePosts from "@/hooks/posts"
-import useUser from "@/hooks/users"
-import { useUserToken } from "@/utils/handleUserToken"
-import { TPost } from "@/types/post"
+import { usePosts } from "@/hooks/posts"
+import { useAuth } from "@/components/AuthProvider"
 
 export default function UserDashboard() {
-	const { token } = useUserToken()
-	const { user } = useUser({ token })
-	const { getMyPosts, getMyPostsWaitingForApproval } = usePosts()
-	const [myPosts, setMyPosts] = useState<TPost[]>()
-	const [waitingPosts, setWaitingPosts] = useState<TPost[]>([])
-	const [loading, setLoading] = useState<boolean>(true)
+	const { authUser } = useAuth();
+	const { myPosts, myPostsWaitingForApproval } = usePosts()
 
-	useEffect(() => {
-		async function fetchData() {
-			const postsRes = await getMyPosts(token)
-			if (postsRes) setMyPosts(postsRes)
-
-			const waitingPostsRes = await getMyPostsWaitingForApproval(token)
-			if (waitingPostsRes) setWaitingPosts(waitingPostsRes)
-
-			setLoading(false)
-		}
-		fetchData()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
-
-	if (!user) return <Loading />
+	if (!authUser) return <Loading />
 
 	return (
 		<div>
 			<h1>Dashboard</h1>
-			{loading ? (
-				<Loading />
-			) : (
+			{'error' in authUser ? <h2>Erro</h2> : (
 				<>
-					<p>Olá, {user.name}!</p>
-					{waitingPosts && waitingPosts.length > 0 && (
+					<p>Olá, {authUser.name}!</p>
+					{myPostsWaitingForApproval && myPostsWaitingForApproval.length > 0 && (
 						<>
 							<h2>⏰ Publicações em Aguardo</h2>
 							<p>
 								Atualmente você tem{" "}
-								{waitingPosts.length > 1
-									? `${waitingPosts.length} publicações`
+								{myPostsWaitingForApproval.length > 1
+									? `${myPostsWaitingForApproval.length} publicações`
 									: "1 publicação"}{" "}
 								em aguardo
 							</p>
