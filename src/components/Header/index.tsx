@@ -133,6 +133,7 @@ export function Header() {
 
 	function unFocus() {
 		setUserHasClicked(true)
+		setShowNavList(false)
 
 		setTimeout(() => {
 			setUserHasClicked(false)
