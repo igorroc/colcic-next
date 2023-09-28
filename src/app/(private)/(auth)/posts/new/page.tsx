@@ -21,11 +21,11 @@ import previewMuralStyles from "@/components/MuralPostList/MuralPost/muralPost.m
 
 import { Button } from "@/components/Button"
 import BasicDatePicker from "@/components/DatePicker"
-import usePosts from "@/hooks/posts"
+import { usePosts } from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
 import { PostType, TCategory, TPostToPublish } from "@/types/post"
 import slugCleaner from "@/utils/slugCleaner"
-import useUser from "@/hooks/users"
+import { useUsers } from "@/hooks/users"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
 import LikeButton from "@/components/LikeButton"
@@ -33,14 +33,15 @@ import SharableLinks from "@/components/SharableLinks"
 import { formatToDate } from "@/utils/formatToDate"
 import MarkdownPrint from "@/components/MarkdownPrint"
 import QRCode from "@/components/QRCode"
+import { useAuth } from "@/components/AuthProvider"
+import { toast } from "react-hot-toast"
 
 const publishTypes: PostType[] = ["site", "mural"]
 
 export default function Editor() {
+	const { authUser } = useAuth()
 	const { createPost } = usePosts()
 	const { token } = useUserToken()
-	const { getCurrentUser } = useUser({ token: token })
-	const [user, setUser] = useState<TUser>()
 	const router = useRouter()
 
 	const maxDescriptionLength = 300
@@ -81,17 +82,6 @@ export default function Editor() {
 	}, [title, hasEditedSlug])
 
 	useEffect(() => {
-		async function getData() {
-			const user = await getCurrentUser(token)
-
-			if (!user) return
-
-			setUser(user)
-		}
-		getData()
-	}, [getCurrentUser, token])
-
-	useEffect(() => {
 		if (!publicationType.includes("mural")) {
 			setBannerV(bannerH)
 		}
@@ -102,7 +92,7 @@ export default function Editor() {
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 
-		if (!user) return
+		if (!authUser || !("_id" in authUser)) return
 
 		const data: TPostToPublish = {
 			title,
@@ -114,14 +104,14 @@ export default function Editor() {
 			types: publicationType as PostType[],
 			expirationDate: expirationDate || new Date(),
 			body,
-			author_id: user._id,
+			author_id: authUser._id,
 		}
 
 		const res = await createPost(data, token)
 
 		if (res && res.slug) {
-			if (user.type != "admin") {
-				alert(
+			if (authUser.type != "admin") {
+				toast.success(
 					"Postagem criada com sucesso! Agora basta esperar que algum administrador aprove, para que ela seja publicada. Você pode acompanhar o status da sua postagem na página inicial. Indo para lá agora!"
 				)
 
@@ -138,7 +128,7 @@ export default function Editor() {
 				}
 			}
 		} else {
-			alert("Erro ao criar postagem")
+			toast.error("Erro ao criar postagem")
 		}
 	}
 
@@ -190,18 +180,18 @@ export default function Editor() {
 								<h1 className={previewSiteStyles.postHeaderTitle}>{title}</h1>
 							</div>
 							<div className={previewSiteStyles.sideHeaderContainer}>
-								{user && (
+								{authUser && !("error" in authUser) && (
 									<div className={previewSiteStyles.avatarUserInfo}>
 										{/* eslint-disable-next-line */}
 										<img
-											src={user.profilePhoto}
-											alt={`Foto de perfil de ${user.name}`}
+											src={authUser.profilePhoto}
+											alt={`Foto de perfil de ${authUser.name}`}
 											width={100}
 											height={100}
 										/>
 										<div>
 											<p className={previewSiteStyles.authorName}>
-												{user.name}
+												{authUser.name}
 											</p>
 											<p className={previewSiteStyles.postDate}>
 												{new Date().toDateString()}
@@ -261,20 +251,20 @@ export default function Editor() {
 								</div>
 
 								<div className={previewMuralStyles.bottomInfo}>
-									{user && (
+									{authUser && !("error" in authUser) && (
 										<div className={previewMuralStyles.postAuthor}>
 											<div className={previewMuralStyles.authorPicture}>
 												{/* eslint-disable-next-line */}
 												<img
-													src={user.profilePhoto}
-													alt={`Foto de ${user.name}`}
+													src={authUser.profilePhoto}
+													alt={`Foto de ${authUser.name}`}
 													width={100}
 													height={100}
 												/>
 											</div>
 											<div className={previewMuralStyles.authorInfo}>
 												<span className={previewMuralStyles.authorName}>
-													{user.name}
+													{authUser.name}
 												</span>
 												<span className={previewMuralStyles.authorDate}>
 													{new Date().toDateString()}

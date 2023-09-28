@@ -22,11 +22,11 @@ import previewMuralStyles from "@/components/MuralPostList/MuralPost/muralPost.m
 
 import { Button } from "@/components/Button"
 import BasicDatePicker from "@/components/DatePicker"
-import usePosts from "@/hooks/posts"
+import { usePosts } from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
 import { PostType, TCategory, TPostToPublish } from "@/types/post"
 import slugCleaner from "@/utils/slugCleaner"
-import useUser from "@/hooks/users"
+import { useUsers } from "@/hooks/users"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
 import LikeButton from "@/components/LikeButton"
@@ -35,6 +35,8 @@ import { formatToDate } from "@/utils/formatToDate"
 import MarkdownPrint from "@/components/MarkdownPrint"
 import QRCode from "@/components/QRCode"
 import Loading from "@/components/Loading"
+import { useAuth } from "@/components/AuthProvider"
+import { toast } from "react-hot-toast"
 
 const publishTypes: PostType[] = ["site", "mural"]
 
@@ -45,8 +47,8 @@ interface PostEditProps {
 }
 
 export default function PostEdit({ params }: PostEditProps) {
+	const { authUser } = useAuth()
 	const { token } = useUserToken()
-	const { getCurrentUser } = useUser({ token: token })
 	const { editPost, getPostBySlug } = usePosts()
 	const [user, setUser] = useState<TUser>()
 	const router = useRouter()
@@ -117,17 +119,6 @@ export default function PostEdit({ params }: PostEditProps) {
 	}, [title, hasEditedSlug])
 
 	useEffect(() => {
-		async function getData() {
-			const user = await getCurrentUser(token)
-
-			if (!user) return
-
-			setUser(user)
-		}
-		getData()
-	}, [getCurrentUser, token])
-
-	useEffect(() => {
 		if (!publicationType.includes("mural")) {
 			setBannerV(bannerH)
 		}
@@ -136,7 +127,9 @@ export default function PostEdit({ params }: PostEditProps) {
 	}, [bannerH, publicationType])
 
 	async function handleSubmit() {
-		if (!user) return
+		if (!authUser) return
+
+		if (!("_id" in authUser)) return
 
 		const data: TPostToPublish = {
 			title,
@@ -148,7 +141,7 @@ export default function PostEdit({ params }: PostEditProps) {
 			types: publicationType as PostType[],
 			expirationDate: expirationDate || new Date(),
 			body,
-			author_id: user._id,
+			author_id: authUser._id,
 		}
 
 		const res = await editPost(data, token, oldSlug)
@@ -157,12 +150,14 @@ export default function PostEdit({ params }: PostEditProps) {
 			const confirmation = await confirm("Postagem editada com sucesso! Deseja visualizar?")
 
 			if (confirmation) {
+				toast.success("Acessando postagem")
 				router.push(`/noticias/${res.slug}`)
 			} else {
+				toast.success("Acessando lista de postagens")
 				router.push(`/posts/`)
 			}
 		} else {
-			alert("Erro ao editar postagem")
+			toast.error("Erro ao editar postagem")
 		}
 	}
 
@@ -222,18 +217,18 @@ export default function PostEdit({ params }: PostEditProps) {
 										</h1>
 									</div>
 									<div className={previewSiteStyles.sideHeaderContainer}>
-										{user && (
+										{authUser && !("error" in authUser) && (
 											<div className={previewSiteStyles.avatarUserInfo}>
 												{/* eslint-disable-next-line */}
 												<img
-													src={user.profilePhoto}
-													alt={`Foto de perfil de ${user.name}`}
+													src={authUser.profilePhoto}
+													alt={`Foto de perfil de ${authUser.name}`}
 													width={100}
 													height={100}
 												/>
 												<div>
 													<p className={previewSiteStyles.authorName}>
-														{user.name}
+														{authUser.name}
 													</p>
 													<p className={previewSiteStyles.postDate}>
 														{new Date().toDateString()}
@@ -249,9 +244,7 @@ export default function PostEdit({ params }: PostEditProps) {
 									{/* eslint-disable-next-line */}
 									<img src={bannerH} alt="post banner" />
 								</div>
-								<div
-									className={[previewSiteStyles.bodyText].join(" ")}
-								>
+								<div className={[previewSiteStyles.bodyText].join(" ")}>
 									<MarkdownPrint text={body} />
 								</div>
 								<p className={styles.continue}>

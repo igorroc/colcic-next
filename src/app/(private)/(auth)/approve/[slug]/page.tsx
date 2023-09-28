@@ -21,16 +21,15 @@ import previewMuralStyles from "@/components/MuralPostList/MuralPost/muralPost.m
 
 import { Button } from "@/components/Button"
 import BasicDatePicker from "@/components/DatePicker"
-import usePosts from "@/hooks/posts"
+import { usePosts } from "@/hooks/posts"
 import { useUserToken } from "@/utils/handleUserToken"
 import { PostType, TCategory, TPostToPublish } from "@/types/post"
 import slugCleaner from "@/utils/slugCleaner"
-import useUser from "@/hooks/users"
+import { useUsers } from "@/hooks/users"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
 import LikeButton from "@/components/LikeButton"
 import SharableLinks from "@/components/SharableLinks"
-import { formatToDate } from "@/utils/formatToDate"
 import MarkdownPrint from "@/components/MarkdownPrint"
 import QRCode from "@/components/QRCode"
 import Loading from "@/components/Loading"
@@ -45,11 +44,7 @@ interface PostEditProps {
 
 export default function PostEdit({ params }: PostEditProps) {
 	const { token } = useUserToken()
-	const { getUserById } = useUser({
-		token: token,
-		adminOnlyPage: true,
-		redirectTo: "/dashboard",
-	})
+	const { getUserById } = useUsers()
 	const { editPost, getPostBySlug, approvePost } = usePosts()
 
 	const [author, setAuthor] = useState<TUser>()
@@ -99,7 +94,7 @@ export default function PostEdit({ params }: PostEditProps) {
 
 				if (post.author) {
 					if (typeof post.author === "string") {
-						const author = await getUserById(post.author, token)
+						const author = await getUserById(post.author)
 						if (author) {
 							setAuthor(author)
 						}

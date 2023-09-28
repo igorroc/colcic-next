@@ -1,12 +1,14 @@
 "use client"
 
-import usePosts from "@/hooks/posts"
-import useUser from "@/hooks/users"
+import { useAuth } from "@/components/AuthProvider"
+import { usePosts } from "@/hooks/posts"
+import { useUsers } from "@/hooks/users"
 import { TUser } from "@/types/user"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
+import { toast } from "react-hot-toast"
 
 import styles from "./delete.module.css"
 
@@ -17,10 +19,10 @@ interface PostDeleteProps {
 }
 
 export default function PostDelete(props: PostDeleteProps) {
+	const { authUser } = useAuth()
 	const router = useRouter()
 	const { token } = useUserToken()
 	const { getPostBySlug, deletePost } = usePosts()
-	const { getCurrentUser } = useUser()
 
 	const [postTitle, setPostTitle] = useState("")
 	const [postAuthor, setPostAuthor] = useState<TUser>()
@@ -37,12 +39,6 @@ export default function PostDelete(props: PostDeleteProps) {
 			setPostTitle(post.title)
 
 			if (post.author) setPostAuthor(post.author as TUser)
-
-			const user = await getCurrentUser(token)
-
-			if (user) {
-				setCurrentUser(user)
-			}
 		}
 
 		getData()
@@ -53,9 +49,9 @@ export default function PostDelete(props: PostDeleteProps) {
 		const res = await deletePost(slug, token)
 
 		if (res) {
-			alert("Publicação deletada com sucesso")
+			toast.success("Publicação deletada com sucesso")
 		} else {
-			alert("Erro ao deletar publicação")
+			toast.error("Erro ao deletar publicação")
 		}
 
 		router.push("/posts/all")
@@ -66,7 +62,7 @@ export default function PostDelete(props: PostDeleteProps) {
 			<h1>Deletar publicação</h1>
 
 			<>
-				{postAuthor?._id == currentUser?._id ? (
+				{authUser && "_id" in authUser && postAuthor?._id == authUser?._id ? (
 					<p>
 						Você tem certeza que deseja deletar a publicação{" "}
 						<strong>{postTitle}</strong>, criada por você?

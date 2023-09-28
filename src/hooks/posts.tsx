@@ -7,6 +7,231 @@ import { useUserToken } from "@/utils/handleUserToken"
 import { useUsers } from "./users"
 import { sortPosts } from "@/utils/sort"
 
+export const PostsContext = createContext({
+	allPosts: [] as TPost[] | [],
+	homePosts: [] as TPost[] | [],
+	sitePosts: [] as TPost[] | [],
+	activePosts: [] as TPost[] | [],
+
+	postsWaitingForApproval: [] as TPost[] | [],
+
+	myPosts: [] as TPost[] | [],
+	myPostsWaitingForApproval: [] as TPost[] | [],
+
+	saveHomePosts: (posts: string[], token: string): Promise<boolean | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
+	getPostBySlug: (slug: string): Promise<TPost | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
+	approvePost: (slug: string, token: string, status: PostStatus): Promise<boolean | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
+	editPost: (post: TPostToPublish, token: string, slug: string): Promise<TPost | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
+	deletePost: (slug: string, token: string): Promise<boolean | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
+	createPost: (post: TPostToPublish, token: string): Promise<TPost | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
+})
+
+export function PostsProvider({ children }: { children: ReactNode }) {
+	const { token } = useUserToken()
+	const { getUserById } = useUsers()
+
+	const [allPosts, setAllPosts] = useState<TPost[] | []>([])
+	const [homePosts, setHomePosts] = useState<TPost[] | []>([])
+	const [sitePosts, setSitePosts] = useState<TPost[] | []>([])
+
+	const [activePosts, setActivePosts] = useState<TPost[] | []>([])
+	const [postsWaitingForApproval, setPostsWaitingForApproval] = useState<TPost[] | []>([])
+
+	const [myPosts, setMyPosts] = useState<TPost[] | []>([])
+	const [myPostsWaitingForApproval, setMyPostsWaitingForApproval] = useState<TPost[] | []>([])
+
+	async function getPostsWaitingForApproval(token: string) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/pending", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+
+			const postsRes: TPost[] = await res.json()
+
+			if (!postsRes || postsRes.length == 0) {
+				return []
+			}
+
+			let postsWithAuthors: TPost[] = []
+
+			await Promise.all(
+				postsRes.map(async (post) => {
+					let authorId: string
+					if (!post.author) {
+						return post
+					}
+					if (typeof post.author === "string") {
+						authorId = post.author
+					} else {
+						authorId = post.author._id
+					}
+
+					const authorRes = await getUserById(authorId)
+					let author =
+						authorRes ||
+						({
+							_id: "",
+							name: "",
+							profilePhoto: "",
+						} as TAuthor)
+
+					if (!author) {
+						console.error("COLCIC-ERR: Author not found")
+					}
+
+					const postWithAuthor: TPost = { ...post, author: author }
+
+					postsWithAuthors.push(postWithAuthor)
+				})
+			)
+				.then((posts) => {
+					return posts
+				})
+				.catch((err) => {
+					console.error(err)
+					return []
+				})
+
+			return postsWithAuthors
+		} catch (err) {
+			console.error(err)
+			return []
+		}
+	}
+
+	async function getAllPosts(token: string) {
+		try {
+			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+
+			const postsRes: TPost[] = await res.json()
+
+			if (!postsRes || postsRes.length == 0) {
+				console.error("COLCIC-ERR: No posts found")
+				return []
+			}
+
+			let postsWithAuthors: TPost[] = []
+
+			await Promise.all(
+				postsRes.map(async (post) => {
+					let authorId: string
+					if (!post.author) {
+						return post
+					}
+					if (typeof post.author === "string") {
+						authorId = post.author
+					} else {
+						authorId = post.author._id
+					}
+
+					const authorRes = await getUserById(authorId)
+					let author =
+						authorRes ||
+						({
+							_id: "",
+							name: "",
+							profilePhoto: "",
+						} as TAuthor)
+
+					if (!author) {
+						console.error("COLCIC-ERR: Author not found")
+					}
+
+					const postWithAuthor: TPost = { ...post, author: author }
+
+					postsWithAuthors.push(postWithAuthor)
+				})
+			)
+				.then((posts) => {
+					return posts
+				})
+				.catch((err) => {
+					console.error(err)
+					return []
+				})
+
+			return postsWithAuthors
+		} catch (err) {
+			console.error(err)
+			return []
+		}
+	}
+
+	useEffect(() => {
+		if (token) {
+			getMyPosts(token).then((posts) => setMyPosts(posts))
+			getMyPostsWaitingForApproval(token).then((posts) => setMyPostsWaitingForApproval(posts))
+			getHomePosts().then((posts) => setHomePosts(posts.sort(sortPosts)))
+			getPostsWaitingForApproval(token).then((posts) => setPostsWaitingForApproval(posts))
+			getAllPosts(token).then((posts) => setAllPosts(posts.sort(sortPosts)))
+			getSitePosts().then((posts) => setSitePosts(posts))
+			getActivePosts().then((posts) => setActivePosts(posts))
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
+	return (
+		<PostsContext.Provider
+			value={{
+				myPosts,
+				myPostsWaitingForApproval,
+				homePosts,
+				sitePosts,
+				activePosts,
+				postsWaitingForApproval,
+				allPosts,
+				saveHomePosts,
+				getPostBySlug,
+				approvePost,
+				editPost,
+				deletePost,
+				createPost,
+			}}
+		>
+			{children}
+		</PostsContext.Provider>
+	)
+}
+
+export function usePosts() {
+	return useContext(PostsContext)
+}
+
 async function getActivePosts() {
 	try {
 		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/active")
@@ -269,199 +494,4 @@ async function getMyPostsWaitingForApproval(token: string) {
 		console.error(err)
 		return []
 	}
-}
-
-export const PostsContext = createContext({
-	allPosts: [] as TPost[] | [],
-	homePosts: [] as TPost[] | [],
-	sitePosts: [] as TPost[] | [],
-	activePosts: [] as TPost[] | [],
-
-	postsWaitingForApproval: [] as TPost[] | [],
-
-	myPosts: [] as TPost[] | [],
-	myPostsWaitingForApproval: [] as TPost[] | [],
-
-	saveHomePosts: (posts: string[], token: string): Promise<boolean | null> => {
-		return new Promise((resolve) => {
-			resolve(null)
-		})
-	},
-})
-
-export function PostsProvider({ children }: { children: ReactNode }) {
-	const { token } = useUserToken()
-	const { getUserById } = useUsers()
-
-	const [allPosts, setAllPosts] = useState<TPost[] | []>([])
-	const [homePosts, setHomePosts] = useState<TPost[] | []>([])
-	const [sitePosts, setSitePosts] = useState<TPost[] | []>([])
-
-	const [activePosts, setActivePosts] = useState<TPost[] | []>([])
-	const [postsWaitingForApproval, setPostsWaitingForApproval] = useState<TPost[] | []>([])
-
-	const [myPosts, setMyPosts] = useState<TPost[] | []>([])
-	const [myPostsWaitingForApproval, setMyPostsWaitingForApproval] = useState<TPost[] | []>([])
-
-	async function getPostsWaitingForApproval(token: string) {
-		try {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts/pending", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			})
-
-			const postsRes: TPost[] = await res.json()
-
-			if (!postsRes || postsRes.length == 0) {
-				return []
-			}
-
-			let postsWithAuthors: TPost[] = []
-
-			await Promise.all(
-				postsRes.map(async (post) => {
-					let authorId: string
-					if (!post.author) {
-						return post
-					}
-					if (typeof post.author === "string") {
-						authorId = post.author
-					} else {
-						authorId = post.author._id
-					}
-
-					const authorRes = await getUserById(authorId)
-					let author =
-						authorRes ||
-						({
-							_id: "",
-							name: "",
-							profilePhoto: "",
-						} as TAuthor)
-
-					if (!author) {
-						console.error("COLCIC-ERR: Author not found")
-					}
-
-					const postWithAuthor: TPost = { ...post, author: author }
-
-					postsWithAuthors.push(postWithAuthor)
-				})
-			)
-				.then((posts) => {
-					return posts
-				})
-				.catch((err) => {
-					console.error(err)
-					return []
-				})
-
-			return postsWithAuthors
-		} catch (err) {
-			console.error(err)
-			return []
-		}
-	}
-
-	async function getAllPosts(token: string) {
-		try {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/posts", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			})
-
-			const postsRes: TPost[] = await res.json()
-
-			if (!postsRes || postsRes.length == 0) {
-				console.error("COLCIC-ERR: No posts found")
-				return []
-			}
-
-			let postsWithAuthors: TPost[] = []
-
-			await Promise.all(
-				postsRes.map(async (post) => {
-					let authorId: string
-					if (!post.author) {
-						return post
-					}
-					if (typeof post.author === "string") {
-						authorId = post.author
-					} else {
-						authorId = post.author._id
-					}
-
-					const authorRes = await getUserById(authorId)
-					let author =
-						authorRes ||
-						({
-							_id: "",
-							name: "",
-							profilePhoto: "",
-						} as TAuthor)
-
-					if (!author) {
-						console.error("COLCIC-ERR: Author not found")
-					}
-
-					const postWithAuthor: TPost = { ...post, author: author }
-
-					postsWithAuthors.push(postWithAuthor)
-				})
-			)
-				.then((posts) => {
-					return posts
-				})
-				.catch((err) => {
-					console.error(err)
-					return []
-				})
-
-			return postsWithAuthors
-		} catch (err) {
-			console.error(err)
-			return []
-		}
-	}
-
-	useEffect(() => {
-		if (token) {
-			getMyPosts(token).then((posts) => setMyPosts(posts))
-			getMyPostsWaitingForApproval(token).then((posts) => setMyPostsWaitingForApproval(posts))
-			getHomePosts().then((posts) => setHomePosts(posts.sort(sortPosts)))
-			getPostsWaitingForApproval(token).then((posts) => setPostsWaitingForApproval(posts))
-			getAllPosts(token).then((posts) => setAllPosts(posts.sort(sortPosts)))
-			getSitePosts().then((posts) => setSitePosts(posts))
-			getActivePosts().then((posts) => setActivePosts(posts))
-		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
-
-	return (
-		<PostsContext.Provider
-			value={{
-				myPosts,
-				myPostsWaitingForApproval,
-				homePosts,
-				sitePosts,
-				activePosts,
-				postsWaitingForApproval,
-				allPosts,
-				saveHomePosts,
-			}}
-		>
-			{children}
-		</PostsContext.Provider>
-	)
-}
-
-export function usePosts() {
-	return useContext(PostsContext)
 }
