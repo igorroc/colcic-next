@@ -29,8 +29,6 @@ export const AuthProvider = ({ children }: {
                     },
                 } as RequestInit)
 
-                console.log(res)
-
                 if (res.ok) {
                     const userRes: TUser = await res.json()
 

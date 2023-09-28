@@ -260,7 +260,6 @@ async function getMyPostsWaitingForApproval(token: string) {
 		const postsRes: TPost[] = await res.json()
 
 		if (!postsRes || postsRes.length == 0) {
-			console.error("COLCIC-ERR: No posts found")
 			return []
 		}
 
@@ -308,7 +307,6 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 			const postsRes: TPost[] = await res.json()
 
 			if (!postsRes || postsRes.length == 0) {
-				console.error("COLCIC-ERR: No posts found")
 				return []
 			}
 
