@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import usePosts from "@/hooks/posts"
 import useUser from "@/hooks/users"
 import { TPost } from "@/types/post"
@@ -14,7 +14,13 @@ import { Button } from "@/components/Button"
 import { Checkbox, ListItemText } from "@mui/material"
 import Loading from "@/components/Loading"
 
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import update from 'immutability-helper'
+
 import styles from "./settings.module.css"
+import DraggablePost from "@/components/DraggablePost"
+
 
 export default function Settings() {
 	const { token } = useUserToken()
@@ -46,6 +52,32 @@ export default function Settings() {
 		getData()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	const movePost = useCallback((dragIndex: number, hoverIndex: number) => {
+		setPosts((prevPosts: TPost[]) =>
+			update(prevPosts, {
+				$splice: [
+					[dragIndex, 1],
+					[hoverIndex, 0, prevPosts[dragIndex] as TPost],
+				],
+			}),
+		)
+	}, [])
+
+	const renderPost = useCallback(
+		(post: TPost, index: number) => {
+			return (
+				<DraggablePost key={post._id} id={post._id} index={index} movePost={movePost} className={styles.pill}>
+					<span>
+						{index}
+					</span>
+					{post.title.split(" ").slice(0, 8).join(" ")}...
+				</DraggablePost>
+			)
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[],
+	)
 
 	const handleChange = (event: SelectChangeEvent<typeof selectedPosts>) => {
 		const {
@@ -99,11 +131,12 @@ export default function Settings() {
 										return posts
 											.map((post) => {
 												if (selected.includes(post.slug)) {
-													return post.title.split(" ")[0] + "..."
+													return <span key={post._id} className={styles.pill}>
+														{post.title.split(" ").slice(0, 3).join(" ")}...
+													</span>
 												}
 											})
 											.filter(Boolean)
-											.join(", ")
 									}}
 								>
 									{posts.map((post, index) => (
@@ -116,6 +149,21 @@ export default function Settings() {
 									))}
 								</Select>
 							</FormControl>
+							<DndProvider backend={HTML5Backend}>
+								{selectedPosts.length > 0 ? (
+									<div className={styles.selectedPosts}>
+										{posts
+											.map((post, i) => {
+												if (selectedPosts.includes(post.slug)) {
+													const index = selectedPosts.indexOf(post.slug) + 1
+													return renderPost(post, index)
+												}
+											})
+											.filter(Boolean)}
+									</div>
+								) : null}
+							</DndProvider>
+
 							<Button label="Salvar" type="primary" onClick={handleSavePosts} />
 						</>
 					) : (

@@ -3,3 +3,18 @@
 	flex-direction: column;
 	gap: 0.2em;
 }
+
+.pill{
+	display: inline-block;
+	padding: 0.3rem 0.8rem;
+	margin: 0 0.3rem;
+	border-radius: 1em;
+	background: var(--primary-color-30);
+	border: 1px solid var(--primary-color);
+}
+
+.selectedPosts{
+	display: flex;
+	flex-direction: column;
+	gap: 0.2em;
+}
