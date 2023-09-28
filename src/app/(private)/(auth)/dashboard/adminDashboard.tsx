@@ -1,6 +1,6 @@
 import React from "react"
 
-import { usePostsDb } from "@/hooks/posts"
+import { usePosts } from "@/hooks/posts"
 import { useUsers } from "@/hooks/users"
 
 import styles from "./dashboard.module.css"
@@ -11,12 +11,12 @@ import { useAuth } from "@/components/AuthProvider"
 export default function AdminDashboard() {
 	const { authUser } = useAuth()
 	const { allUsers } = useUsers()
-	const { posts, postsWaitingForApproval } = usePostsDb()
+	const { allPosts, postsWaitingForApproval } = usePosts()
 
 	return (
 		<div>
 			<h1>Dashboard de Admin</h1>
-			{authUser && !('error' in authUser) ? (
+			{authUser && !("error" in authUser) ? (
 				<>
 					<p>Olá, {authUser.name}!</p>
 					<h2>Publicações</h2>
@@ -39,7 +39,7 @@ export default function AdminDashboard() {
 						</div>
 						<div className={styles.card}>
 							<span>Publicações</span>
-							{posts ? <b>{posts.length}</b> : <Loading />}
+							{allPosts ? <b>{allPosts.length}</b> : <Loading />}
 						</div>
 					</div>
 				</>

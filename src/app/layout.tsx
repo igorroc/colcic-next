@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google"
 import { Toaster } from "react-hot-toast"
 import { AuthProvider } from "@/components/AuthProvider"
 import { PostsProvider } from "@/hooks/posts"
+import { UsersProvider } from "@/hooks/users"
 
 const montserrat = Montserrat({ subsets: ["latin"] })
 
@@ -41,13 +42,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body>
 				<AuthProvider>
 					<PostsProvider>
-						<div id="toasterWrapper">
-							<Toaster />
-						</div>
-						{children}
+						<UsersProvider>
+							<div id="toasterWrapper">
+								<Toaster />
+							</div>
+							{children}
+						</UsersProvider>
 					</PostsProvider>
 				</AuthProvider>
-
 			</body>
 		</html>
 	)

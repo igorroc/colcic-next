@@ -1,57 +1,39 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { useUserToken } from "@/utils/handleUserToken"
-import usePosts from "@/hooks/posts"
-import useUser from "@/hooks/users"
+import { usePosts } from "@/hooks/posts"
 import Link from "next/link"
 import { Button } from "@/components/Button"
 
 import styles from "./posts.module.css"
-import Image from "next/image"
 import { AiFillEdit } from "react-icons/ai"
 import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
 import { TPost } from "@/types/post"
-import { TUser } from "@/types/user"
 import Loading from "@/components/Loading"
 import { formatToDate } from "@/utils/formatToDate"
+import { useAuth } from "@/components/AuthProvider"
 
 export default function Posts() {
-	const { token } = useUserToken()
-	const { getCurrentUser } = useUser({ token })
-	const { getMyPosts, getPosts } = usePosts()
+	const { authUser } = useAuth()
+	const { myPosts } = usePosts()
 	const [posts, setPosts] = useState<TPost[]>([])
-	const [user, setUser] = useState<TUser>()
 	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
-		async function getData() {
-			const user = await getCurrentUser(token)
-
-			if (user) {
-				setUser(user)
-
-				const posts = await getMyPosts(token)
-
-				if (posts) {
-					setPosts(posts.reverse())
-					console.log(posts)
-				}
-			}
-
-			setLoading(false)
+		if (myPosts) {
+			setPosts(myPosts.reverse())
 		}
-
-		getData()
+		setLoading(false)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [myPosts])
 
-	if (!user) return <Loading />
+	if (!authUser) return <Loading />
+
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.rowTitle}>
 				<h1>Minhas Publicações</h1>
-				{user.type == "admin" && (
+				{"type" in authUser && authUser.type == "admin" && (
 					<Button label="Ver todas" type="secondary" href={"/posts/all"} />
 				)}
 			</div>
@@ -101,7 +83,12 @@ export default function Posts() {
 				)}
 			</div>
 
-			<Button href={"/posts/new"} label="Criar publicação" type="primary" className={styles.createNew} />
+			<Button
+				href={"/posts/new"}
+				label="Criar publicação"
+				type="primary"
+				className={styles.createNew}
+			/>
 		</div>
 	)
 }

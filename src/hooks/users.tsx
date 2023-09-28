@@ -11,6 +11,21 @@ export const UsersContext = createContext({
 			resolve(null)
 		})
 	},
+	handleUserLogin: (
+		username: string,
+		password: string
+	): Promise<
+		| {
+				token: string
+		  }
+		| {
+				error: string
+		  }
+	> => {
+		return new Promise((resolve) => {
+			resolve({ error: "Not implemented" })
+		})
+	},
 })
 
 export function UsersProvider({ children }: { children: ReactNode }) {
@@ -54,7 +69,8 @@ export function UsersProvider({ children }: { children: ReactNode }) {
 		<UsersContext.Provider
 			value={{
 				allUsers,
-				getUserById
+				getUserById,
+				handleUserLogin,
 			}}
 		>
 			{children}
@@ -64,31 +80,6 @@ export function UsersProvider({ children }: { children: ReactNode }) {
 
 export function useUsers() {
 	return useContext(UsersContext)
-}
-
-
-async function getUserById(userId: string, token: string) {
-	try {
-		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + userId, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
-
-		if (res.ok) {
-			const userRes: TUser = await res.json()
-
-			return userRes
-		} else {
-			console.error("COLCIC-ERR", "User not found")
-			return null
-		}
-	} catch (err) {
-		console.error("COLCIC-ERR", err)
-		return null
-	}
 }
 
 async function handleUserLogin(username: string, password: string) {
@@ -108,11 +99,15 @@ async function handleUserLogin(username: string, password: string) {
 				token: usersRes.access_token,
 			}
 		} else {
-			return null
+			return {
+				error: "Usuário ou senha incorretos",
+			}
 		}
 	} catch (err) {
 		console.error(err)
-		return false
+		return {
+			error: "Erro interno",
+		}
 	}
 }
 

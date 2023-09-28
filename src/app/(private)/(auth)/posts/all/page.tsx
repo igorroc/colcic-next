@@ -1,9 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { useUserToken } from "@/utils/handleUserToken"
-import usePosts from "@/hooks/posts"
-import useUser from "@/hooks/users"
+import { usePosts } from "@/hooks/posts"
 import Link from "next/link"
 import { Button } from "@/components/Button"
 
@@ -23,53 +21,40 @@ import Loading from "@/components/Loading"
 import { formatToDate } from "@/utils/formatToDate"
 import { FaMouse } from "react-icons/fa"
 import { toCapitalCase } from "@/utils/formatText"
+import { useAuth } from "@/components/AuthProvider"
+import { toast } from "react-hot-toast"
 
 export default function Posts() {
+	const { authUser } = useAuth()
 	const router = useRouter()
-	const { token } = useUserToken()
-	const { getCurrentUser } = useUser({ token })
-	const { getPosts } = usePosts()
-	const [posts, setPosts] = useState<TPost[]>([])
-	const [user, setUser] = useState<TUser>()
+	const { allPosts } = usePosts()
 	const [loading, setLoading] = useState<boolean>(true)
 
 	useEffect(() => {
-		async function getData() {
-			const user = await getCurrentUser(token)
-
-			if (user) {
-				if (user.type != "admin") {
-					router.push("/posts")
-					return
-				}
-
-				setUser(user)
-			}
-
-			const posts = await getPosts(token)
-
-			if (posts) {
-				setPosts(posts.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1)))
-			}
-
-			setLoading(false)
+		if (authUser && "type" in authUser && authUser.type != "admin") {
+			toast.error("Você não tem permissão para acessar essa página")
+			router.push("/posts")
+			return
 		}
 
-		getData()
+		setLoading(false)
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	if (!user) return <Loading />
+	if (!authUser) return <Loading />
 	return (
 		<div>
 			<div className={styles.rowTitle}>
 				<h1>Todas as Publicações</h1>
-				{user.type == "admin" && <Button label="Voltar" type="secondary" href={"/posts"} />}
+				{authUser && "type" in authUser && authUser.type == "admin" && (
+					<Button label="Voltar" type="secondary" href={"/posts"} />
+				)}
 			</div>
 			<div className={styles.content}>
 				{loading ? (
 					<Loading />
-				) : posts.length > 0 ? (
+				) : allPosts.length > 0 ? (
 					<table className={styles.table}>
 						<thead>
 							<tr>
@@ -82,7 +67,7 @@ export default function Posts() {
 							</tr>
 						</thead>
 						<tbody>
-							{posts.map((post) => (
+							{allPosts.map((post) => (
 								<tr key={post._id} className={styles.post}>
 									<th className={styles.status}>
 										{post.status == "ativo" && (
@@ -144,19 +129,19 @@ export default function Posts() {
 													href={"/posts/" + post.slug + "/edit"}
 													className={styles.button}
 												>
-													<AiFillEdit size={16}/>
+													<AiFillEdit size={16} />
 												</Link>
 												<Link
 													href={"/noticias/" + post.slug}
 													className={styles.button}
 												>
-													<BsFillEyeFill size={16}/>
+													<BsFillEyeFill size={16} />
 												</Link>
 												<Link
 													href={"/posts/" + post.slug + "/delete"}
 													className={styles.button}
 												>
-													<BsFillTrashFill size={16}/>
+													<BsFillTrashFill size={16} />
 												</Link>
 											</>
 										) : (

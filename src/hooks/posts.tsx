@@ -5,6 +5,7 @@ import { PostStatus, TAuthor, TPost, TPostToPublish } from "@/types/post"
 import { useUserToken } from "@/utils/handleUserToken"
 
 import { useUsers } from "./users"
+import { sortPosts } from "@/utils/sort"
 
 async function getActivePosts() {
 	try {
@@ -425,9 +426,9 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 		if (token) {
 			getMyPosts(token).then((posts) => setMyPosts(posts))
 			getMyPostsWaitingForApproval(token).then((posts) => setMyPostsWaitingForApproval(posts))
-			getHomePosts().then((posts) => setHomePosts(posts))
+			getHomePosts().then((posts) => setHomePosts(posts.sort(sortPosts)))
 			getPostsWaitingForApproval(token).then((posts) => setPostsWaitingForApproval(posts))
-			getAllPosts(token).then((posts) => setAllPosts(posts))
+			getAllPosts(token).then((posts) => setAllPosts(posts.sort(sortPosts)))
 			getSitePosts().then((posts) => setSitePosts(posts))
 		}
 
