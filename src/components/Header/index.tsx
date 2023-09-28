@@ -123,11 +123,20 @@ const navList = [
 export function Header() {
 	const { authUser } = useAuth()
 
-	const [showNavList, setShowNavList] = useState(false)
 	const pathname = usePathname()
+	const [showNavList, setShowNavList] = useState(false)
+	const [userHasClicked, setUserHasClicked] = useState(false)
 
 	function toggleNavList() {
 		setShowNavList(!showNavList)
+	}
+
+	function unFocus() {
+		setUserHasClicked(true)
+
+		setTimeout(() => {
+			setUserHasClicked(false)
+		}, 500)
 	}
 
 	return (
@@ -158,7 +167,7 @@ export function Header() {
 							</div>
 						</button>
 
-						{authUser && !('error' in authUser) && (
+						{authUser && !("error" in authUser) && (
 							<Link
 								href="/dashboard"
 								className={styles.userPhoto}
@@ -176,7 +185,12 @@ export function Header() {
 					</div>
 
 					{/* <div className={[styles.sideMenu, styles.sideMenuDesktop].join(" ")}> */}
-					<nav className={styles.navList}>
+					<nav
+						className={[
+							styles.navList,
+							userHasClicked ? styles.hideOpenTab : null,
+						].join(" ")}
+					>
 						<ul>
 							{navList.map((item, i) => {
 								if (item.list) {
@@ -198,6 +212,7 @@ export function Header() {
 														href={link.href}
 														key={`${i}${j}`}
 														data-active={pathname == link.href}
+														onClick={unFocus}
 													>
 														{link.title}
 														{link.type == "external" && <MdLink />}
@@ -215,6 +230,7 @@ export function Header() {
 											href={item.href}
 											data-active={pathname == item.href}
 											key={i + "link"}
+											onClick={unFocus}
 										>
 											{item.title}
 										</Link>
@@ -224,7 +240,7 @@ export function Header() {
 						</ul>
 					</nav>
 
-					{authUser && !('error' in authUser) && (
+					{authUser && !("error" in authUser) && (
 						<Link
 							href="/dashboard"
 							className={[styles.userPhoto, styles.userPhotoDesktop].join(" ")}

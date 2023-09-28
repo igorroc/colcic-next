@@ -143,6 +143,10 @@
 	max-height: 500px;
 }
 
+#header .navList.hideOpenTab ul li.dropdown:hover ul {
+	max-height: 0;
+}
+
 #header .navList ul li.dropdown ul a[data-active="true"] {
 	background: var(--primary-color);
 	color: #fff;
