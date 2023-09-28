@@ -16,6 +16,9 @@ interface ButtonProps {
 
 	/** Button className */
 	className?: string
+
+	/** Button disabled */
+	disabled?: boolean
 }
 
 export function Button(props: ButtonProps) {
@@ -38,6 +41,7 @@ export function Button(props: ButtonProps) {
 			<button
 				className={[styles[props.type], props.className].join(" ")}
 				onClick={props.onClick}
+				disabled={props.disabled}
 			>
 				<span>{props.label}</span>
 			</button>

@@ -12,12 +12,15 @@ import styles from "./login-form.module.css"
 import { Button } from "../Button"
 import { useUserToken } from "@/utils/handleUserToken"
 
+import { toast } from "react-hot-toast"
+
 export default function LoginForm() {
 	const [userName, setUserName] = React.useState("")
 	const [password, setPassword] = React.useState("")
 	const router = useRouter()
 	const { setUserToken, token } = useUserToken()
 	const { handleUserLogin } = useUser()
+	const [loading, setLoading] = React.useState(false)
 
 	useEffect(() => {
 		if (token) {
@@ -26,14 +29,17 @@ export default function LoginForm() {
 	}, [token, router])
 
 	async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+		setLoading(true)
 		e.preventDefault()
 		const userIsLogged = await handleUserLogin(userName, password)
 
 		if (userIsLogged) {
+			toast.success("Login efetuado com sucesso")
 			setUserToken(userIsLogged.token)
 			router.push("/dashboard")
 		} else {
-			alert("Usuário ou senha incorretos")
+			toast.error("Usuário ou senha incorretos")
+			setLoading(false)
 		}
 	}
 
@@ -58,7 +64,7 @@ export default function LoginForm() {
 				required
 			/>
 			<Link href={"/primeiro-acesso"}>Primeiro acesso?</Link>
-			<Button label="Entrar" type="primary" className={styles.submit} />
+			<Button label={loading ? "Entrando..." : "Entrar"} type="primary" className={styles.submit} disabled={loading} />
 		</form>
 	)
 }

@@ -1,6 +1,7 @@
 import "./globals.css"
 
 import { Montserrat } from "next/font/google"
+import { Toaster } from "react-hot-toast"
 const montserrat = Montserrat({ subsets: ["latin"] })
 
 export const metadata = {
@@ -34,7 +35,12 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="pt-br" className={montserrat.className}>
-			<body>{children}</body>
+			<body>
+				<div id="toasterWrapper">
+					<Toaster />
+				</div>
+				{children}
+			</body>
 		</html>
 	)
 }
