@@ -59,7 +59,7 @@ export const UsersContext = createContext({
 })
 
 export function UsersProvider({ children }: { children: ReactNode }) {
-	const { authUser } = useAuth()
+	const { authUser, resetAuth } = useAuth()
 	const { token } = useUserToken()
 
 	const [allUsers, setAllUsers] = useState<TUser[] | null>([])
@@ -90,13 +90,16 @@ export function UsersProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		if (token) {
+			if (!authUser) {
+				return resetAuth(token)
+			}
 			if (authUser && "type" in authUser && authUser.type == "admin") {
 				getAllUsers(token).then((users) => setAllUsers(users))
 			}
 		}
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [authUser])
 
 	return (
 		<UsersContext.Provider

@@ -57,7 +57,7 @@ export const PostsContext = createContext({
 })
 
 export function PostsProvider({ children }: { children: ReactNode }) {
-	const { authUser } = useAuth()
+	const { authUser, resetAuth } = useAuth()
 	const { token } = useUserToken()
 	const { getUserById } = useUsers()
 
@@ -208,6 +208,9 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		if (token) {
+			if (!authUser) {
+				return resetAuth(token)
+			}
 			getMyPosts(token).then((posts) => setMyPosts(posts))
 			getMyPostsWaitingForApproval(token).then((posts) => setMyPostsWaitingForApproval(posts))
 			getHomePosts().then((posts) => setHomePosts(posts.sort(sortPosts)))
@@ -221,7 +224,7 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 		}
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [authUser])
 
 	return (
 		<PostsContext.Provider
