@@ -6,6 +6,7 @@ import { useUserToken } from "@/utils/handleUserToken"
 
 import { useUsers } from "./users"
 import { sortPosts } from "@/utils/sort"
+import { useAuth } from "@/components/AuthProvider"
 
 export const PostsContext = createContext({
 	allPosts: [] as TPost[] | [],
@@ -48,9 +49,15 @@ export const PostsContext = createContext({
 			resolve(null)
 		})
 	},
+	getMuralPosts: (): Promise<TPost[] | []> => {
+		return new Promise((resolve) => {
+			resolve([])
+		})
+	},
 })
 
 export function PostsProvider({ children }: { children: ReactNode }) {
+	const { authUser } = useAuth()
 	const { token } = useUserToken()
 	const { getUserById } = useUsers()
 
@@ -73,6 +80,10 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 					Authorization: `Bearer ${token}`,
 				},
 			})
+
+			if (!res.ok) {
+				return []
+			}
 
 			const postsRes: TPost[] = await res.json()
 
@@ -137,6 +148,10 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 				},
 			})
 
+			if (!res.ok) {
+				return []
+			}
+
 			const postsRes: TPost[] = await res.json()
 
 			if (!postsRes || postsRes.length == 0) {
@@ -196,10 +211,13 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 			getMyPosts(token).then((posts) => setMyPosts(posts))
 			getMyPostsWaitingForApproval(token).then((posts) => setMyPostsWaitingForApproval(posts))
 			getHomePosts().then((posts) => setHomePosts(posts.sort(sortPosts)))
-			getPostsWaitingForApproval(token).then((posts) => setPostsWaitingForApproval(posts))
-			getAllPosts(token).then((posts) => setAllPosts(posts.sort(sortPosts)))
 			getSitePosts().then((posts) => setSitePosts(posts))
 			getActivePosts().then((posts) => setActivePosts(posts))
+
+			if (authUser && "type" in authUser && authUser.type == "admin") {
+				getAllPosts(token).then((posts) => setAllPosts(posts.sort(sortPosts)))
+				getPostsWaitingForApproval(token).then((posts) => setPostsWaitingForApproval(posts))
+			}
 		}
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -221,6 +239,7 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 				editPost,
 				deletePost,
 				createPost,
+				getMuralPosts,
 			}}
 		>
 			{children}

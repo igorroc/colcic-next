@@ -1,19 +1,14 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import Image from "next/image"
+import React, { useEffect } from "react"
 import Link from "next/link"
 import { redirect, usePathname } from "next/navigation"
-
-import { useUserToken } from "@/utils/handleUserToken"
-import useUser from "@/hooks/users"
 
 import { AiFillClockCircle, AiFillHome } from "react-icons/ai"
 import { FaCog, FaNewspaper, FaUserAlt, FaUserFriends } from "react-icons/fa"
 import { MdDashboard, MdLogout } from "react-icons/md"
 
 import styles from "./sidebar.module.css"
-import { TUser } from "@/types/user"
 import { useAuth } from "../AuthProvider"
 
 const sideNavList = [
@@ -66,22 +61,25 @@ const sideNavListSecondary = [
 ]
 
 export default function SideBar() {
+	const { authUser } = useAuth()
 	const pathname = usePathname()
-	const { authUser } = useAuth();
 
 	useEffect(() => {
 		if (authUser) {
-			if ('error' in authUser) {
+			if ("error" in authUser) {
 				redirect("/logout")
 			}
 
-			if (sideNavList.find((item) => item.href == pathname)?.isAdmin && authUser.type != "admin") {
+			if (
+				sideNavList.find((item) => item.href == pathname)?.isAdmin &&
+				authUser.type != "admin"
+			) {
 				redirect("/dashboard")
 			}
 		}
 	}, [pathname, authUser])
 
-	if(authUser && 'error' in authUser) return null
+	if (authUser && "error" in authUser) return null
 
 	return (
 		<aside className={styles.side}>

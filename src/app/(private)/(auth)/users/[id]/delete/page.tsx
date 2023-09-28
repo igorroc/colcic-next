@@ -1,6 +1,7 @@
 "use client"
 
-import useUser from "@/hooks/users"
+import { useAuth } from "@/components/AuthProvider"
+import { useUsers } from "@/hooks/users"
 import { useUserToken } from "@/utils/handleUserToken"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -15,20 +16,17 @@ interface DeleteUserProps {
 }
 
 export default function DeleteUser({ params }: DeleteUserProps) {
+	const { authUser } = useAuth()
 	const { token } = useUserToken()
 	const [fullName, setFullName] = useState("")
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(true)
-	const { getUserById, deleteUser, user } = useUser({
-		token,
-		adminOnlyPage: true,
-		redirectTo: "/dashboard",
-	})
+	const { getUserById, deleteUser } = useUsers()
 	const router = useRouter()
 
 	useEffect(() => {
 		async function getData() {
-			const user = await getUserById(params.id, token)
+			const user = await getUserById(params.id)
 			if (user) {
 				setFullName(user.name)
 			} else {
@@ -64,7 +62,7 @@ export default function DeleteUser({ params }: DeleteUserProps) {
 				</>
 			) : (
 				<>
-					{user?._id == params.id ? (
+					{authUser && "_id" in authUser && authUser?._id == params.id ? (
 						<>
 							<p>
 								Você tem certeza que deseja deletar <strong>VOCÊ MESMO?</strong>

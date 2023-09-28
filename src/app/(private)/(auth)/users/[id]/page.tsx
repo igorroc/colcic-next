@@ -15,12 +15,14 @@ import {
 
 import styles from "./edit.module.css"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
-import useUser from "@/hooks/users"
+import { useUsers } from "@/hooks/users"
 import { TUserSimple } from "@/types/user"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useUserToken } from "@/utils/handleUserToken"
 import { IoClose } from "react-icons/io5"
 import Loading from "@/components/Loading"
+import { useAuth } from "@/components/AuthProvider"
+import { toast } from "react-hot-toast"
 
 interface UserEditProps {
 	params: {
@@ -29,15 +31,10 @@ interface UserEditProps {
 }
 
 export default function UserEdit({ params }: UserEditProps) {
+	const { authUser } = useAuth()
 	const { token } = useUserToken()
-	const { getUserById, editUser, getCurrentUser } = useUser({
-		token,
-		adminOnlyPage: true,
-		redirectTo: "/dashboard",
-	})
+	const { getUserById, editUser } = useUsers()
 	const router = useRouter()
-
-	const [currentUser, setCurrentUser] = useState<TUserSimple>()
 
 	const [type, setType] = useState("")
 	const [showPassword, setShowPassword] = useState(false)
@@ -50,19 +47,13 @@ export default function UserEdit({ params }: UserEditProps) {
 
 	useEffect(() => {
 		async function getData() {
-			const user = await getUserById(params.id, token)
+			const user = await getUserById(params.id)
 			if (user) {
 				setFullName(user.name)
 				setUsername(user.username)
 				setEmail(user.email)
 				setType(user.type)
 				setPhoto(user.profilePhoto)
-			}
-
-			const currentU = await getCurrentUser(token)
-
-			if (currentU) {
-				setCurrentUser(currentU)
 			}
 		}
 
@@ -98,11 +89,11 @@ export default function UserEdit({ params }: UserEditProps) {
 		const newUser = await editUser(data, params.id, token)
 
 		if (newUser) {
-			alert("Usuário editado com sucesso!")
+			toast.success("Usuário editado com sucesso!")
 			form.reset()
 			router.push("/users")
 		} else {
-			alert("Erro ao editar usuário!")
+			toast.error("Erro ao editar usuário!")
 		}
 
 		setEditing(false)
@@ -115,7 +106,7 @@ export default function UserEdit({ params }: UserEditProps) {
 	return (
 		<div>
 			<h1>Editar usuário</h1>
-			{currentUser?.type === "admin" ? (
+			{authUser && "type" in authUser && authUser?.type === "admin" ? (
 				<form action="" id={styles.form} onSubmit={handleSubmit}>
 					<TextField
 						label="Nome"
@@ -220,11 +211,11 @@ export default function UserEdit({ params }: UserEditProps) {
 						</Select>
 					</FormControl>
 
-					{editing ? (
-						<p>Criando usuário...</p>
-					) : (
-						<Button label="Editar usuário" type="primary" />
-					)}
+					<Button
+						label={editing ? "Editando usuário..." : "Editar usuário"}
+						type="primary"
+						disabled={editing}
+					/>
 				</form>
 			) : (
 				<Loading />

@@ -16,7 +16,6 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		async function checkUser() {
-			console.log(authUser)
 			if (authUser) {
 				if ("error" in authUser) {
 					setState("error")

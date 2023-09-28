@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
 import { TUser, TUserSimple } from "@/types/user"
 import { useUserToken } from "@/utils/handleUserToken"
+import { useAuth } from "@/components/AuthProvider"
 
 export const UsersContext = createContext({
 	allUsers: [] as TUser[] | null,
@@ -41,6 +42,11 @@ export const UsersContext = createContext({
 			resolve(null)
 		})
 	},
+	deleteUser: (id: string, token: string): Promise<boolean | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
 	handleFirstAccess: (
 		identifier: string,
 		password: string,
@@ -53,6 +59,7 @@ export const UsersContext = createContext({
 })
 
 export function UsersProvider({ children }: { children: ReactNode }) {
+	const { authUser } = useAuth()
 	const { token } = useUserToken()
 
 	const [allUsers, setAllUsers] = useState<TUser[] | null>([])
@@ -83,7 +90,9 @@ export function UsersProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		if (token) {
-			getAllUsers(token).then((users) => setAllUsers(users))
+			if (authUser && "type" in authUser && authUser.type == "admin") {
+				getAllUsers(token).then((users) => setAllUsers(users))
+			}
 		}
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,6 +106,7 @@ export function UsersProvider({ children }: { children: ReactNode }) {
 				handleUserLogin,
 				editUser,
 				createUser,
+				deleteUser,
 				handleFirstAccess,
 			}}
 		>
