@@ -1,7 +1,6 @@
 "use client"
 import React, { useCallback, useEffect, useState } from "react"
-import usePosts from "@/hooks/posts"
-import useUser from "@/hooks/users"
+import { usePosts } from "@/hooks/posts"
 import { TPost } from "@/types/post"
 import { useUserToken } from "@/utils/handleUserToken"
 
@@ -12,44 +11,34 @@ import InputLabel from "@mui/material/InputLabel"
 import FormControl from "@mui/material/FormControl"
 import { Button } from "@/components/Button"
 import { Checkbox, ListItemText } from "@mui/material"
-import Loading from "@/components/Loading"
 
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import update from 'immutability-helper'
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
+import update from "immutability-helper"
 
 import styles from "./settings.module.css"
 import DraggablePost from "@/components/DraggablePost"
-
+import { toast } from "react-hot-toast"
+import Loading from "@/components/Loading"
 
 export default function Settings() {
 	const { token } = useUserToken()
-	const { user } = useUser({ token, adminOnlyPage: true, redirectTo: "/dashboard" })
-	const { getActivePosts, getHomePosts, saveHomePosts } = usePosts()
+	const { activePosts, homePosts, saveHomePosts } = usePosts()
 
 	const [posts, setPosts] = useState<TPost[]>([])
 	const [selectedPosts, setSelectedPosts] = useState<string[]>([])
-	const [loading, setLoading] = useState(true)
+
+	const [saving, setSaving] = useState<boolean>(false)
 
 	useEffect(() => {
-		async function getData() {
-			const posts = await getActivePosts()
-			const homePosts = await getHomePosts()
-
-			if (posts) {
-				setPosts(posts)
-			}
-
-			if (homePosts) {
-				homePosts.map((post) => {
-					setSelectedPosts((selectedPosts) => [...selectedPosts, post.slug])
-				})
-			}
-
-			setLoading(false)
+		if (homePosts) {
+			homePosts.map((post) => {
+				setSelectedPosts((selectedPosts) => [...selectedPosts, post.slug])
+			})
 		}
-
-		getData()
+		if (activePosts) {
+			setPosts(activePosts)
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
@@ -60,23 +49,27 @@ export default function Settings() {
 					[dragIndex, 1],
 					[hoverIndex, 0, prevPosts[dragIndex] as TPost],
 				],
-			}),
+			})
 		)
 	}, [])
 
 	const renderPost = useCallback(
 		(post: TPost, index: number) => {
 			return (
-				<DraggablePost key={post._id} id={post._id} index={index} movePost={movePost} className={styles.pill}>
-					<span>
-						{index}
-					</span>
+				<DraggablePost
+					key={post._id}
+					id={post._id}
+					index={index}
+					movePost={movePost}
+					className={styles.pill}
+				>
+					<span>{index}</span>
 					{post.title.split(" ").slice(0, 8).join(" ")}...
 				</DraggablePost>
 			)
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[],
+		[]
 	)
 
 	const handleChange = (event: SelectChangeEvent<typeof selectedPosts>) => {
@@ -90,32 +83,32 @@ export default function Settings() {
 	}
 
 	async function handleSavePosts() {
+		setSaving(true)
 		try {
 			if (selectedPosts.length <= 5) {
 				const res = await saveHomePosts(selectedPosts, token)
 				if (res) {
-					alert("Posts salvos com sucesso!")
+					toast.success("Posts salvos com sucesso!")
 				} else {
-					alert("Erro ao salvar posts!")
+					toast.error("Erro ao salvar posts!")
 				}
 			} else {
-				alert("Você só pode selecionar até 5 posts!")
+				toast.error("Você só pode selecionar até 5 posts!")
 			}
 		} catch (error) {
-			alert("Erro ao salvar posts!")
+			toast.error("Erro ao salvar posts!")
 		}
+		setSaving(false)
 	}
 
 	return (
 		<div>
 			<h1>Configurações</h1>
-			{loading ? (
-				<Loading />
-			) : (
+			{
 				<div className={styles.flex}>
-					<h3>Posts para destaque:</h3>
 					{posts.length > 0 ? (
 						<>
+							<h3>Posts para destaque:</h3>
 							<FormControl required>
 								<InputLabel id="demo-multiple-checkbox-label">
 									Publicações destaque
@@ -131,9 +124,18 @@ export default function Settings() {
 										return posts
 											.map((post) => {
 												if (selected.includes(post.slug)) {
-													return <span key={post._id} className={styles.pill}>
-														{post.title.split(" ").slice(0, 3).join(" ")}...
-													</span>
+													return (
+														<span
+															key={post._id}
+															className={styles.pill}
+														>
+															{post.title
+																.split(" ")
+																.slice(0, 3)
+																.join(" ")}
+															...
+														</span>
+													)
 												}
 											})
 											.filter(Boolean)
@@ -155,7 +157,8 @@ export default function Settings() {
 										{posts
 											.map((post, i) => {
 												if (selectedPosts.includes(post.slug)) {
-													const index = selectedPosts.indexOf(post.slug) + 1
+													const index =
+														selectedPosts.indexOf(post.slug) + 1
 													return renderPost(post, index)
 												}
 											})
@@ -164,13 +167,18 @@ export default function Settings() {
 								) : null}
 							</DndProvider>
 
-							<Button label="Salvar" type="primary" onClick={handleSavePosts} />
+							<Button
+								label={saving ? "Salvando..." : "Salvar"}
+								type="primary"
+								onClick={handleSavePosts}
+								disabled={saving}
+							/>
 						</>
 					) : (
-						<div>Carregando...</div>
+						<Loading />
 					)}
 				</div>
-			)}
+			}
 		</div>
 	)
 }

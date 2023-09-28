@@ -275,11 +275,18 @@ export const PostsContext = createContext({
 	allPosts: [] as TPost[] | [],
 	homePosts: [] as TPost[] | [],
 	sitePosts: [] as TPost[] | [],
+	activePosts: [] as TPost[] | [],
 
 	postsWaitingForApproval: [] as TPost[] | [],
 
 	myPosts: [] as TPost[] | [],
 	myPostsWaitingForApproval: [] as TPost[] | [],
+
+	saveHomePosts: (posts: string[], token: string): Promise<boolean | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
 })
 
 export function PostsProvider({ children }: { children: ReactNode }) {
@@ -290,6 +297,7 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 	const [homePosts, setHomePosts] = useState<TPost[] | []>([])
 	const [sitePosts, setSitePosts] = useState<TPost[] | []>([])
 
+	const [activePosts, setActivePosts] = useState<TPost[] | []>([])
 	const [postsWaitingForApproval, setPostsWaitingForApproval] = useState<TPost[] | []>([])
 
 	const [myPosts, setMyPosts] = useState<TPost[] | []>([])
@@ -430,6 +438,7 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 			getPostsWaitingForApproval(token).then((posts) => setPostsWaitingForApproval(posts))
 			getAllPosts(token).then((posts) => setAllPosts(posts.sort(sortPosts)))
 			getSitePosts().then((posts) => setSitePosts(posts))
+			getActivePosts().then((posts) => setActivePosts(posts))
 		}
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -442,8 +451,10 @@ export function PostsProvider({ children }: { children: ReactNode }) {
 				myPostsWaitingForApproval,
 				homePosts,
 				sitePosts,
+				activePosts,
 				postsWaitingForApproval,
 				allPosts,
+				saveHomePosts,
 			}}
 		>
 			{children}

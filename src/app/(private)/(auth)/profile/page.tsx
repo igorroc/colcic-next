@@ -1,7 +1,7 @@
 "use client"
 
 import { useUserToken } from "@/utils/handleUserToken"
-import useUser from "@/hooks/users"
+import { useUsers } from "@/hooks/users"
 import React, { useEffect, useState } from "react"
 import { Button } from "@/components/Button"
 import { TextField, InputAdornment, IconButton } from "@mui/material"
@@ -10,11 +10,14 @@ import styles from "./settings.module.css"
 import { useRouter } from "next/navigation"
 import { TUserSimple } from "@/types/user"
 import { IoClose } from "react-icons/io5"
+import { useAuth } from "@/components/AuthProvider"
+import { toast } from "react-hot-toast"
 
 export default function Profile() {
+	const { authUser } = useAuth()
 	const router = useRouter()
 	const { token } = useUserToken()
-	const { user, editUser } = useUser({ token })
+	const { editUser } = useUsers()
 
 	const [type, setType] = useState("")
 	const [showPassword, setShowPassword] = useState(false)
@@ -26,19 +29,15 @@ export default function Profile() {
 	const [photoError, setPhotoError] = useState(false)
 
 	useEffect(() => {
-		async function getData() {
-			if (user) {
-				setFullName(user.name)
-				setUsername(user.username)
-				setEmail(user.email)
-				setType(user.type)
-				setPhoto(user.profilePhoto)
-			}
+		if (authUser && !("error" in authUser)) {
+			setFullName(authUser.name)
+			setUsername(authUser.username)
+			setEmail(authUser.email)
+			setType(authUser.type)
+			setPhoto(authUser.profilePhoto)
 		}
-
-		getData()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [user])
+	}, [authUser])
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show)
 
@@ -61,15 +60,15 @@ export default function Profile() {
 			profilePhoto: photo,
 		}
 
-		if (user) {
-			const newUser = await editUser(data, user._id, token)
+		if (authUser && !("error" in authUser)) {
+			const newUser = await editUser(data, authUser._id, token)
 
 			if (newUser) {
-				alert("Perfil editado com sucesso!")
+				toast.success("Perfil editado com sucesso!")
 				form.reset()
 				router.push("/users")
 			} else {
-				alert("Erro ao editar perfil!")
+				toast.error("Erro ao editar perfil!")
 			}
 		}
 		setCreating(false)
@@ -171,11 +170,11 @@ export default function Profile() {
 					/>
 				</div>
 
-				{creating ? (
-					<p>Editando perfil...</p>
-				) : (
-					<Button label="Editar perfil" type="primary" />
-				)}
+				<Button
+					label={creating ? "Editando perfil..." : "Editar perfil"}
+					type="primary"
+					disabled={creating}
+				/>
 			</form>
 		</div>
 	)

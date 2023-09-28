@@ -2,58 +2,42 @@
 
 import React, { useState, useEffect } from "react"
 import { useUserToken } from "@/utils/handleUserToken"
-import usePosts from "@/hooks/posts"
-import useUser from "@/hooks/users"
+import { usePosts } from "@/hooks/posts"
+import { useUsers } from "@/hooks/users"
 import Link from "next/link"
 import { Button } from "@/components/Button"
 
 import styles from "./posts.module.css"
-import { AiFillCheckCircle, AiFillClockCircle, AiFillCloseCircle, AiFillEdit } from "react-icons/ai"
-import { BsCheckCircleFill, BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
+import { BsFillEyeFill, BsFillTrashFill } from "react-icons/bs"
 import { TPost } from "@/types/post"
 import { TUser } from "@/types/user"
 import { useRouter } from "next/navigation"
 import Loading from "@/components/Loading"
 import { formatToDate } from "@/utils/formatToDate"
+import { useAuth } from "@/components/AuthProvider"
+import { toast } from "react-hot-toast"
 
 export default function Posts() {
+	const { authUser } = useAuth()
 	const router = useRouter()
-	const { token } = useUserToken()
-	const { getCurrentUser } = useUser({ token })
-	const { getPostsWaitingForApproval } = usePosts()
-	const [posts, setPosts] = useState<TPost[]>([])
-	const [user, setUser] = useState<TUser>()
+	const { postsWaitingForApproval } = usePosts()
 
 	useEffect(() => {
-		async function getData() {
-			const user = await getCurrentUser(token)
-
-			if (!user) return
-
-			if (user.type != "admin") {
-				router.push("/posts")
-				return
-			}
-
-			setUser(user)
-
-			const waitingPostsRes = await getPostsWaitingForApproval(token)
-
-			if (!waitingPostsRes) return
-
-			setPosts(waitingPostsRes.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1)))
+		if (authUser && "type" in authUser && authUser.type != "admin") {
+			toast.error("Você não tem permissão para acessar essa página")
+			router.push("/posts")
+			return
 		}
 
-		getData()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	if (!user) return <Loading />
+	if (!authUser) return <Loading />
 	return (
 		<div>
 			<h1>Aprovar publicações</h1>
 			<div className={styles.content}>
-				{posts.length > 0 ? (
+				{postsWaitingForApproval.length > 0 ? (
 					<table className={styles.table}>
 						<thead>
 							<tr>
@@ -64,7 +48,7 @@ export default function Posts() {
 							</tr>
 						</thead>
 						<tbody>
-							{posts.map((post) => (
+							{postsWaitingForApproval.map((post) => (
 								<tr key={post._id} className={styles.post}>
 									<th>{formatToDate(post.createdAt)}</th>
 									<th>

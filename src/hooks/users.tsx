@@ -26,6 +26,11 @@ export const UsersContext = createContext({
 			resolve({ error: "Not implemented" })
 		})
 	},
+	editUser: (user: TUserSimple, id: string, token: string): Promise<TUser | null> => {
+		return new Promise((resolve) => {
+			resolve(null)
+		})
+	},
 })
 
 export function UsersProvider({ children }: { children: ReactNode }) {
@@ -71,6 +76,7 @@ export function UsersProvider({ children }: { children: ReactNode }) {
 				allUsers,
 				getUserById,
 				handleUserLogin,
+				editUser,
 			}}
 		>
 			{children}
